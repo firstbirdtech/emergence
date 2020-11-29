@@ -1,8 +1,8 @@
 # eMERGEnce
 
-** !!!THIS PROJECT IS UNDER ACTIVE DEVELOPMENT AND NOT READE FOR USAGE YET !!!**
+**!!!THIS PROJECT IS UNDER ACTIVE DEVELOPMENT AND NOT READE FOR USAGE YET !!!**
 
-eMERGEnce is bot that helps you to merge all your emerged pull requests automatically on succesfuly build criterias.
+eMERGEnce is a bot that helps you to get rid of all your emerged pull requests automatically on succesful build criterias.
 
 ## Getting Started
 
@@ -17,7 +17,6 @@ eMERGEnce is bot that helps you to merge all your emerged pull requests automati
 * documentation (mdoc / generate readme)
 * publish / deploy docu (docker, bintray,  maven sync, etc.)
 * build info plugin
-* github actions (build, test, release drafter)
 * scalafix
 
 ## Credits
