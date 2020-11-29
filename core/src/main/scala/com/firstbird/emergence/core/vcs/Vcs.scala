@@ -8,6 +8,10 @@ trait Vcs[F[_]] {
 
   def listBuildStatuses(repo: Repository, number: PullRequestNumber): F[List[BuildStatus]]
 
-  def mergePullRequest(repo: Repository, number: PullRequestNumber, mergeStrategy: MergeStrategy, closeSourceBranch: Boolean): F[Unit]
+  def mergePullRequest(
+      repo: Repository,
+      number: PullRequestNumber,
+      mergeStrategy: MergeStrategy,
+      closeSourceBranch: Boolean): F[Unit]
 
 }

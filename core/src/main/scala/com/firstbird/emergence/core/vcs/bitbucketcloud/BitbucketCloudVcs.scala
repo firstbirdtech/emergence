@@ -22,7 +22,7 @@ final class BitbucketCloudVcs[F[_]](baseUri: Uri)(implicit
 
     basicRequest
       .get(uri)
-      .withAuthentication
+      .withAuthentication()
       .response(asJsonAlways[Page[PullRequest]])
       .send(backend)
       .flatMap(r => F.fromEither(r.body.bimap(_.error, _.items)))
@@ -33,7 +33,7 @@ final class BitbucketCloudVcs[F[_]](baseUri: Uri)(implicit
 
     basicRequest
       .get(uri)
-      .withAuthentication
+      .withAuthentication()
       .response(asJsonAlways[Page[BuildStatus]])
       .send(backend)
       .flatMap(r => F.fromEither(r.body.bimap(_.error, _.items)))
@@ -49,14 +49,14 @@ final class BitbucketCloudVcs[F[_]](baseUri: Uri)(implicit
 
     basicRequest
       .post(uri)
-      .withAuthentication
+      .withAuthentication()
       .body(body)
       .response(asJsonAlways[PullRequest])
       .send(backend)
       .flatMap(r => F.fromEither(r.body.bimap(_.error, _ => ())))
   }
 
-  private implicit class RequestOps(request: Request[Either[String, String], Any]) {
+  implicit private class RequestOps(request: Request[Either[String, String], Any]) {
     def withAuthentication() = request.auth.basic(vcsUser.login, vcsUser.secret)
   }
 

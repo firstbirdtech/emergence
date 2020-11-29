@@ -2,7 +2,7 @@ package com.firstbird.emergence.core.vcs.bitbucketcloud
 
 import io.circe.Decoder
 
-private[bitbucketcloud] final case class Page[A](items: List[A])
+final private[bitbucketcloud] case class Page[A](items: List[A])
 
 private[bitbucketcloud] object Page {
 
