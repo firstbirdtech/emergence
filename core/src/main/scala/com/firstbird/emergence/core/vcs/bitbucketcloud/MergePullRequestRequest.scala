@@ -5,7 +5,7 @@ import com.firstbird.emergence.core.vcs.bitbucketcloud.Encoding._
 import io.circe.Encoder
 import io.circe.Json
 
-private[bitbucketcloud] final case class MergePullRequestRequest(
+final private[bitbucketcloud] case class MergePullRequestRequest(
     closeSourceBranch: Boolean,
     mergeStrategy: MergeStrategy
 )

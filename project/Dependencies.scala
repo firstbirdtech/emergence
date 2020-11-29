@@ -5,7 +5,7 @@ object Dependencies {
   private val sttpClientVersion = "3.0.0-RC10"
 
   val core: Seq[ModuleID] = Seq(
-    "com.github.alexarchambault"    %% "case-app-cats"                  % "2.0.1",
+    "com.github.alexarchambault"    %% "case-app-cats"                  % "2.0.4",
     "com.softwaremill.sttp.client3" %% "core"                           % sttpClientVersion,
     "com.softwaremill.sttp.client3" %% "circe"                          % sttpClientVersion,
     "com.softwaremill.sttp.client3" %% "async-http-client-backend-cats" % sttpClientVersion,

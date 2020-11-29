@@ -11,9 +11,9 @@ private[bitbucketcloud] object Encoding {
 
   implicit val pullRequestDecoder: Decoder[PullRequest] = Decoder.instance { c =>
     for {
-      id                <- c.downField("id").as[PullRequestNumber]
-      title             <- c.downField("title").as[PullRequestTitle]
-      branchName        <- c.downField("source").downField("branch").downField("name").as[BranchName]
+      id         <- c.downField("id").as[PullRequestNumber]
+      title      <- c.downField("title").as[PullRequestTitle]
+      branchName <- c.downField("source").downField("branch").downField("name").as[BranchName]
     } yield PullRequest(id, title, branchName)
   }
 

@@ -8,7 +8,7 @@ sealed trait BuildStatusState {
 
   def isSuccess: Boolean = this match {
     case Success => true
-    case Failed => false
+    case Failed  => false
   }
 
   def isFailure: Boolean = !isSuccess

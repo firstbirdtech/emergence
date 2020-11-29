@@ -16,7 +16,7 @@ class Emergence[F[_]](settings: Settings)(implicit logger: Logger[F], vcs: Vcs[F
 
   def run: F[ExitCode] = {
     for {
-      _       <- logger.info("Running emergence.")
+      _ <- logger.info("Running emergence.")
       vcsRepo = VcsRepo(settings.configuration.repositories.head.owner, settings.configuration.repositories.head.name)
       result1 <- vcs.listPullRequests(vcsRepo)
       result2 <- result1.map(pr => vcs.listBuildStatuses(vcsRepo, pr.number).map(s => (pr, s))).sequence
