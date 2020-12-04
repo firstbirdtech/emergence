@@ -12,11 +12,11 @@ class Emergence[F[_]](options: CliOptions)(implicit logger: Logger[F], vcs: Vcs[
 
   def run: F[ExitCode] = {
     for {
-      _ <- logger.info("Running emergence.")
+      _ <- logger.info("Running eMERGEnce.")
       vcsRepo = options.config.repositories.head.name
       result1 <- vcs.listPullRequests(vcsRepo)
       result3 <- result1.map(pr => vcs.isMergeable(vcsRepo, pr.number)).sequence
-      _ = println(s"is mergable: $result3")
+      _       <- logger.info(s"is mergable: $result3")
       result2 <- result1.map(pr => vcs.listBuildStatuses(vcsRepo, pr.number).map(s => (pr, s))).sequence
       exitCode <-
         (
