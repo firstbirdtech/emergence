@@ -8,16 +8,16 @@ import com.firstbird.emergence.core._
 import com.firstbird.emergence.core.vcs.model.Repository
 import cats.Monad
 import com.firstbird.emergence.core.vcs.model.{MergeStrategy, Repository => VcsRepo}
-import com.firstbird.emergence.core.model.Settings
+import com.firstbird.emergence.core.app.CliOptions
 import cats.effect.IO
 import io.chrisdavenport.log4cats.Logger
 
-class Emergence[F[_]](settings: Settings)(implicit logger: Logger[F], vcs: Vcs[F], F: MonadThrowable[F]) {
+class Emergence[F[_]](options: CliOptions)(implicit logger: Logger[F], vcs: Vcs[F], F: MonadThrowable[F]) {
 
   def run: F[ExitCode] = {
     for {
       _ <- logger.info("Running emergence.")
-      vcsRepo = VcsRepo(settings.configuration.repositories.head.owner, settings.configuration.repositories.head.name)
+      vcsRepo = VcsRepo(options.configuration.repositories.head.owner, options.configuration.repositories.head.name)
       result1 <- vcs.listPullRequests(vcsRepo)
       result2 <- result1.map(pr => vcs.listBuildStatuses(vcsRepo, pr.number).map(s => (pr, s))).sequence
       exitCode <-

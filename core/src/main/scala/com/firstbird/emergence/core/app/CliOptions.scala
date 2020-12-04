@@ -1,4 +1,4 @@
-package com.firstbird.emergence.core.model
+package com.firstbird.emergence.core.app
 
 import java.nio.file.Path
 import com.firstbird.emergence.core.vcs.Vcs
@@ -16,25 +16,27 @@ import scala.util.Success
 import com.typesafe.config.Config
 import cats.effect.Sync
 import scala.sys.process.Process
+import com.firstbird.emergence.core.vcs.VcsSettings
 
-final case class Settings(
+final case class CliOptions(
     configuration: Configuration,
-    vcsType: Settings.VcsType,
+    vcsType: CliOptions.VcsType,
     vcsApiHost: Uri,
     vcsLogin: String,
     gitAskPass: Path
 ) {
 
-  def vcsUser[F[_]](implicit F: Sync[F]): F[VcsUser] = {
+  def vcsSettings[F[_]](implicit F: Sync[F]): F[VcsSettings] = {
     F.delay {
       val secret = Process(gitAskPass.toString).!!.trim
-      VcsUser(vcsLogin, secret)
+      val user   = VcsSettings.VcsUser(vcsLogin, secret)
+      VcsSettings(vcsApiHost, user)
     }
   }
 
 }
 
-object Settings {
+object CliOptions {
 
   sealed abstract class VcsType(val value: String)
   object VcsType {
@@ -46,7 +48,7 @@ object Settings {
     val file = Paths.get(s).toFile
     Try(ConfigFactory.parseFile(file)).toEither
       .flatMap(Configuration.from(_))
-      .leftMap(t => MalformedValue("com.typesafe.confog", s"Invalid config file: ${t.getMessage}"))
+      .leftMap(t => MalformedValue("com.typesafe.config", s"Invalid config file: ${t.getMessage}"))
   }
 
   implicit val pathParser: ArgParser[Path] = SimpleArgParser.from[Path]("path") { s =>

@@ -4,14 +4,14 @@ import cats.effect.IO
 import cats.effect.ExitCode
 import com.firstbird.emergence.core.app._
 import caseapp.cats.IOCaseApp
-import com.firstbird.emergence.core.model.Settings
-import com.firstbird.emergence.core.model.Settings._
+import com.firstbird.emergence.core.app.CliOptions
+import com.firstbird.emergence.core.app.CliOptions._
 import caseapp.core.RemainingArgs
 
-object App extends IOCaseApp[Settings] {
+object App extends IOCaseApp[CliOptions] {
 
-  def run(settings: Settings, args: RemainingArgs): IO[ExitCode] = {
-    EmergenceContext[IO](settings).use(_.run)
+  def run(options: CliOptions, args: RemainingArgs): IO[ExitCode] = {
+    EmergenceContext[IO](options).use(_.run)
   }
 
 }

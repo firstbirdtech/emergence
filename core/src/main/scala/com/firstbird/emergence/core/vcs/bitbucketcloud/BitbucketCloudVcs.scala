@@ -9,16 +9,12 @@ import com.firstbird.emergence.core.vcs.bitbucketcloud.Encoding._
 import com.firstbird.emergence.core.vcs._
 import sttp.model.Uri
 import cats.Monad
-import com.firstbird.emergence.core.model.VcsUser
 
-final class BitbucketCloudVcs[F[_]](baseUri: Uri)(implicit
-    backend: SttpBackend[F, Any],
-    vcsUser: VcsUser,
-    F: MonadThrowable[F])
+final class BitbucketCloudVcs[F[_]](implicit backend: SttpBackend[F, Any], settings: VcsSettings, F: MonadThrowable[F])
     extends Vcs[F] {
 
   override def listPullRequests(repo: Repository): F[List[PullRequest]] = {
-    val uri = baseUri.addPath("repositories", repo.owner, repo.name, "pullrequests")
+    val uri = settings.apiHost.addPath("repositories", repo.owner, repo.name, "pullrequests")
 
     basicRequest
       .get(uri)
@@ -29,7 +25,8 @@ final class BitbucketCloudVcs[F[_]](baseUri: Uri)(implicit
   }
 
   override def listBuildStatuses(repo: Repository, number: PullRequestNumber): F[List[BuildStatus]] = {
-    val uri = baseUri.addPath("repositories", repo.owner, repo.name, "pullrequests", number.toString, "statuses")
+    val uri =
+      settings.apiHost.addPath("repositories", repo.owner, repo.name, "pullrequests", number.toString, "statuses")
 
     basicRequest
       .get(uri)
@@ -44,7 +41,7 @@ final class BitbucketCloudVcs[F[_]](baseUri: Uri)(implicit
       number: PullRequestNumber,
       mergeStrategy: MergeStrategy,
       closeSourceBranch: Boolean): F[Unit] = {
-    val uri  = baseUri.addPath("repositories", repo.owner, repo.name, "pullrequests", number.toString, "merge")
+    val uri  = settings.apiHost.addPath("repositories", repo.owner, repo.name, "pullrequests", number.toString, "merge")
     val body = MergePullRequestRequest(closeSourceBranch, mergeStrategy)
 
     basicRequest
@@ -57,7 +54,7 @@ final class BitbucketCloudVcs[F[_]](baseUri: Uri)(implicit
   }
 
   implicit private class RequestOps(request: Request[Either[String, String], Any]) {
-    def withAuthentication() = request.auth.basic(vcsUser.login, vcsUser.secret)
+    def withAuthentication() = request.auth.basic(settings.user.login, settings.user.secret)
   }
 
 }
