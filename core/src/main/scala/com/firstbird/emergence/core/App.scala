@@ -1,12 +1,10 @@
 package com.firstbird.emergence.core
 
-import cats.effect.IO
-import cats.effect.ExitCode
-import com.firstbird.emergence.core.app._
 import caseapp.cats.IOCaseApp
-import com.firstbird.emergence.core.app.CliOptions
-import com.firstbird.emergence.core.app.CliOptions._
 import caseapp.core.RemainingArgs
+import cats.effect.{ExitCode, IO}
+import com.firstbird.emergence.core.app.CliOptions._
+import com.firstbird.emergence.core.app.{CliOptions, _}
 
 object App extends IOCaseApp[CliOptions] {
 

@@ -1,3 +1,7 @@
+ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.4.4"
+addCommandAlias("codeFmt", ";scalafmtAll;scalafmtSbt;scalafixAll")
+addCommandAlias("codeVerify", ";scalafmtCheckAll;scalafmtSbtCheck;scalafixAll --check")
+
 lazy val commonSettings = Seq(
   organization := "com.firstbird.emergence",
   startYear := Some(2020),
@@ -17,11 +21,12 @@ lazy val commonSettings = Seq(
     "-unchecked",
     "-Xcheckinit",
     "-Xfatal-warnings",
-    "-Wdead-code"
-  )
+    "-Wdead-code",
+    "-Wunused:imports"
+  ),
+  semanticdbEnabled := true,
+  semanticdbVersion := scalafixSemanticdb.revision
 )
-
-addCommandAlias("codeFmt", ";scalafmtAll;scalafmtSbt")
 
 lazy val root = project
   .in(file("."))
@@ -31,9 +36,16 @@ lazy val root = project
 
 lazy val core = project
   .in(file("core"))
+  .enablePlugins(BuildInfoPlugin)
   .settings(commonSettings)
   .settings(
     name := "core",
     libraryDependencies ++= Dependencies.core,
-    addCompilerPlugin(Dependencies.betterMonadicFor)
+    addCompilerPlugin(Dependencies.betterMonadicFor),
+    buildInfoPackage := organization.value,
+    buildInfoKeys := Seq[BuildInfoKey](
+      version,
+      "appName" -> "Emergence",
+      "cliName" -> "emergence"
+    )
   )

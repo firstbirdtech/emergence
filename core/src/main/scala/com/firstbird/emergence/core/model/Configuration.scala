@@ -1,11 +1,9 @@
 package com.firstbird.emergence.core.model
 
 import com.typesafe.config.Config
-
-import io.circe.generic.auto._
 import io.circe.config.syntax._
-import io.circe.Error
-import io.circe.Decoder
+import io.circe.generic.auto._
+import io.circe.{Decoder, Error}
 
 final case class Configuration(
     repositories: List[Configuration.Repository]

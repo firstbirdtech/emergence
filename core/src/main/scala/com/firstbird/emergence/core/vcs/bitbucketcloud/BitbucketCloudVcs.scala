@@ -1,14 +1,12 @@
 package com.firstbird.emergence.core.vcs.bitbucketcloud
 
+import cats.syntax.all._
+import com.firstbird.emergence.core._
+import com.firstbird.emergence.core.vcs._
+import com.firstbird.emergence.core.vcs.bitbucketcloud.Encoding._
+import com.firstbird.emergence.core.vcs.model._
 import sttp.client3._
 import sttp.client3.circe._
-import cats.syntax.all._
-import com.firstbird.emergence.core.vcs.model._
-import com.firstbird.emergence.core._
-import com.firstbird.emergence.core.vcs.bitbucketcloud.Encoding._
-import com.firstbird.emergence.core.vcs._
-import sttp.model.Uri
-import cats.Monad
 
 final class BitbucketCloudVcs[F[_]](implicit backend: SttpBackend[F, Any], settings: VcsSettings, F: MonadThrowable[F])
     extends Vcs[F] {
