@@ -1,6 +1,6 @@
 # eMERGEnce
 
-**!!!THIS PROJECT IS UNDER ACTIVE DEVELOPMENT AND NOT READE FOR USAGE YET !!!**
+**!!!THIS PROJECT IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR USAGE YET !!!**
 
 eMERGEnce is a bot that helps you to get rid of all your emerged pull requests automatically on succesful build criterias.
 

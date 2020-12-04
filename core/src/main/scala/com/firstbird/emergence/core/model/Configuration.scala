@@ -13,16 +13,16 @@ final case class Configuration(
 
 object Configuration {
 
+  def from(config: Config): Either[Error, Configuration] = config.as[Configuration]
+
   final case class Repository(owner: String, name: String)
 
   implicit val repositoryDecoder: Decoder[Repository] = Decoder.decodeString.flatMap { s =>
     s.split('/') match {
       case Array(owner, name) => Decoder.const(Repository(owner, name))
-      case _                  => Decoder.failedWithMessage(s"Provided repository has an invalid format: '$s'")
+      case _                  => Decoder.failedWithMessage(s"Invalid repository format: '$s'")
     }
 
   }
-
-  def from(config: Config): Either[Error, Configuration] = config.as[Configuration]
 
 }

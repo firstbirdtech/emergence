@@ -28,7 +28,7 @@ private[bitbucketcloud] object Encoding {
     Decoder[String].emap {
       case "SUCCESSFUL" => Right(BuildStatusState.Success)
       case "FAILED"     => Right(BuildStatusState.Failed)
-      case u            => Left(s"Unknown build status state '$u'")
+      case u            => Left(s"Unknown build status state: '$u'")
     }
   }
 
