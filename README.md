@@ -12,7 +12,6 @@ eMERGEnce is a bot that helps you to get rid of all your emerged pull requests a
 * repository specific config + parsing
 * build status rules
 * bitbucket: pagination PRs
-* test if logging (slf4j works)
 * tests
 * documentation (mdoc / generate readme)
 * publish / deploy docu (docker, bintray,  maven sync, etc.)
