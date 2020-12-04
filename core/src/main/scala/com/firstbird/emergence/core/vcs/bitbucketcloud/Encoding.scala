@@ -1,11 +1,10 @@
 package com.firstbird.emergence.core.vcs.bitbucketcloud
 
-import io.circe._
-import cats.syntax.all._
+import com.firstbird.emergence.core.vcs.model.BranchName._
 import com.firstbird.emergence.core.vcs.model.PullRequestNumber._
 import com.firstbird.emergence.core.vcs.model.PullRequestTitle._
-import com.firstbird.emergence.core.vcs.model.BranchName._
 import com.firstbird.emergence.core.vcs.model._
+import io.circe._
 
 private[bitbucketcloud] object Encoding {
 

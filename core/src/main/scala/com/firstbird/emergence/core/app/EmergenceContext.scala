@@ -1,15 +1,11 @@
 package com.firstbird.emergence.core.app
 
-import cats.effect.Resource
-import sttp.client3._
-import cats.effect._
-import sttp.client3.asynchttpclient.cats.AsyncHttpClientCatsBackend
-import com.firstbird.emergence.core.vcs.bitbucketcloud.BitbucketCloudVcs
+import cats.effect.{Resource, _}
 import com.firstbird.emergence.core.vcs._
-import com.firstbird.emergence.core.model._
-import cats.effect.IO
 import io.chrisdavenport.log4cats.Logger
 import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
+import sttp.client3._
+import sttp.client3.asynchttpclient.cats.AsyncHttpClientCatsBackend
 
 object EmergenceContext {
 

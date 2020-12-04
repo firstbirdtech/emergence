@@ -1,9 +1,8 @@
 package com.firstbird.emergence.core.vcs.bitbucketcloud
 
-import com.firstbird.emergence.core.vcs.model._
 import com.firstbird.emergence.core.vcs.bitbucketcloud.Encoding._
-import io.circe.Encoder
-import io.circe.Json
+import com.firstbird.emergence.core.vcs.model._
+import io.circe.{Encoder, Json}
 
 final private[bitbucketcloud] case class MergePullRequestRequest(
     closeSourceBranch: Boolean,

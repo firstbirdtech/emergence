@@ -1,23 +1,24 @@
 package com.firstbird.emergence.core.app
 
-import java.nio.file.Path
-import com.firstbird.emergence.core.vcs.Vcs
-import com.firstbird.emergence.core.model._
-import sttp.model.Uri
-import cats.syntax.all._
-import caseapp.core.argparser.ArgParser
-import caseapp.core.argparser.SimpleArgParser
-import caseapp.core.Error.MalformedValue
-import java.nio.file.Paths
-import com.typesafe.config.ConfigFactory
-import scala.util.Try
-import scala.util.Failure
-import scala.util.Success
-import com.typesafe.config.Config
-import cats.effect.Sync
-import scala.sys.process.Process
-import com.firstbird.emergence.core.vcs.VcsSettings
+import java.nio.file.{Path, Paths}
 
+import scala.sys.process.Process
+import scala.util.Try
+
+import caseapp.core.Error.MalformedValue
+import caseapp.core.argparser.{ArgParser, SimpleArgParser}
+import caseapp.{AppName, AppVersion, ProgName}
+import cats.effect.Sync
+import cats.syntax.all._
+import com.firstbird.emergence.BuildInfo
+import com.firstbird.emergence.core.model._
+import com.firstbird.emergence.core.vcs.VcsSettings
+import com.typesafe.config.ConfigFactory
+import sttp.model.Uri
+
+@AppName(BuildInfo.appName)
+@AppVersion(BuildInfo.version)
+@ProgName(BuildInfo.cliName)
 final case class CliOptions(
     configuration: Configuration,
     vcsType: CliOptions.VcsType,

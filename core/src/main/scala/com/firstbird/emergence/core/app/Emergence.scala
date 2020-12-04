@@ -1,15 +1,12 @@
 package com.firstbird.emergence.core.app
 
-import com.firstbird.emergence.core.vcs.Vcs
 import cats.effect.ExitCode
-import cats.syntax.all._
 import cats.instances.all._
+import cats.syntax.all._
 import com.firstbird.emergence.core._
-import com.firstbird.emergence.core.vcs.model.Repository
-import cats.Monad
-import com.firstbird.emergence.core.vcs.model.{MergeStrategy, Repository => VcsRepo}
 import com.firstbird.emergence.core.app.CliOptions
-import cats.effect.IO
+import com.firstbird.emergence.core.vcs.Vcs
+import com.firstbird.emergence.core.vcs.model.{Repository => VcsRepo}
 import io.chrisdavenport.log4cats.Logger
 
 class Emergence[F[_]](options: CliOptions)(implicit logger: Logger[F], vcs: Vcs[F], F: MonadThrowable[F]) {

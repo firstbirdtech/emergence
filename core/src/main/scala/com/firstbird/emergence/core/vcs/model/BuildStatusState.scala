@@ -1,8 +1,6 @@
 package com.firstbird.emergence.core.vcs.model
 
-import io.circe.Decoder
-import com.firstbird.emergence.core.vcs.model.BuildStatusState.Success
-import com.firstbird.emergence.core.vcs.model.BuildStatusState.Failed
+import com.firstbird.emergence.core.vcs.model.BuildStatusState.{Failed, Success}
 
 sealed trait BuildStatusState {
 
