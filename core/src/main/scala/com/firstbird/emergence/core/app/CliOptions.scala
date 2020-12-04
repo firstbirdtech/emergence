@@ -29,7 +29,7 @@ final case class CliOptions(
   def vcsSettings[F[_]](implicit F: Sync[F]): F[VcsSettings] = {
     F.delay {
       val secret = Process(gitAskPass.toString).!!.trim
-      val user = VcsSettings.VcsUser(vcsLogin, secret)
+      val user   = VcsSettings.VcsUser(vcsLogin, secret)
       VcsSettings(vcsApiHost, user)
     }
   }

@@ -10,10 +10,7 @@ import com.firstbird.emergence.core.vcs._
 import sttp.model.Uri
 import cats.Monad
 
-final class BitbucketCloudVcs[F[_]](implicit
-    backend: SttpBackend[F, Any],
-    settings: VcsSettings,
-    F: MonadThrowable[F])
+final class BitbucketCloudVcs[F[_]](implicit backend: SttpBackend[F, Any], settings: VcsSettings, F: MonadThrowable[F])
     extends Vcs[F] {
 
   override def listPullRequests(repo: Repository): F[List[PullRequest]] = {
@@ -28,7 +25,8 @@ final class BitbucketCloudVcs[F[_]](implicit
   }
 
   override def listBuildStatuses(repo: Repository, number: PullRequestNumber): F[List[BuildStatus]] = {
-    val uri = settings.apiHost.addPath("repositories", repo.owner, repo.name, "pullrequests", number.toString, "statuses")
+    val uri =
+      settings.apiHost.addPath("repositories", repo.owner, repo.name, "pullrequests", number.toString, "statuses")
 
     basicRequest
       .get(uri)
