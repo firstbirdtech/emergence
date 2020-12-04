@@ -45,7 +45,7 @@ lazy val core = project
     buildInfoPackage := organization.value,
     buildInfoKeys := Seq[BuildInfoKey](
       version,
-      "appName" -> "Emergence",
+      "appName" -> "eMERGEnce",
       "cliName" -> "emergence"
     )
   )

@@ -6,7 +6,6 @@ import cats.syntax.all._
 import com.firstbird.emergence.core._
 import com.firstbird.emergence.core.app.CliOptions
 import com.firstbird.emergence.core.vcs.Vcs
-import com.firstbird.emergence.core.vcs.model.{Repository => VcsRepo}
 import io.chrisdavenport.log4cats.Logger
 
 class Emergence[F[_]](options: CliOptions)(implicit logger: Logger[F], vcs: Vcs[F], F: MonadThrowable[F]) {
@@ -14,8 +13,10 @@ class Emergence[F[_]](options: CliOptions)(implicit logger: Logger[F], vcs: Vcs[
   def run: F[ExitCode] = {
     for {
       _ <- logger.info("Running emergence.")
-      vcsRepo = VcsRepo(options.configuration.repositories.head.owner, options.configuration.repositories.head.name)
+      vcsRepo = options.config.repositories.head.name
       result1 <- vcs.listPullRequests(vcsRepo)
+      result3 <- result1.map(pr => vcs.isMergeable(vcsRepo, pr.number)).sequence
+      _ = println(s"is mergable: $result3")
       result2 <- result1.map(pr => vcs.listBuildStatuses(vcsRepo, pr.number).map(s => (pr, s))).sequence
       exitCode <-
         (

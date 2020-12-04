@@ -1,5 +1,6 @@
 package com.firstbird.emergence.core.vcs
 
+import com.firstbird.emergence.core.model._
 import com.firstbird.emergence.core.vcs.model._
 
 trait Vcs[F[_]] {
@@ -13,5 +14,7 @@ trait Vcs[F[_]] {
       number: PullRequestNumber,
       mergeStrategy: MergeStrategy,
       closeSourceBranch: Boolean): F[Unit]
+
+  def isMergeable(repo: Repository, number: PullRequestNumber): F[Boolean]
 
 }

@@ -1,17 +1,21 @@
 package com.firstbird.emergence.core.app
 
+import java.io.File
 import java.nio.file.{Path, Paths}
 
 import scala.sys.process.Process
 import scala.util.Try
 
+import caseapp.core.Error
 import caseapp.core.Error.MalformedValue
 import caseapp.core.argparser.{ArgParser, SimpleArgParser}
 import caseapp.{AppName, AppVersion, ProgName}
 import cats.effect.Sync
 import cats.syntax.all._
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.firstbird.emergence.BuildInfo
-import com.firstbird.emergence.core.model._
+import com.firstbird.emergence.core.configuration._
 import com.firstbird.emergence.core.vcs.VcsSettings
 import com.typesafe.config.ConfigFactory
 import sttp.model.Uri
@@ -20,7 +24,7 @@ import sttp.model.Uri
 @AppVersion(BuildInfo.version)
 @ProgName(BuildInfo.cliName)
 final case class CliOptions(
-    configuration: Configuration,
+    config: EmergenceConfig,
     vcsType: CliOptions.VcsType,
     vcsApiHost: Uri,
     vcsLogin: String,
@@ -45,13 +49,6 @@ object CliOptions {
     def values: Set[VcsType] = Set(BitbucketCloud)
   }
 
-  implicit val configParser: ArgParser[Configuration] = SimpleArgParser.from[Configuration]("path") { s =>
-    val file = Paths.get(s).toFile
-    Try(ConfigFactory.parseFile(file)).toEither
-      .flatMap(Configuration.from(_))
-      .leftMap(t => MalformedValue("com.typesafe.config", s"Invalid config file: ${t.getMessage}"))
-  }
-
   implicit val pathParser: ArgParser[Path] = SimpleArgParser.from[Path]("path") { s =>
     val path   = Paths.get(s)
     val isFile = path.toFile().isFile()
@@ -68,6 +65,30 @@ object CliOptions {
     Uri
       .parse(s)
       .leftMap(MalformedValue("Uri", _))
+  }
+
+  implicit val configParser: ArgParser[EmergenceConfig] = SimpleArgParser.from[EmergenceConfig]("path") { s =>
+    val file = Paths.get(s).toFile
+
+    for {
+      yml  <- parseYaml(file)
+      json <- readJsonFromYamll(yml)
+      config <- Try(ConfigFactory.parseString(json)).toEither
+        .flatMap(EmergenceConfig.from(_))
+        .leftMap(t => MalformedValue("com.typesafe.config", s"Invalid config file: ${t.getMessage}"))
+    } yield config
+  }
+
+  private def parseYaml(file: File): Either[Error, Object] = {
+    val yamllReader = new ObjectMapper(new YAMLFactory)
+    Try(yamllReader.readValue(file, classOf[Object])).toEither
+      .leftMap(t => MalformedValue("yml", s"Unable to read config as yml: ${t.getMessage}"))
+  }
+
+  private def readJsonFromYamll(yml: Object): Either[Error, String] = {
+    val jsonWriter = new ObjectMapper
+    Try(jsonWriter.writeValueAsString(yml)).toEither.leftMap(t =>
+      MalformedValue("json", s"Unable to write yml as json: ${t.getMessage}"))
   }
 
 }
