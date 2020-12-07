@@ -4,5 +4,6 @@ final case class PullRequest(
     number: PullRequestNumber,
     title: PullRequestTitle,
     sourceBranchName: BranchName,
-    targetBranchName: BranchName
+    targetBranchName: BranchName,
+    author: Author
 )

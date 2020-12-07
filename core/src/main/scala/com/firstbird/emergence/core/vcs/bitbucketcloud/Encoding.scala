@@ -1,6 +1,5 @@
 package com.firstbird.emergence.core.vcs.bitbucketcloud
 
-import com.firstbird.emergence.core.model._
 import com.firstbird.emergence.core.vcs.model.BranchName._
 import com.firstbird.emergence.core.vcs.model.PullRequestNumber._
 import com.firstbird.emergence.core.vcs.model.PullRequestTitle._
@@ -15,7 +14,8 @@ private[bitbucketcloud] object Encoding {
       title            <- c.downField("title").as[PullRequestTitle]
       sourceBranchName <- c.downField("source").downField("branch").downField("name").as[BranchName]
       targetBranchName <- c.downField("destination").downField("branch").downField("name").as[BranchName]
-    } yield PullRequest(id, title, sourceBranchName, targetBranchName)
+      author           <- c.downField("author").downField("nickname").as[Author]
+    } yield PullRequest(id, title, sourceBranchName, targetBranchName, author)
   }
 
   implicit val buildStatusDecoder: Decoder[BuildStatus] = Decoder.instance { c =>
@@ -29,7 +29,7 @@ private[bitbucketcloud] object Encoding {
     Decoder[String].emap {
       case "SUCCESSFUL" => Right(BuildStatusState.Success)
       case "FAILED"     => Right(BuildStatusState.Failed)
-      case u            => Left(s"Unknown build status state: '$u'")
+      case s            => Left(s"Unknown build status state: '$s'")
     }
   }
 

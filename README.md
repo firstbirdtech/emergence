@@ -2,19 +2,16 @@
 
 **!!!THIS PROJECT IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR USAGE YET !!!**
 
-eMERGEnce is a bot that helps you to get rid of all your emerged pull requests automatically on succesful build criterias.
+eMERGEnce is a bot that helps you to get rid of all your emerged pull requests automatically on configurable conditions.
 
 ## Getting Started
 
 ## TODO
 
-* global config + parsing
-* repository specific config + parsing
-* build status rules
-* bitbucket: pagination PRs
 * tests
 * documentation (mdoc / generate readme)
 * publish / deploy docu (docker, bintray,  maven sync, etc.)
+* logging (banner, statements, etc.)
 
 ## Credits
 
