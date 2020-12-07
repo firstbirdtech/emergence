@@ -1,9 +1,10 @@
 package com.firstbird.emergence.core.vcs
 
-import com.firstbird.emergence.core.model._
+import java.io.File
+
 import com.firstbird.emergence.core.vcs.model._
 
-trait Vcs[F[_]] {
+trait VcsAlg[F[_]] {
 
   def listPullRequests(repo: Repository): F[List[PullRequest]]
 
@@ -15,6 +16,8 @@ trait Vcs[F[_]] {
       mergeStrategy: MergeStrategy,
       closeSourceBranch: Boolean): F[Unit]
 
-  def isMergeable(repo: Repository, number: PullRequestNumber): F[Boolean]
+  def isMergeable(repo: Repository, number: PullRequestNumber): F[Mergable]
+
+  def findEmergenceConfigFile(repo: Repository): F[Option[File]]
 
 }

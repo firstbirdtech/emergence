@@ -1,18 +1,18 @@
 package com.firstbird.emergence.core.vcs
 
 import com.firstbird.emergence.core._
-import com.firstbird.emergence.core.app._
+import com.firstbird.emergence.core.model.{Settings, VcsType}
 import com.firstbird.emergence.core.vcs.bitbucketcloud._
 import sttp.client3.SttpBackend
 
-final class VcsFactory[F[_]: MonadThrowable](implicit sttpBackend: SttpBackend[F, Any], settings: VcsSettings) {
+final class VcsFactory[F[_]: MonadThrowable](implicit sttpBackend: SttpBackend[F, Any]) {
 
-  private def bitbucketCloud(): Vcs[F] = {
-    new BitbucketCloudVcs()
+  def getVcs(settings: Settings): VcsAlg[F] = settings.vcsType match {
+    case VcsType.BitbucketCloud => bitbucketCloud(settings.vcs)
   }
 
-  def getVcs(options: CliOptions): Vcs[F] = options.vcsType match {
-    case CliOptions.VcsType.BitbucketCloud => bitbucketCloud()
+  private def bitbucketCloud(implicit settings: VcsSettings): VcsAlg[F] = {
+    new BitbucketCloudVcs()
   }
 
 }

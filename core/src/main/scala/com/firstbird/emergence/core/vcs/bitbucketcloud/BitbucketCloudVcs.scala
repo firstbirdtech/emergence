@@ -1,8 +1,9 @@
 package com.firstbird.emergence.core.vcs.bitbucketcloud
 
+import java.io.File
+
 import cats.syntax.all._
 import com.firstbird.emergence.core._
-import com.firstbird.emergence.core.model._
 import com.firstbird.emergence.core.vcs._
 import com.firstbird.emergence.core.vcs.bitbucketcloud.DiffStatResponse._
 import com.firstbird.emergence.core.vcs.bitbucketcloud.Encoding._
@@ -14,20 +15,23 @@ import sttp.model.Uri
 
 object BitbucketCloudVcs {
 
-  private def asIgnoreIsRedirect = ignore
-    .mapWithMetadata { (s, m) =>
-      if (m.isRedirect) Right(s) else Left(s)
-    }
+  private val asIgnoreIsRedirect = {
+    ignore
+      .mapWithMetadata { (s, m) =>
+        if (m.isRedirect) Right(s) else Left(s)
+      }
+  }
 
 }
 
 final class BitbucketCloudVcs[F[_]](implicit backend: SttpBackend[F, Any], settings: VcsSettings, F: MonadThrowable[F])
-    extends Vcs[F] {
+    extends VcsAlg[F] {
 
   override def listPullRequests(repo: Repository): F[List[PullRequest]] = {
     val uri = settings.apiHost
       .addPath("repositories", repo.owner, repo.name, "pullrequests")
       .addParam("state", "OPEN")
+      .addParam("pagelen", "50")
 
     basicRequest
       .get(uri)
@@ -66,7 +70,7 @@ final class BitbucketCloudVcs[F[_]](implicit backend: SttpBackend[F, Any], setti
       .flatMap(r => F.fromEither(r.body.bimap(_.error, _ => ())))
   }
 
-  override def isMergeable(repo: Repository, number: PullRequestNumber): F[Boolean] = {
+  override def isMergeable(repo: Repository, number: PullRequestNumber): F[Mergable] = {
     val uri =
       settings.apiHost.addPath("repositories", repo.owner, repo.name, "pullrequests", number.toString, "diffstat")
 
@@ -83,7 +87,19 @@ final class BitbucketCloudVcs[F[_]](implicit backend: SttpBackend[F, Any], setti
       uri    <- F.fromEither(Uri.parse(newUrl).leftMap(f => new IllegalArgumentException(s"Not a valid URI: '${newUrl}'")))
       resp2  <- basicRequest.get(uri).withAuthentication().response(asJsonAlways[Page[DiffStatResponse]]).send(backend)
       result <- F.fromEither(resp2.body.leftMap(_.error))
-    } yield result.items.forall(_.isMergeable())
+    } yield Mergable.cond(result.items.forall(_.isMergeable()), s"PR has merge conflicts.")
+  }
+
+  override def findEmergenceConfigFile(repo: Repository): F[Option[File]] = {
+    val uri =
+      settings.apiHost.addPath("repositories", repo.owner, repo.name, "src", "master", settings.repositoryConfigName)
+
+    basicRequest
+      .get(uri)
+      .withAuthentication()
+      .response(asEither(ignore, asStringAlways).map(_.toOption))
+      .send(backend)
+      .map(_.body.map(new File(_)))
   }
 
   implicit private class RequestOps(request: Request[Either[String, String], Any]) {

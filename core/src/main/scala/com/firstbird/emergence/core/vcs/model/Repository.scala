@@ -1,4 +1,4 @@
-package com.firstbird.emergence.core.model
+package com.firstbird.emergence.core.vcs.model
 
 import io.circe.Decoder
 

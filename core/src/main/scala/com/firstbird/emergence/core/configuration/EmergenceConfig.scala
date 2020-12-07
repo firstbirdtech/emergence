@@ -1,25 +1,29 @@
 package com.firstbird.emergence.core.configuration
 
-import cats.data.NonEmptyList
+import cats.syntax.all._
 import com.firstbird.emergence.core.condition.Condition
-import com.firstbird.emergence.core.condition.Condition._
 import com.typesafe.config.Config
-import io.circe.Error
 import io.circe.config.syntax._
 import io.circe.generic.auto._
+import io.circe.{Decoder, Error}
 
 final case class EmergenceConfig(
-    repositories: List[RepositoryConfig],
-    defaults: Option[EmergenceConfig.Defaults]
+    conditions: List[Condition],
+    merge: Option[MergeConfig]
 )
 
 object EmergenceConfig {
 
-  final case class Defaults(
-      merge: Option[MergeConfig],
-      conditions: Option[NonEmptyList[Condition]]
-  )
+  val default: EmergenceConfig = EmergenceConfig(Nil, none)
 
   def from(config: Config): Either[Error, EmergenceConfig] = config.as[EmergenceConfig]
+
+  implicit val emergenceConfigDecoder: Decoder[EmergenceConfig] = Decoder.instance { c =>
+    for {
+      conditions <- c.downField("conditions").as[Option[List[Condition]]]
+      merge      <- c.downField(("merge")).as[Option[MergeConfig]]
+    } yield EmergenceConfig(conditions.getOrElse(Nil), merge)
+
+  }
 
 }
