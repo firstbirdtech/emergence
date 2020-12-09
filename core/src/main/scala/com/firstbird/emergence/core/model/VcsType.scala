@@ -16,7 +16,9 @@
 
 package com.firstbird.emergence.core.model
 
-sealed abstract class VcsType(val underlying: String)
+sealed abstract class VcsType(val underlying: String) {
+  override def toString: String = underlying
+}
 
 object VcsType {
   case object BitbucketCloud extends VcsType("bitbucket-cloud")

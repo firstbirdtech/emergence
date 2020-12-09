@@ -26,7 +26,7 @@ You can run eMERGEnce with [Docker](https://www.docker.com/).
 To get a list of available options run: `docker run firstbird/emergence:latest --help` and you should get the following output:
 
 ```
-eMERGEnce 0.1.0-M2
+eMERGEnce @VERSION@
 Usage: emergence [options]
   --usage  <bool>
         Print usage and exit

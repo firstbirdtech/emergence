@@ -9,4 +9,7 @@ To release a new version of emergence follow the following steps:
 5. Use `sbt publish` to publish the artifact to [https://bintray.com/firstbird/maven/emergence](https://bintray.com/firstbird/maven/emergence)
 6. Use `sbt core/docker:publish` to publish a new docker version to [https://hub.docker.com/r/firstbird/emergence](https://hub.docker.com/r/firstbird/emergence)
 7. Push local git tag to remote using `git push --follow-tags`
-8. Create a new release in [GitHub](https://github.com/firstbirdtech/emergence/releases)
+8. Run `sbt docs/mdoc` to generate documenation
+9. Commit documentation generation change and push it to master
+10. Create a new release in [GitHub](https://github.com/firstbirdtech/emergence/releases)
+11. Sync new version to maven central via [bintray](https://bintray.com/firstbird/maven/emergence)
