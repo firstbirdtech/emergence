@@ -7,5 +7,6 @@ To release a new version of emergence follow the following steps:
 3. Reload SBT so the `sbt-dynver` plugin uses the previously tagged version
 4. Use `sbt show version` to check if the project version is correct
 5. Use `sbt publish` to publish the artifact to [https://bintray.com/firstbird/maven/emergence](https://bintray.com/firstbird/maven/emergence)
-6. Push local git tag to remote using `git push --follow-tags`
-7. Create a new release in [GitHub](https://github.com/firstbirdtech/emergence/releases)
+6. Use `sbt core/docker:publish` to publish a new docker version to [https://hub.docker.com/r/firstbird/emergence](https://hub.docker.com/r/firstbird/emergence)
+7. Push local git tag to remote using `git push --follow-tags`
+8. Create a new release in [GitHub](https://github.com/firstbirdtech/emergence/releases)
