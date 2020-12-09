@@ -1,4 +1,6 @@
 ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.4.4"
+ThisBuild / dynverSeparator := "-" // Default uses '+' which is not valid for docker tags
+
 addCommandAlias("codeFmt", ";headerCreate;scalafmtAll;scalafmtSbt;scalafixAll")
 addCommandAlias("codeVerify", ";scalafmtCheckAll;scalafmtSbtCheck;scalafixAll --check;headerCheck")
 
@@ -67,3 +69,15 @@ lazy val core = project
     Docker / packageName := s"firstbird/emergence",
     dockerUpdateLatest := true
   )
+
+lazy val docs = project
+  .in(file("docs"))
+  .settings(commonSettings)
+  .settings(
+    name := "docs",
+    mdocVariables := Map("VERSION" -> version.value),
+    mdocIn := file("docs/README.template.md"),
+    mdocOut := file("README.md")
+  )
+  .dependsOn(core)
+  .enablePlugins(MdocPlugin)

@@ -20,7 +20,7 @@ import java.nio.file.{Path, Paths}
 
 import caseapp.core.Error.MalformedValue
 import caseapp.core.argparser.{ArgParser, SimpleArgParser}
-import caseapp.{AppName, AppVersion, ProgName}
+import caseapp.{AppName, AppVersion, HelpMessage, ProgName, ValueDescription}
 import cats.syntax.all._
 import com.firstbird.emergence.BuildInfo
 import com.firstbird.emergence.core.configuration._
@@ -31,11 +31,19 @@ import sttp.model.Uri
 @AppVersion(BuildInfo.version)
 @ProgName(BuildInfo.cliName)
 final case class CliOptions(
+    @HelpMessage("The path to the eMERGEnce run config file.")
     config: RunConfig,
+    @HelpMessage(s"The type of VCS you want to run eMERGEnce.")
+    @ValueDescription(s"${VcsType.values.mkString(" or ")}")
     vcsType: VcsType,
+    @HelpMessage("The base URI for VCS api calls. e.g. https://api.bitbucket.org/2.0")
     vcsApiHost: Uri,
+    @HelpMessage("The username for authenticating VCS API calls.")
     vcsLogin: String,
+    @HelpMessage(
+      "The path to the executable script file that returns your VCS secret for authenticating VCS API calls.")
     gitAskPass: Path,
+    @HelpMessage("The name/path of the eMERGEnce config file inside the repository. Default: .emergence.yml")
     repoConfigName: String = ".emergence.yml"
 )
 
