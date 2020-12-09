@@ -10,6 +10,12 @@ lazy val commonSettings = Seq(
   scmInfo := Some(
     ScmInfo(homepage.value.get, "scm:git:https://github.com/firstbirdtech/emergence.git")
   ),
+  developers += Developer(
+    "contributors",
+    "Contributors",
+    "",
+    url("https://github.com/firstbirdtech/emergence/graphs/contributors")
+  ),
   scalaVersion := "2.13.4",
   scalacOptions ++= Seq(
     "-deprecation",
