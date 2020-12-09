@@ -20,3 +20,7 @@ The code of this project is heavily inspired and based on [fthomas's](https://gi
 ## Contributors
 
 * [Fabian Grutsch](https://github.com/fgrutsch)
+
+## License
+
+This code is licensed under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0.txt).
