@@ -16,8 +16,6 @@
 
 package com.firstbird.emergence.core.vcs.bitbucketcloud
 
-import java.io.File
-
 import cats.syntax.all._
 import com.firstbird.emergence.core._
 import com.firstbird.emergence.core.vcs._
@@ -31,7 +29,7 @@ import sttp.model.Uri
 
 object BitbucketCloudVcs {
 
-  private val asIgnoreIsRedirect = {
+  private val asRedirect = {
     ignore
       .mapWithMetadata { (s, m) =>
         if (m.isRedirect) Right(s) else Left(s)
@@ -94,7 +92,7 @@ final class BitbucketCloudVcs[F[_]](implicit backend: SttpBackend[F, Any], setti
       .get(uri)
       .followRedirects(false)
       .withAuthentication()
-      .response(BitbucketCloudVcs.asIgnoreIsRedirect)
+      .response(BitbucketCloudVcs.asRedirect)
       .send(backend)
 
     for {
@@ -106,7 +104,7 @@ final class BitbucketCloudVcs[F[_]](implicit backend: SttpBackend[F, Any], setti
     } yield Mergable.cond(result.items.forall(_.isMergeable()), s"PR has merge conflicts.")
   }
 
-  override def findEmergenceConfigFile(repo: Repository): F[Option[File]] = {
+  override def findEmergenceConfigFile(repo: Repository): F[Option[RepoFile]] = {
     val uri =
       settings.apiHost.addPath("repositories", repo.owner, repo.name, "src", "master", settings.repositoryConfigName)
 
@@ -115,7 +113,7 @@ final class BitbucketCloudVcs[F[_]](implicit backend: SttpBackend[F, Any], setti
       .withAuthentication()
       .response(asEither(ignore, asStringAlways).map(_.toOption))
       .send(backend)
-      .map(_.body.map(new File(_)))
+      .map(_.body.map(RepoFile(_)))
   }
 
   implicit private class RequestOps(request: Request[Either[String, String], Any]) {

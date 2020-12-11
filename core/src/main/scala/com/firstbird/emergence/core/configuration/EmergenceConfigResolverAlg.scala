@@ -16,15 +16,13 @@
 
 package com.firstbird.emergence.core.configuration
 
-import java.io.File
-
 import cats.effect.Sync
 import cats.kernel.Semigroup
 import cats.syntax.all._
 import com.firstbird.emergence.core._
 import com.firstbird.emergence.core.configuration._
 import com.firstbird.emergence.core.vcs.VcsAlg
-import com.firstbird.emergence.core.vcs.model.Repository
+import com.firstbird.emergence.core.vcs.model.{RepoFile, Repository}
 
 class EmergenceConfigResolverAlg[F[_]](runConfig: RunConfig)(implicit
     vcsAlg: VcsAlg[F],
@@ -37,17 +35,14 @@ class EmergenceConfigResolverAlg[F[_]](runConfig: RunConfig)(implicit
         case Some(config) => parseEmergenceConfig(config).map(_.some)
         case None         => F.pure(none[EmergenceConfig])
       }
-      localRepoConfig <- F.pure(none[EmergenceConfig])
     } yield {
       val maybeConfig = localRepoConfig |+| runEmergenceConfig |+| runConfig.defaults
       maybeConfig.getOrElse(EmergenceConfig.default)
     }
   }
 
-  private def parseEmergenceConfig(file: File): F[EmergenceConfig] = {
-    F
-      .delay(configFromYaml(file))
-      .flatMap(F.fromTry)
+  private def parseEmergenceConfig(file: RepoFile): F[EmergenceConfig] = {
+    configFromYaml(file.value)
       .map(config => EmergenceConfig.from(config))
       .flatMap(F.fromEither)
   }

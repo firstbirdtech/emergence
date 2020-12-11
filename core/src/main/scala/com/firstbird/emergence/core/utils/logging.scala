@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.vcs.model
+package com.firstbird.emergence.core.utils
 
-sealed trait BuildStatusState {
+object logging {
 
-  def isSuccess: Boolean = this match {
-    case BuildStatusState.Success => true
-    case _                        => false
+  val sectionSeperator: String = "=" * 200
+  val newLine: String          = "\n"
+  val indent: String           = " " * 17
+
+  def highlight(s: String): String = s"${"*" * 20} $s ${"*" * 20}"
+
+  def bulletPointed[A](seq: Seq[A]): String = {
+    val list = seq
+      .map(e => s"${indent}- $e")
+      .mkString(newLine)
+
+    s"${newLine}${list}"
   }
 
-  def isFailure: Boolean = !isSuccess
-
-}
-
-object BuildStatusState {
-  case object Success    extends BuildStatusState
-  case object InProgress extends BuildStatusState
-  case object Failed     extends BuildStatusState
-  case object Stopped    extends BuildStatusState
 }

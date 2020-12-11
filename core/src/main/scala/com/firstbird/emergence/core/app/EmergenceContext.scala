@@ -17,9 +17,9 @@
 package com.firstbird.emergence.core.app
 
 import cats.effect.{Resource, _}
-import com.firstbird.emergence.core.actions.merge.MergeAlg
 import com.firstbird.emergence.core.condition.ConditionMatcherAlg
 import com.firstbird.emergence.core.configuration.EmergenceConfigResolverAlg
+import com.firstbird.emergence.core.merge.MergeAlg
 import com.firstbird.emergence.core.model.Settings
 import com.firstbird.emergence.core.vcs._
 import io.chrisdavenport.log4cats.Logger

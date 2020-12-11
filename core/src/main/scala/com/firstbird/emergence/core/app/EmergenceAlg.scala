@@ -19,11 +19,13 @@ package com.firstbird.emergence.core.app
 import cats.effect.{Concurrent, ExitCode}
 import cats.instances.all._
 import cats.syntax.all._
+import com.firstbird.emergence.BuildInfo
 import com.firstbird.emergence.core._
-import com.firstbird.emergence.core.actions.merge.MergeAlg
 import com.firstbird.emergence.core.configuration.EmergenceConfigResolverAlg
 import com.firstbird.emergence.core.configuration.RunConfig.RepositoryConfig
+import com.firstbird.emergence.core.merge.MergeAlg
 import com.firstbird.emergence.core.model.Settings
+import com.firstbird.emergence.core.utils.logging._
 import fs2.Stream
 import io.chrisdavenport.log4cats.Logger
 
@@ -34,6 +36,17 @@ class EmergenceAlg[F[_]: Concurrent](implicit
     mergeAlg: MergeAlg[F],
     F: MonadThrowable[F]) {
 
+  private val banner = {
+    """
+      |     ___  ___ ___________ _____  _____               
+      |     |  \/  ||  ___| ___ \  __ \|  ___|              
+      |  ___| .  . || |__ | |_/ / |  \/| |__ _ __   ___ ___ 
+      | / _ \ |\/| ||  __||    /| | __ |  __| '_ \ / __/ _ \
+      ||  __/ |  | || |___| |\ \| |_\ \| |__| | | | (_|  __/
+      | \___\_|  |_/\____/\_| \_|\____/\____/_| |_|\___\___|
+    """.stripMargin
+  }
+
   def run: F[ExitCode] = {
     val stream = Stream
       .emits(settings.config.repositories.toList)
@@ -42,7 +55,9 @@ class EmergenceAlg[F[_]: Concurrent](implicit
 
     for {
 
-      _      <- logger.info("Running eMERGEnce.")
+      _      <- logger.info(s"$banner")
+      _      <- logger.info(s"Running eMERGEnce with version: ${BuildInfo.version}")
+      _      <- printConfiguredRepos()
       result <- stream.foldMonoid.map(_.fold(_ => ExitCode.Error, _ => ExitCode.Success))
     } yield result
   }
@@ -50,18 +65,24 @@ class EmergenceAlg[F[_]: Concurrent](implicit
   private def emergence(repoConfig: RepositoryConfig): F[Either[Throwable, Unit]] = {
     val repo = repoConfig.name
 
-    val r = F.attempt {
+    val result = F.attempt {
       for {
-        _               <- logger.info(s"Starting to merge PRs for the following repository: ${repo}")
+        _               <- logger.info(s"Starting to merge PRs for repository: ${repo}")
         emergenceConfig <- configResolverAlg.loadAndMerge(repo, repoConfig.emergenceConfig)
         _               <- mergeAlg.mergePullRequests(repo, emergenceConfig)
+        _               <- logger.info(sectionSeperator)
       } yield ()
     }
 
-    r.flatTap {
-      case Right(v) => F.unit
-      case Left(t)  => logger.error(t)("ERROR") // TODO
+    result.flatTap {
+      case Right(_) => F.unit
+      case Left(t)  => logger.error(t)(s"Failure on running emergence for repostiory: $repo")
     }
+  }
+
+  private def printConfiguredRepos() = {
+    val s = bulletPointed(settings.config.repositories.map(_.name).toList)
+    logger.info(s"The following repositories are configured:$s")
   }
 
 }

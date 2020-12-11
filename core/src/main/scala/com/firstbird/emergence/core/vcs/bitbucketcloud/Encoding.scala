@@ -44,7 +44,9 @@ private[bitbucketcloud] object Encoding {
   implicit val buildStatusStateDecoder: Decoder[BuildStatusState] = {
     Decoder[String].emap {
       case "SUCCESSFUL" => Right(BuildStatusState.Success)
+      case "INPROGRESS" => Right(BuildStatusState.InProgress)
       case "FAILED"     => Right(BuildStatusState.Failed)
+      case "STOPPED"    => Right(BuildStatusState.Stopped)
       case s            => Left(s"Unknown build status state: '$s'")
     }
   }
