@@ -16,20 +16,6 @@
 
 package com.firstbird.emergence.core.vcs.model
 
-sealed trait BuildStatusState {
-
-  def isSuccess: Boolean = this match {
-    case BuildStatusState.Success => true
-    case _                        => false
-  }
-
-  def isFailure: Boolean = !isSuccess
-
-}
-
-object BuildStatusState {
-  case object Success    extends BuildStatusState
-  case object InProgress extends BuildStatusState
-  case object Failed     extends BuildStatusState
-  case object Stopped    extends BuildStatusState
+final case class RepoFile(value: String) extends AnyVal {
+  override def toString: String = value
 }

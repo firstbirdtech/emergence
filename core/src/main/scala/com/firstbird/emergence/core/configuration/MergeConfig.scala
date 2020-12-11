@@ -16,7 +16,6 @@
 
 package com.firstbird.emergence.core.configuration
 
-import cats.syntax.all._
 import com.firstbird.emergence.core.vcs.model.MergeStrategy
 import io.circe.Decoder
 
@@ -27,7 +26,10 @@ final case class MergeConfig(
 
 object MergeConfig {
 
-  val default: MergeConfig = MergeConfig(none, none)
+  object Default {
+    val strategy: MergeStrategy    = MergeStrategy.Squash
+    val closeSourceBranch: Boolean = true
+  }
 
   implicit val mergeConfigDecoder: Decoder[MergeConfig] = Decoder.instance { c =>
     for {

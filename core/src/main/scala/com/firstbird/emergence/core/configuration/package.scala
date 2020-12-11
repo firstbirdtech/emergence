@@ -16,32 +16,30 @@
 
 package com.firstbird.emergence.core
 
-import java.io.File
-
-import scala.util.Try
-
+import cats.effect.Sync
+import cats.syntax.all._
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.typesafe.config.{Config, ConfigFactory}
 
 package object configuration {
 
-  def configFromYaml(file: File): Try[Config] = {
+  def configFromYaml[F[_]](file: String)(implicit F: Sync[F]): F[Config] = {
     for {
-      yml    <- parseYaml(file)
-      json   <- readJsonFromYaml(yml)
-      config <- Try(ConfigFactory.parseString(json))
+      yml    <- parseYaml[F](file)
+      json   <- readJsonFromYaml[F](yml)
+      config <- F.delay(ConfigFactory.parseString(json))
     } yield config
   }
 
-  private def parseYaml(file: File): Try[Object] = {
+  private def parseYaml[F[_]](file: String)(implicit F: Sync[F]): F[Object] = {
     val yamllReader = new ObjectMapper(new YAMLFactory)
-    Try(yamllReader.readValue(file, classOf[Object]))
+    F.delay(yamllReader.readValue(file, classOf[Object]))
   }
 
-  private def readJsonFromYaml(yml: Object): Try[String] = {
+  private def readJsonFromYaml[F[_]](yml: Object)(implicit F: Sync[F]): F[String] = {
     val jsonWriter = new ObjectMapper
-    Try(jsonWriter.writeValueAsString(yml))
+    F.delay(jsonWriter.writeValueAsString(yml))
   }
 
 }

@@ -1,4 +1,6 @@
 # TODO
 
 * Write tests
-* logging (banner, statements, etc.)
+* Try sbt-ci-release for releasing a new version
+* gh-page for documentation
+* limit number of PRs to handle?

@@ -16,11 +16,14 @@
 
 package com.firstbird.emergence.core.app
 
-import java.nio.file.{Path, Paths}
+import java.nio.file.{Files, Path, Paths}
+
+import scala.util.Try
 
 import caseapp.core.Error.MalformedValue
 import caseapp.core.argparser.{ArgParser, SimpleArgParser}
 import caseapp.{AppName, AppVersion, HelpMessage, ProgName, ValueDescription}
+import cats.effect._
 import cats.syntax.all._
 import com.firstbird.emergence.BuildInfo
 import com.firstbird.emergence.core.configuration._
@@ -50,9 +53,13 @@ final case class CliOptions(
 object CliOptions {
 
   implicit val pathParser: ArgParser[Path] = SimpleArgParser.from[Path]("path") { s =>
-    val path   = Paths.get(s)
-    val isFile = path.toFile().isFile()
-    Either.cond(isFile, path, MalformedValue("java.nio.file.Path", "Not a valid file path."))
+    Try(Paths.get(s))
+      .flatMap(path => Try(path.toFile().isFile()).map(isFile => (path, isFile)))
+      .toEither
+      .leftMap(t => MalformedValue("Path", s"Unable to check if path is a file: ${t.getMessage}"))
+      .flatMap { case (path, isFile) =>
+        Either.cond(isFile, path, MalformedValue("Path", "Not a valid file path."))
+      }
   }
 
   implicit val vcsTypeParser: ArgParser[VcsType] = SimpleArgParser.from[VcsType]("vcs-type") { s =>
@@ -68,11 +75,12 @@ object CliOptions {
   }
 
   implicit val runConfigParser: ArgParser[RunConfig] = SimpleArgParser.from[RunConfig]("path") { s =>
-    val file = Paths.get(s).toFile
-
-    configFromYaml(file).toEither
+    Try(Paths.get(s))
+      .flatMap(path => Try(new String(Files.readAllBytes(path))))
+      .flatMap(fileString => Try(configFromYaml[IO](fileString).unsafeRunSync()))
+      .toEither
       .flatMap(RunConfig.from(_))
-      .leftMap(t => MalformedValue("com.typesafe.config", s"Invalid config file: ${t.getMessage}"))
+      .leftMap(t => MalformedValue("RunConfig", s"Invalid config file: ${t.getMessage}"))
   }
 
 }
