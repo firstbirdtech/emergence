@@ -76,7 +76,8 @@ object CliOptions {
 
   implicit val runConfigParser: ArgParser[RunConfig] = SimpleArgParser.from[RunConfig]("path") { s =>
     Try(Paths.get(s))
-      .flatMap(path => Try(configFromYaml[IO](Files.readString(path)).unsafeRunSync()))
+      .flatMap(path => Try(new String(Files.readAllBytes(path))))
+      .flatMap(fileString => Try(configFromYaml[IO](fileString).unsafeRunSync()))
       .toEither
       .flatMap(RunConfig.from(_))
       .leftMap(t => MalformedValue("RunConfig", s"Invalid config file: ${t.getMessage}"))
