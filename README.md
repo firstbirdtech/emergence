@@ -7,8 +7,6 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Scala Steward badge](https://img.shields.io/badge/Scala_Steward-helping-blue.svg?style=flat&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAMAAAARSr4IAAAAVFBMVEUAAACHjojlOy5NWlrKzcYRKjGFjIbp293YycuLa3pYY2LSqql4f3pCUFTgSjNodYRmcXUsPD/NTTbjRS+2jomhgnzNc223cGvZS0HaSD0XLjbaSjElhIr+AAAAAXRSTlMAQObYZgAAAHlJREFUCNdNyosOwyAIhWHAQS1Vt7a77/3fcxxdmv0xwmckutAR1nkm4ggbyEcg/wWmlGLDAA3oL50xi6fk5ffZ3E2E3QfZDCcCN2YtbEWZt+Drc6u6rlqv7Uk0LdKqqr5rk2UCRXOk0vmQKGfc94nOJyQjouF9H/wCc9gECEYfONoAAAAASUVORK5CYII=)](https://scala-steward.org)
 
-**!!!THIS PROJECT IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR USAGE YET !!!**
-
 eMERGEnce is a bot that helps you to get rid of all your emerged pull requests automatically on configurable conditions.
 
 ## Getting Started
@@ -26,7 +24,7 @@ You can run eMERGEnce with [Docker](https://www.docker.com/).
 To get a list of available options run: `docker run firstbird/emergence:latest --help` and you should get the following output:
 
 ```
-eMERGEnce 0.1.0-M2
+eMERGEnce 0.1.0
 Usage: emergence [options]
   --usage  <bool>
         Print usage and exit
@@ -46,7 +44,7 @@ Usage: emergence [options]
         The name/path of the eMERGEnce config file inside the repository. Default: .emergence.yml
 ```
 
-An example run command might look like this (depending on the seleceted VCS type):
+An example `docker run` command might look like this (depending on the selected VCS type):
 
 ```
 docker run -v $HOST_DIR:/opt/emergence -it firstbird/emergence:latest \
@@ -57,7 +55,7 @@ docker run -v $HOST_DIR:/opt/emergence -it firstbird/emergence:latest \
     --git-ask-pass "opt/emergence/git-ask-pass.sh"
 ```
 
-Please check [Configuring eMERGEnce](#configuring-emergence) for the format of the file in the `config` option.
+Please check [Configuring eMERGEnce](#configuring-emergence) for the format of the file passed via the `--config` option.
 
 The [--git-ask-pass](https://git-scm.com/docs/gitcredentials) option must be the path to an executable that returns to stdout. For example:
 
@@ -68,13 +66,13 @@ echo "my-git-secret"
 
 ### Configuring eMERGEnce
 
-Configuration for eMERGEence can be configured using the `--config` option as well as with a repository local config.
+Configuration for eMERGEence can be configured using the `--config` option as well as with a repository local configuration file.
 
 #### Operators
 
 | Operator Name | Description         |
 |---------------|---------------------|
-| ==            | Equals              |
+| ==            | Exact equals.       |
 | ^$            | A valid Java regex. |
 
 #### Conditions
@@ -85,22 +83,22 @@ Configuration for eMERGEence can be configured using the `--config` option as we
 | author            | == OR ^$  | The name of the author that created the pull request.       |
 | source-branch     | == OR ^$  | The name of the source branch.                              |
 | target-branch     | == OR ^$  | The name of the target branch.                              |
-| build-success     | == OR ^$  | The name of a specific build.                               |
+| build-success     | == OR ^$  | The name of a specific build result                         |
 
-#### Merge Options
+#### Merge Settings
 
-| Name                      | Required | Default | Description                                                                               |
-|---------------------------|----------|---------|-------------------------------------------------------------------------------------------|
-| merge.strategy            | false    | true    | The merge strategy to use when merge the PR. Allowed: merge-commit, squash or fast-forwar |
-| merge.close_source_branch | false    | true    | Whether to close/delete the source branch or not.                                         |
+| Name                      | Required | Default | Description                                                                                 |
+|---------------------------|----------|---------|---------------------------------------------------------------------------------------------|
+| merge.strategy            | false    | squash  | The merge strategy to use for merging the PR. Allowed: merge-commit, squash or fast-forward |
+| merge.close_source_branch | false    | true    | Whether to close/delete the source branch or not.                                           |
 
 
 #### Config Resolver
 
-The `conditions` and `merge` configs are resolved with a given priority using this strategy (from lowest to hights priority):
+The `conditions` and `merge` settings are resolved with a given priority using this strategy (from lowest to highest):
 
 1. `defaults` object from the run config specified via the `--config` option
-2. `repositories.[i]` array object from the run config specified via the `--config` option
+2. `repositories.[i]` config per array element from the run config specified via the `--config` option
 3. The configuration provided in the repository directly, specified via the `--repo-config-name` option
 
 For example if your run config looks like this (`--config` option):
