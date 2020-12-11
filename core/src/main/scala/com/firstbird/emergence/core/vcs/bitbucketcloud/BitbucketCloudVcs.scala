@@ -50,9 +50,9 @@ final class BitbucketCloudVcs[F[_]](implicit backend: SttpBackend[F, Any], setti
     basicRequest
       .get(uri)
       .withAuthentication()
-      .response(asJsonAlways[Page[PullRequest]])
+      .response(asJson[Page[PullRequest]])
       .send(backend)
-      .flatMap(r => F.fromEither(r.body.bimap(_.error, _.items)))
+      .flatMap(r => F.fromEither(r.body.map(_.items)))
   }
 
   override def listBuildStatuses(repo: Repository, number: PullRequestNumber): F[List[BuildStatus]] = {
@@ -62,9 +62,9 @@ final class BitbucketCloudVcs[F[_]](implicit backend: SttpBackend[F, Any], setti
     basicRequest
       .get(uri)
       .withAuthentication()
-      .response(asJsonAlways[Page[BuildStatus]])
+      .response(asJson[Page[BuildStatus]])
       .send(backend)
-      .flatMap(r => F.fromEither(r.body.bimap(_.error, _.items)))
+      .flatMap(r => F.fromEither(r.body.map(_.items)))
   }
 
   override def mergePullRequest(
@@ -79,9 +79,9 @@ final class BitbucketCloudVcs[F[_]](implicit backend: SttpBackend[F, Any], setti
       .post(uri)
       .withAuthentication()
       .body(body)
-      .response(asJsonAlways[PullRequest])
+      .response(asJson[PullRequest])
       .send(backend)
-      .flatMap(r => F.fromEither(r.body.bimap(_.error, _ => ())))
+      .flatMap(r => F.fromEither(r.body.map(_ => ())))
   }
 
   override def isMergeable(repo: Repository, number: PullRequestNumber): F[Mergable] = {
@@ -95,12 +95,18 @@ final class BitbucketCloudVcs[F[_]](implicit backend: SttpBackend[F, Any], setti
       .response(BitbucketCloudVcs.asRedirect)
       .send(backend)
 
+    val parseRedirectUri = (response: Response[Either[Unit, Unit]]) => {
+      response
+        .header(Location)
+        .toRight(s"Header expected: '${Location}'")
+        .flatMap(uri => Uri.parse(uri).leftMap(_ => s"Not a valid URI: '${uri}'"))
+    }
+
     for {
       resp1  <- redirectResponse
-      newUrl <- F.fromOption(resp1.header(Location), new IllegalStateException((s"Header expected: '${Location}'")))
-      uri    <- F.fromEither(Uri.parse(newUrl).leftMap(f => new IllegalArgumentException(s"Not a valid URI: '${newUrl}'")))
-      resp2  <- basicRequest.get(uri).withAuthentication().response(asJsonAlways[Page[DiffStatResponse]]).send(backend)
-      result <- F.fromEither(resp2.body.leftMap(_.error))
+      newUrl <- F.fromEither(parseRedirectUri(resp1).leftMap(new IllegalArgumentException(_)))
+      resp2  <- basicRequest.get(newUrl).withAuthentication().response(asJson[Page[DiffStatResponse]]).send(backend)
+      result <- F.fromEither(resp2.body)
     } yield Mergable.cond(result.items.forall(_.isMergeable()), s"PR has merge conflicts.")
   }
 
