@@ -75,10 +75,9 @@ class MergeAlg[F[_]: Concurrent](implicit
       .flatMap(_.strategy)
       .getOrElse(MergeConfig.Default.strategy)
 
-    val closeSourceBranch =
-      emergenceConfig.merge
-        .flatMap(_.closeSourceBranch)
-        .getOrElse(MergeConfig.Default.closeSourceBranch)
+    val closeSourceBranch = emergenceConfig.merge
+      .flatMap(_.closeSourceBranch)
+      .getOrElse(MergeConfig.Default.closeSourceBranch)
 
     for {
       _ <- vcsAlg.mergePullRequest(repo, pr.number, strategy, closeSourceBranch)
