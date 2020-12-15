@@ -2,6 +2,7 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.firstbird.emergence/core_2.13.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.firstbird.emergence%22%20AND%20a:%22core_2.13%22)
 [![Github Actions CI Workflow](https://github.com/firstbirdtech/emergence/workflows/CI/badge.svg)](https://github.com/firstbirdtech/emergence/workflows/CI/badge.svg)
+[![Github Actions Publish Workflow](https://github.com/firstbirdtech/emergence/workflows/Publish/badge.svg)](https://github.com/firstbirdtech/emergence/workflows/Publish/badge.svg)
 [![codecov](https://codecov.io/gh/firstbirdtech/emergence/branch/master/graph/badge.svg?token=mTUZsPVuXK)](https://codecov.io/gh/firstbirdtech/emergence)
 [![Docker Pulls](https://img.shields.io/docker/pulls/firstbird/emergence.svg)](https://img.shields.io/docker/pulls/firstbird/emergence.svg)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
