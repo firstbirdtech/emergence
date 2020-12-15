@@ -74,10 +74,7 @@ lazy val docs = project
   .in(file("docs"))
   .settings(commonSettings)
   .settings(
-    name := "docs",
-    mdocVariables := Map("VERSION" -> version.value),
-    mdocIn := file("docs/README.template.md"),
-    mdocOut := file("README.md")
+    name := "docs"
   )
   .dependsOn(core)
-  .enablePlugins(MdocPlugin)
+  .enablePlugins(ParadoxSitePlugin)
