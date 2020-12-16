@@ -33,9 +33,7 @@ lazy val commonSettings = Seq(
     "-Wunused:imports"
   ),
   semanticdbEnabled := true,
-  semanticdbVersion := scalafixSemanticdb.revision,
-  bintrayOrganization := Some("firstbird"),
-  bintrayPackage := "emergence"
+  semanticdbVersion := scalafixSemanticdb.revision
 )
 
 lazy val root = project
