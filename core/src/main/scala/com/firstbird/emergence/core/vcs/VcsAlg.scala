@@ -30,7 +30,7 @@ trait VcsAlg[F[_]] {
       mergeStrategy: MergeStrategy,
       closeSourceBranch: Boolean): F[Unit]
 
-  def isMergeable(repo: Repository, number: PullRequestNumber): F[Mergable]
+  def mergeCheck(repo: Repository, number: PullRequestNumber): F[MergeCheck]
 
   def findEmergenceConfigFile(repo: Repository): F[Option[RepoFile]]
 

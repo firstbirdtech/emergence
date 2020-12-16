@@ -84,7 +84,7 @@ final class BitbucketCloudVcs[F[_]](implicit backend: SttpBackend[F, Any], setti
       .flatMap(r => F.fromEither(r.body.map(_ => ())))
   }
 
-  override def isMergeable(repo: Repository, number: PullRequestNumber): F[Mergable] = {
+  override def mergeCheck(repo: Repository, number: PullRequestNumber): F[MergeCheck] = {
     val uri =
       settings.apiHost.addPath("repositories", repo.owner, repo.name, "pullrequests", number.toString, "diffstat")
 
@@ -107,7 +107,7 @@ final class BitbucketCloudVcs[F[_]](implicit backend: SttpBackend[F, Any], setti
       newUrl <- F.fromEither(parseRedirectUri(resp1).leftMap(new IllegalArgumentException(_)))
       resp2  <- basicRequest.get(newUrl).withAuthentication().response(asJson[Page[DiffStatResponse]]).send(backend)
       result <- F.fromEither(resp2.body)
-    } yield Mergable.cond(result.items.forall(_.isMergeable()), s"PR has merge conflicts.")
+    } yield MergeCheck.cond(result.items.forall(_.isMergeable()), s"PR has merge conflicts.")
   }
 
   override def findEmergenceConfigFile(repo: Repository): F[Option[RepoFile]] = {

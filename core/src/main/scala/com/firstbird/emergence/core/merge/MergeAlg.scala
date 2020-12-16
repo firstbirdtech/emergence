@@ -24,7 +24,7 @@ import com.firstbird.emergence.core.condition.{ConditionMatcherAlg, Input}
 import com.firstbird.emergence.core.configuration.{EmergenceConfig, MergeConfig}
 import com.firstbird.emergence.core.utils.logging._
 import com.firstbird.emergence.core.vcs.VcsAlg
-import com.firstbird.emergence.core.vcs.model.{Mergable, PullRequest, Repository}
+import com.firstbird.emergence.core.vcs.model.{MergeCheck, PullRequest, Repository}
 import fs2.Stream
 import io.chrisdavenport.log4cats.Logger
 
@@ -39,7 +39,7 @@ class MergeAlg[F[_]: Concurrent](implicit
       .evals(vcsAlg.listPullRequests(repo))
       .evalTap(pr => logger.info(highlight(s"Processing pull request #${pr.number}")))
       .evalFilter(pr => filterByConditions(repo, emergenceConfig, pr))
-      .evalFilter(pr => filterMergable(repo, pr))
+      .evalFilter(pr => filterByMergeCheck(repo, pr))
       .mapAsync(1)(pr => executeMerge(repo, emergenceConfig, pr))
       .compile
       .drain
@@ -58,15 +58,14 @@ class MergeAlg[F[_]: Concurrent](implicit
     } yield matchResult.isValid
   }
 
-  private def filterMergable(repo: Repository, pr: PullRequest) = {
+  private def filterByMergeCheck(repo: Repository, pr: PullRequest) = {
     vcsAlg
-      .isMergeable(repo, pr.number)
+      .mergeCheck(repo, pr.number)
       .flatMap {
-        case Mergable.Yes => F.pure(true)
-        case Mergable.No(reason) =>
-          logger
-            .info(s"Ignoring as its not in a mergable state. Reason: $reason")
-            .map(_ => false)
+        case MergeCheck.Accept =>
+          F.pure(true)
+        case MergeCheck.Decline(reason) =>
+          logger.info(s"Ignoring as merge check for PR failed. Reason: $reason").map(_ => false)
       }
   }
 
