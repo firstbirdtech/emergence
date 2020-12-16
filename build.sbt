@@ -6,6 +6,7 @@ addCommandAlias("codeVerify", ";scalafmtCheckAll;scalafmtSbtCheck;scalafixAll --
 
 lazy val commonSettings = Seq(
   organization := "com.firstbird.emergence",
+  sonatypeProfileName := "com.firstbird",
   startYear := Some(2020),
   homepage := Some(url("https://github.com/firstbirdtech/emergence")),
   licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
