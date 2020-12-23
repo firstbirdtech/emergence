@@ -43,48 +43,44 @@ class ConditionMatcherAlg[F[_]] {
         }
 
       case None =>
-        "No conditions provided. At least one condition needed in order to execute a merge.".invalidNel
+        "No conditions provided. At least one condition required in order to execute a merge.".invalidNel
     }
   }
 
-  implicit private def buildSuccessAllConditionMatcher
-      : ConditionMatcher[Condition.BuildSuccessAll.type, List[BuildStatus]] = {
-    ConditionMatcher.of[Condition.BuildSuccessAll.type, List[BuildStatus]] { (condition, input) =>
-      input
-        .map { bs =>
-          if (bs.state.isSuccess) ().validNel
-          else s"Build is not succesful: ${bs.name}".invalidNel
-        }
-        .sequence
-        .map(_ => ())
+  implicit private def buildSuccessAllMatcher: ConditionMatcher[Condition.BuildSuccessAll.type, List[BuildStatus]] =
+    ConditionMatcher.of[Condition.BuildSuccessAll.type, List[BuildStatus]] {
+      case (condition, Nil) => s"No build statuses. At least one required for this condition.".invalidNel
+      case (condiition, input) =>
+        input
+          .map { bs =>
+            if (bs.state.isSuccess) ().validNel
+            else s"Build is not succesful: ${bs.name}".invalidNel
+          }
+          .sequence
+          .map(_ => ())
     }
-  }
 
-  implicit private def authorConditionMatcher: ConditionMatcher[Condition.Author, Author] = {
+  implicit private def authorMatcher: ConditionMatcher[Condition.Author, Author] =
     ConditionMatcher.of[Condition.Author, Author] { (condition, input) =>
       ConditionOperator.matches(condition, input.underlying)
     }
-  }
 
-  implicit private def sourceBranchNameConditionMatcher: ConditionMatcher[Condition.SourceBranch, BranchName] = {
+  implicit private def sourceBranchNameMatcher: ConditionMatcher[Condition.SourceBranch, BranchName] =
     ConditionMatcher.of[Condition.SourceBranch, BranchName] { (condition, input) =>
       ConditionOperator.matches(condition, input.underlying)
     }
-  }
 
-  implicit private def targetBranchNameConditionMatcher: ConditionMatcher[Condition.TargetBranch, BranchName] = {
+  implicit private def targetBranchNameMatcher: ConditionMatcher[Condition.TargetBranch, BranchName] =
     ConditionMatcher.of[Condition.TargetBranch, BranchName] { (condition, input) =>
       ConditionOperator.matches(condition, input.underlying)
     }
-  }
 
-  implicit private def buildSuccessConditionMatcher: ConditionMatcher[Condition.BuildSuccess, List[BuildStatus]] = {
+  implicit private def buildSuccessMatcher: ConditionMatcher[Condition.BuildSuccess, List[BuildStatus]] =
     ConditionMatcher.of[Condition.BuildSuccess, List[BuildStatus]] { (condition, input) =>
       input
         .map(bs => ConditionOperator.matches(condition, bs.name.underlying))
         .sequence
         .map(_ => ())
     }
-  }
 
 }
