@@ -8,13 +8,13 @@ A sample condition that you can specify in your configuration might look this: `
 
 The current supported pull request attributes are the following:
 
-| Attribute Name      | Operators   | Description                                                 |
-|---------------------|-------------|-------------------------------------------------------------|
-| `build-success-all` |             | All build results for the pull requests must be successful. |
-| `author`            | `== OR ^$`  | The name of the author that created the pull request.       |
-| `source-branch`     | `== OR ^$`  | The name of the source branch.                              |
-| `target-branch`     | `== OR ^$`  | The name of the target branch.                              |
-| `build-success`     | `== OR ^$`  | The name of a specific build result                         |
+| Attribute Name      | Operators   | Description                                                                                               |
+|---------------------|-------------|-----------------------------------------------------------------------------------------------------------|
+| `build-success-all` |             | All build results for the pull requests must be successful. Note: At least 1 PR build status is required. |
+| `author`            | `== OR ^$`  | The name of the author that created the pull request.                                                     |
+| `source-branch`     | `== OR ^$`  | The name of the source branch.                                                                            |
+| `target-branch`     | `== OR ^$`  | The name of the target branch.                                                                            |
+| `build-success`     | `== OR ^$`  | The name of a specific build result                                                                       |
 
 
 ## Operators
