@@ -7,7 +7,7 @@ object Dependencies {
 
   val core: Seq[ModuleID] = Seq(
     "ch.qos.logback"                   % "logback-classic"                % "1.2.3",
-    "com.fasterxml.jackson.dataformat" % "jackson-dataformat-yaml"        % "2.12.0",
+    "com.fasterxml.jackson.dataformat" % "jackson-dataformat-yaml"        % "2.12.1",
     "com.github.alexarchambault"      %% "case-app-cats"                  % "2.0.4",
     "com.softwaremill.sttp.client3"   %% "core"                           % sttpClientVersion,
     "com.softwaremill.sttp.client3"   %% "circe"                          % sttpClientVersion,
