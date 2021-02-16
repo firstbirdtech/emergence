@@ -16,30 +16,15 @@
 
 package com.firstbird.emergence.core
 
-import cats.effect.Sync
-import cats.syntax.all._
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.typesafe.config.{Config, ConfigFactory}
+import io.circe.{ParsingFailure, yaml}
 
 package object configuration {
 
-  def configFromYaml[F[_]](file: String)(implicit F: Sync[F]): F[Config] = {
-    for {
-      yml    <- parseYaml[F](file)
-      json   <- readJsonFromYaml[F](yml)
-      config <- F.delay(ConfigFactory.parseString(json))
-    } yield config
-  }
-
-  private def parseYaml[F[_]](file: String)(implicit F: Sync[F]): F[Object] = {
-    val yamllReader = new ObjectMapper(new YAMLFactory)
-    F.delay(yamllReader.readValue(file, classOf[Object]))
-  }
-
-  private def readJsonFromYaml[F[_]](yml: Object)(implicit F: Sync[F]): F[String] = {
-    val jsonWriter = new ObjectMapper
-    F.delay(jsonWriter.writeValueAsString(yml))
+  def configFromYaml(ymlString: String): Either[ParsingFailure, Config] = {
+    yaml.parser
+      .parse(ymlString)
+      .map(json => ConfigFactory.parseString(json.toString))
   }
 
 }

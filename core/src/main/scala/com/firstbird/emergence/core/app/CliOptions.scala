@@ -23,7 +23,6 @@ import scala.util.Try
 import caseapp.core.Error.MalformedValue
 import caseapp.core.argparser.{ArgParser, SimpleArgParser}
 import caseapp.{AppName, AppVersion, HelpMessage, ProgName, ValueDescription}
-import cats.effect._
 import cats.syntax.all._
 import com.firstbird.emergence.BuildInfo
 import com.firstbird.emergence.core.configuration._
@@ -58,7 +57,7 @@ object CliOptions {
       .toEither
       .leftMap(t => MalformedValue("Path", s"Unable to check if path is a file: ${t.getMessage}"))
       .flatMap { case (path, isFile) =>
-        Either.cond(isFile, path, MalformedValue("Path", "Not a valid file path."))
+        Either.cond(isFile, path, MalformedValue("Path", "Not a valid file."))
       }
   }
 
@@ -76,11 +75,11 @@ object CliOptions {
 
   implicit val runConfigParser: ArgParser[RunConfig] = SimpleArgParser.from[RunConfig]("path") { s =>
     Try(Paths.get(s))
-      .flatMap(path => Try(new String(Files.readAllBytes(path))))
-      .flatMap(fileString => Try(configFromYaml[IO](fileString).unsafeRunSync()))
+      .flatMap(p => Try(new String(Files.readAllBytes(p))))
       .toEither
+      .flatMap(configFromYaml(_))
       .flatMap(RunConfig.from(_))
-      .leftMap(t => MalformedValue("RunConfig", s"Invalid config file: ${t.getMessage}"))
+      .leftMap(t => MalformedValue("RunConfig", s"Unable to read run config: ${t.getMessage}"))
   }
 
 }

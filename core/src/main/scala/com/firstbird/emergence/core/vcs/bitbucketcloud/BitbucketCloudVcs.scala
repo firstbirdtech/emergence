@@ -88,12 +88,11 @@ final class BitbucketCloudVcs[F[_]](implicit backend: SttpBackend[F, Any], setti
     val uri =
       settings.apiHost.addPath("repositories", repo.owner, repo.name, "pullrequests", number.toString, "diffstat")
 
-    val redirectResponse = basicRequest
+    val diffStatRequest = basicRequest
       .get(uri)
       .followRedirects(false)
       .withAuthentication()
       .response(BitbucketCloudVcs.asRedirect)
-      .send(backend)
 
     val parseRedirectUri = (response: Response[Either[Unit, Unit]]) => {
       response
@@ -103,7 +102,7 @@ final class BitbucketCloudVcs[F[_]](implicit backend: SttpBackend[F, Any], setti
     }
 
     for {
-      resp1  <- redirectResponse
+      resp1  <- diffStatRequest.send(backend)
       newUrl <- F.fromEither(parseRedirectUri(resp1).leftMap(new IllegalArgumentException(_)))
       resp2  <- basicRequest.get(newUrl).withAuthentication().response(asJson[Page[DiffStatResponse]]).send(backend)
       result <- F.fromEither(resp2.body)

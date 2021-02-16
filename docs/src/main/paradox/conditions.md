@@ -14,7 +14,6 @@ The current supported pull request attributes are the following:
 | `author`            | `== OR ^$`  | The name of the author that created the pull request.                                                     |
 | `source-branch`     | `== OR ^$`  | The name of the source branch.                                                                            |
 | `target-branch`     | `== OR ^$`  | The name of the target branch.                                                                            |
-| `build-success`     | `== OR ^$`  | The name of a specific build result                                                                       |
 
 
 ## Operators
@@ -24,4 +23,4 @@ Operators are used to conditionally match on an attribute's value. Please be awa
 | Operator Name   | Description         |
 |-----------------|---------------------|
 | `==`            | Exact equals.       |
-| `^$`            | A valid Java regex. |v
+| `^$`            | A valid Java regex. |

@@ -16,7 +16,7 @@
 
 package com.firstbird.emergence.core.app
 
-import cats.effect.{Concurrent, ExitCode}
+import cats.effect.ExitCode
 import cats.instances.all._
 import cats.syntax.all._
 import com.firstbird.emergence.BuildInfo
@@ -29,11 +29,12 @@ import com.firstbird.emergence.core.utils.logging._
 import fs2.Stream
 import io.chrisdavenport.log4cats.Logger
 
-class EmergenceAlg[F[_]: Concurrent](implicit
+class EmergenceAlg[F[_]](implicit
     settings: Settings,
     logger: Logger[F],
     configResolverAlg: EmergenceConfigResolverAlg[F],
     mergeAlg: MergeAlg[F],
+    streamCompiler: Stream.Compiler[F, F],
     F: MonadThrowable[F]) {
 
   private val banner = {

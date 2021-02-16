@@ -20,25 +20,23 @@ import cats.data.NonEmptyList
 import cats.syntax.all._
 import com.firstbird.emergence.core.condition.Condition
 import com.firstbird.emergence.core.condition.ConditionMatcher.syntax._
-import com.firstbird.emergence.core.configuration.EmergenceConfig
 import com.firstbird.emergence.core.vcs.model._
 
 class ConditionMatcherAlg[F[_]] {
 
-  def checkConditions(emergenceConfig: EmergenceConfig, input: Input): MatchResult = {
+  def checkConditions(conditions: List[Condition], input: Input): MatchResult = {
 
     val checkConditionMatches: Condition => MatchResult = {
       case c: Condition.BuildSuccessAll.type => c.matches(input.buildStatuses)
       case c: Condition.Author               => c.matches(input.pullRequest.author)
       case c: Condition.SourceBranch         => c.matches(input.pullRequest.sourceBranchName)
       case c: Condition.TargetBranch         => c.matches(input.pullRequest.targetBranchName)
-      case c: Condition.BuildSuccess         => c.matches(input.buildStatuses)
     }
 
-    NonEmptyList.fromList(emergenceConfig.conditions) match {
-      case Some(conditions) =>
+    NonEmptyList.fromList(conditions) match {
+      case Some(conds) =>
         val empty = ().validNel[String]
-        conditions.foldLeft(empty) { (acc: MatchResult, a: Condition) =>
+        conds.foldLeft(empty) { (acc: MatchResult, a: Condition) =>
           (checkConditionMatches(a), acc).mapN((_, _) => ())
         }
 
@@ -47,40 +45,25 @@ class ConditionMatcherAlg[F[_]] {
     }
   }
 
-  implicit private def buildSuccessAllMatcher: ConditionMatcher[Condition.BuildSuccessAll.type, List[BuildStatus]] =
-    ConditionMatcher.of[Condition.BuildSuccessAll.type, List[BuildStatus]] {
-      case (condition, Nil) => s"No build statuses. At least one required for this condition.".invalidNel
-      case (condiition, input) =>
-        input
-          .map { bs =>
-            if (bs.state.isSuccess) ().validNel
-            else s"Build is not succesful: ${bs.name}".invalidNel
-          }
-          .sequence
-          .map(_ => ())
-    }
-
-  implicit private def authorMatcher: ConditionMatcher[Condition.Author, Author] =
-    ConditionMatcher.of[Condition.Author, Author] { (condition, input) =>
-      ConditionOperator.matches(condition, input.underlying)
-    }
-
-  implicit private def sourceBranchNameMatcher: ConditionMatcher[Condition.SourceBranch, BranchName] =
-    ConditionMatcher.of[Condition.SourceBranch, BranchName] { (condition, input) =>
-      ConditionOperator.matches(condition, input.underlying)
-    }
-
-  implicit private def targetBranchNameMatcher: ConditionMatcher[Condition.TargetBranch, BranchName] =
-    ConditionMatcher.of[Condition.TargetBranch, BranchName] { (condition, input) =>
-      ConditionOperator.matches(condition, input.underlying)
-    }
-
-  implicit private def buildSuccessMatcher: ConditionMatcher[Condition.BuildSuccess, List[BuildStatus]] =
-    ConditionMatcher.of[Condition.BuildSuccess, List[BuildStatus]] { (condition, input) =>
+  implicit private def buildSuccessAllMatcher: ConditionMatcher[Condition.BuildSuccessAll.type, List[BuildStatus]] = {
+    case (condition, Nil) => "No build statuses. At least one required for this condition.".invalidNel
+    case (condiition, input) =>
       input
-        .map(bs => ConditionOperator.matches(condition, bs.name.underlying))
+        .map { bs =>
+          if (bs.state.isSuccess) ().validNel
+          else s"Build is not succesful: '${bs.name}'".invalidNel
+        }
         .sequence
         .map(_ => ())
-    }
+  }
+
+  implicit private def authorMatcher: ConditionMatcher[Condition.Author, Author] =
+    (condition, input) => ConditionOperator.matches(condition, input.underlying)
+
+  implicit private def sourceBranchNameMatcher: ConditionMatcher[Condition.SourceBranch, BranchName] =
+    (condition, input) => ConditionOperator.matches(condition, input.underlying)
+
+  implicit private def targetBranchNameMatcher: ConditionMatcher[Condition.TargetBranch, BranchName] =
+    (condition, input) => ConditionOperator.matches(condition, input.underlying)
 
 }

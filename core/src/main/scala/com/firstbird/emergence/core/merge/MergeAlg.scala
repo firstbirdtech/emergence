@@ -17,7 +17,6 @@
 package com.firstbird.emergence.core.merge
 
 import cats.data.Validated.{Invalid, Valid}
-import cats.effect.Concurrent
 import cats.syntax.all._
 import com.firstbird.emergence.core._
 import com.firstbird.emergence.core.condition.{ConditionMatcherAlg, Input}
@@ -28,10 +27,11 @@ import com.firstbird.emergence.core.vcs.model.{MergeCheck, PullRequest, Reposito
 import fs2.Stream
 import io.chrisdavenport.log4cats.Logger
 
-class MergeAlg[F[_]: Concurrent](implicit
+class MergeAlg[F[_]](implicit
     logger: Logger[F],
     vcsAlg: VcsAlg[F],
     conditionMatcherAlg: ConditionMatcherAlg[F],
+    streamCompiler: Stream.Compiler[F, F],
     F: MonadThrowable[F]) {
 
   def mergePullRequests(repo: Repository, emergenceConfig: EmergenceConfig): F[Unit] = {
@@ -40,7 +40,7 @@ class MergeAlg[F[_]: Concurrent](implicit
       .evalTap(pr => logger.info(highlight(s"Processing pull request #${pr.number}")))
       .evalFilter(pr => filterByConditions(repo, emergenceConfig, pr))
       .evalFilter(pr => filterByMergeCheck(repo, pr))
-      .mapAsync(1)(pr => executeMerge(repo, emergenceConfig, pr))
+      .evalMap(pr => executeMerge(repo, emergenceConfig, pr))
       .compile
       .drain
   }
@@ -50,7 +50,7 @@ class MergeAlg[F[_]: Concurrent](implicit
       buildStatuses <- vcsAlg.listBuildStatuses(repo, pr.number)
       _             <- logger.info(s"Pull request has build statuses: ${bulletPointed(buildStatuses)}")
       input         <- Input(pr, buildStatuses).pure[F]
-      matchResult   <- conditionMatcherAlg.checkConditions(emergenceConfig, input).pure[F]
+      matchResult   <- conditionMatcherAlg.checkConditions(emergenceConfig.conditions, input).pure[F]
       _ <- matchResult match {
         case Invalid(e) => logger.info(s"Ignoring pull request as not all conditions match: ${bulletPointed(e.toList)}")
         case Valid(_)   => logger.info("Pull request matches all configured conditions.")

@@ -21,10 +21,6 @@ private[condition] trait ConditionMatcher[A <: Condition, B] {
 }
 
 private[condition] object ConditionMatcher {
-  def of[A <: Condition, B](f: (A, B) => MatchResult): ConditionMatcher[A, B] = new ConditionMatcher[A, B] {
-    override def matches(condition: A, input: B): MatchResult = f(condition, input)
-  }
-
   object syntax extends syntax
 
   trait syntax {

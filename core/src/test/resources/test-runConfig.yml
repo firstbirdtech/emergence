@@ -1,0 +1,9 @@
+repositories:
+  - name: firstbird/test
+
+defaults:
+  conditions:
+    - "build-success-all"
+  merge:
+    strategy: squash
+    close_source_branch: true
