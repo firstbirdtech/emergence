@@ -32,7 +32,6 @@ object Condition {
   final case class Author(operator: ConditionOperator, value: ConditionValue)       extends Condition with Matchable
   final case class SourceBranch(operator: ConditionOperator, value: ConditionValue) extends Condition with Matchable
   final case class TargetBranch(operator: ConditionOperator, value: ConditionValue) extends Condition with Matchable
-  final case class BuildSuccess(operator: ConditionOperator, value: ConditionValue) extends Condition with Matchable
 
   def parse(value: String): Either[String, Condition] = {
     val condition          = parseSimpleCondition(value)
@@ -48,7 +47,6 @@ object Condition {
       case Array("author", ConditionOperator(operator), v)        => Author(operator, ConditionValue(v)).some
       case Array("source-branch", ConditionOperator(operator), v) => SourceBranch(operator, ConditionValue(v)).some
       case Array("target-branch", ConditionOperator(operator), v) => TargetBranch(operator, ConditionValue(v)).some
-      case Array("build-success", ConditionOperator(operator), v) => BuildSuccess(operator, ConditionValue(v)).some
       case _                                                      => none
     }
   }

@@ -39,7 +39,7 @@ object ConditionOperator {
     val operator = condition.operator
     val value    = condition.value
 
-    condition.operator match {
+    operator match {
       case Equal if input == value.underlying         => ().validNel
       case RegEx if value.underlying.r.matches(input) => ().validNel
       case _                                          => s"Input '${input}' doesn't match condition '$value' with operator '$operator'".invalidNel

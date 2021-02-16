@@ -42,9 +42,10 @@ class EmergenceConfigResolverAlg[F[_]](runConfig: RunConfig)(implicit
   }
 
   private def parseEmergenceConfig(file: RepoFile): F[EmergenceConfig] = {
-    configFromYaml(file.value)
-      .map(config => EmergenceConfig.from(config))
-      .flatMap(F.fromEither)
+    F.fromEither {
+      configFromYaml(file.value)
+        .flatMap(config => EmergenceConfig.from(config))
+    }
   }
 
   implicit private def emergenceConfigSemigroup: Semigroup[EmergenceConfig] =
