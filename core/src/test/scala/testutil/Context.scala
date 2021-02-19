@@ -1,7 +1,5 @@
 package testutil
 
-import scala.concurrent.ExecutionContext
-
 import cats.data.NonEmptyList
 import cats.effect.{ContextShift, IO}
 import cats.syntax.all._
@@ -15,6 +13,8 @@ import com.firstbird.emergence.core.vcs.VcsSettings.VcsUser
 import com.firstbird.emergence.core.vcs.model.{MergeStrategy, Repository}
 import com.firstbird.emergence.core.vcs.{VcsSettings, _}
 import sttp.model.Uri._
+
+import scala.concurrent.ExecutionContext
 
 private[testutil] trait Context {
 

@@ -1,4 +1,4 @@
-ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.4.4"
+ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.5.0"
 ThisBuild / dynverSeparator := "-" // Default uses '+' which is not valid for docker tags
 
 addCommandAlias("codeFmt", ";headerCreate;scalafmtAll;scalafmtSbt;scalafixAll")
@@ -33,6 +33,7 @@ lazy val commonSettings = Seq(
     "-Wdead-code",
     "-Wunused:imports"
   ),
+  headerLicense := Some(HeaderLicense.ALv2("2021", "Emergence contributors")),
   semanticdbEnabled := true,
   semanticdbVersion := scalafixSemanticdb.revision
 )
@@ -59,9 +60,6 @@ lazy val core = project
       "appName" -> "eMERGEnce",
       "cliName" -> "emergence"
     )
-  )
-  .settings(
-    headerLicense := Some(HeaderLicense.ALv2("2020", "Emergence contributors"))
   )
   .settings(
     dockerBaseImage := "adoptopenjdk:11",

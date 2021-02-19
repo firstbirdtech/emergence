@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Emergence contributors
+ * Copyright 2021 Emergence contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,6 @@
 
 package com.firstbird.emergence.core.model
 
-import scala.sys.process.Process
-
 import cats.Functor
 import cats.effect.Sync
 import cats.syntax.all._
@@ -25,6 +23,8 @@ import com.firstbird.emergence.core.app.CliOptions
 import com.firstbird.emergence.core.configuration.RunConfig
 import com.firstbird.emergence.core.model.VcsType
 import com.firstbird.emergence.core.vcs.VcsSettings
+
+import scala.sys.process.Process
 
 final case class Settings(
     config: RunConfig,

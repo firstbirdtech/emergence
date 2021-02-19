@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Emergence contributors
+ * Copyright 2021 Emergence contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,6 @@
 
 package com.firstbird.emergence.core.app
 
-import java.nio.file.{Files, Path, Paths}
-
-import scala.util.Try
-
 import caseapp.core.Error.MalformedValue
 import caseapp.core.argparser.{ArgParser, SimpleArgParser}
 import caseapp.{AppName, AppVersion, HelpMessage, ProgName, ValueDescription}
@@ -28,6 +24,9 @@ import com.firstbird.emergence.BuildInfo
 import com.firstbird.emergence.core.configuration._
 import com.firstbird.emergence.core.model.VcsType
 import sttp.model.Uri
+
+import java.nio.file.{Files, Path, Paths}
+import scala.util.Try
 
 @AppName(BuildInfo.appName)
 @AppVersion(BuildInfo.version)
