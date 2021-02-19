@@ -33,6 +33,7 @@ lazy val commonSettings = Seq(
     "-Wdead-code",
     "-Wunused:imports"
   ),
+  headerLicense := Some(HeaderLicense.ALv2("2021", "Emergence contributors")),
   semanticdbEnabled := true,
   semanticdbVersion := scalafixSemanticdb.revision
 )
@@ -59,9 +60,6 @@ lazy val core = project
       "appName" -> "eMERGEnce",
       "cliName" -> "emergence"
     )
-  )
-  .settings(
-    headerLicense := Some(HeaderLicense.ALv2("2020", "Emergence contributors"))
   )
   .settings(
     dockerBaseImage := "adoptopenjdk:11",
