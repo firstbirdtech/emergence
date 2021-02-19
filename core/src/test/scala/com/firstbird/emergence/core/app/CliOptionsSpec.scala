@@ -1,7 +1,5 @@
 package com.firstbird.emergence.core.app
 
-import java.nio.file.Paths
-
 import caseapp.core.Error._
 import caseapp.core.app.CaseApp
 import cats.data.NonEmptyList
@@ -14,6 +12,8 @@ import com.firstbird.emergence.core.model.VcsType
 import com.firstbird.emergence.core.vcs.model.{MergeStrategy, Repository}
 import sttp.model.Uri._
 import testutil.BaseSpec
+
+import java.nio.file.Paths
 
 class CliOptionsSpec extends BaseSpec {
 

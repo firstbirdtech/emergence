@@ -1,7 +1,5 @@
 package com.firstbird.emergence.core.model
 
-import java.nio.file.Paths
-
 import cats.data.NonEmptyList
 import cats.effect.IO
 import cats.syntax.all._
@@ -13,6 +11,8 @@ import com.firstbird.emergence.core.model.{Settings, VcsType}
 import com.firstbird.emergence.core.vcs.model._
 import sttp.model.Uri._
 import testutil.BaseSpec
+
+import java.nio.file.Paths
 
 class SettingsSpec extends BaseSpec {
 
