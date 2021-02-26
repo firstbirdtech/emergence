@@ -19,7 +19,7 @@ lazy val commonSettings = Seq(
     "",
     url("https://github.com/firstbirdtech/emergence/graphs/contributors")
   ),
-  scalaVersion := "2.13.4",
+  scalaVersion := "2.13.5",
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding",
