@@ -22,8 +22,8 @@ import com.firstbird.emergence.core.configuration.EmergenceConfigResolverAlg
 import com.firstbird.emergence.core.merge.MergeAlg
 import com.firstbird.emergence.core.model.Settings
 import com.firstbird.emergence.core.vcs._
-import io.chrisdavenport.log4cats.Logger
-import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
+import org.typelevel.log4cats.Logger
+import org.typelevel.log4cats.slf4j.Slf4jLogger
 import sttp.client3._
 import sttp.client3.asynchttpclient.cats.AsyncHttpClientCatsBackend
 
