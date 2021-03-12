@@ -7,3 +7,4 @@ defaults:
   merge:
     strategy: squash
     close_source_branch: true
+    throttle: 1 second

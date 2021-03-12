@@ -28,7 +28,7 @@ class EmergenceConfigResolverAlg[F[_]](runConfig: RunConfig)(implicit
     vcsAlg: VcsAlg[F],
     F: Sync[F] with MonadThrowable[F]) {
 
-  def loadAndMerge(repo: Repository, runEmergenceConfig: Option[EmergenceConfig]): F[EmergenceConfig] = {
+  def loadAndCombine(repo: Repository, runEmergenceConfig: Option[EmergenceConfig]): F[EmergenceConfig] = {
     for {
       maybeLocalRepoConfig <- vcsAlg.findEmergenceConfigFile(repo)
       localRepoConfig <- maybeLocalRepoConfig match {
@@ -60,7 +60,8 @@ class EmergenceConfigResolverAlg[F[_]](runConfig: RunConfig)(implicit
     Semigroup.instance[MergeConfig] { (x, y) =>
       MergeConfig(
         strategy = x.strategy.orElse(y.strategy),
-        closeSourceBranch = x.closeSourceBranch.orElse(y.closeSourceBranch)
+        closeSourceBranch = x.closeSourceBranch.orElse(y.closeSourceBranch),
+        throttle = x.throttle.orElse(y.throttle)
       )
     }
 

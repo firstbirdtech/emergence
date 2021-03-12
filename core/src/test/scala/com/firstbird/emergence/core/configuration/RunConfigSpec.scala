@@ -9,6 +9,8 @@ import com.firstbird.emergence.core.vcs.model.{MergeStrategy, Repository}
 import com.typesafe.config.ConfigFactory
 import testutil.BaseSpec
 
+import scala.concurrent.duration._
+
 class RunConfigSpec extends BaseSpec {
 
   test("from reads settings from typesafe Config") {
@@ -22,6 +24,7 @@ class RunConfigSpec extends BaseSpec {
     |       "merge" {
     |           "strategy" = "merge-commit"
     |           "close_source_branch" = false
+    |           "throttle" = "5 seconds"
     |       }
     |   }
     |]
@@ -34,6 +37,7 @@ class RunConfigSpec extends BaseSpec {
     |   merge {
     |       "strategy" = "squash"
     |       "close_source_branch" = true
+    |       "throttle" = "1 second"
     |   }
     |}
     """.stripMargin)
@@ -45,13 +49,13 @@ class RunConfigSpec extends BaseSpec {
           Repository("owner", "name"),
           EmergenceConfig(
             Condition.TargetBranch(ConditionOperator.Equal, ConditionValue("master")) :: Nil,
-            MergeConfig(MergeStrategy.MergeCommit.some, false.some).some
+            MergeConfig(MergeStrategy.MergeCommit.some, false.some, 5.seconds.some).some
           ).some
         )
       ),
       EmergenceConfig(
         Condition.BuildSuccessAll :: Condition.Author(ConditionOperator.Equal, ConditionValue("test")) :: Nil,
-        MergeConfig(MergeStrategy.Squash.some, true.some).some
+        MergeConfig(MergeStrategy.Squash.some, true.some, 1.second.some).some
       ).some
     ).asRight
   }

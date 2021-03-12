@@ -5,13 +5,15 @@ import com.firstbird.emergence.core.condition._
 import com.firstbird.emergence.core.vcs.model._
 import testutil._
 
+import scala.concurrent.duration._
+
 class EmergenceConfigResolverAlgSpec extends BaseSpec {
 
-  test("loadAndMerge use runConfig if no repo config file exists and no runEmergenceConfig") {
+  test("loadAndCombine use runConfig if no repo config file exists and no runEmergenceConfig") {
     val initial = TestState()
 
     val result = configResolver
-      .loadAndMerge(Repository("firstbird", "test"), None)
+      .loadAndCombine(Repository("firstbird", "test"), None)
       .runA(initial)
       .unsafeRunSync()
 
@@ -22,24 +24,26 @@ class EmergenceConfigResolverAlgSpec extends BaseSpec {
       ),
       MergeConfig(
         MergeStrategy.MergeCommit.some,
-        false.some
+        false.some,
+        1.second.some
       ).some
     )
   }
 
-  test("loadAndMerge use runEmergenceConfig with higher priority no repo config file exists") {
+  test("loadAndCombine use runEmergenceConfig with higher priority if no repo config file exists") {
     val initial = TestState()
 
     val runEmergenceConfig = EmergenceConfig(
       Condition.TargetBranch(ConditionOperator.Equal, ConditionValue("master")) :: Nil,
       MergeConfig(
         MergeStrategy.FastForward.some,
-        true.some
+        true.some,
+        2.seconds.some
       ).some
     )
 
     val result = configResolver
-      .loadAndMerge(Repository("firstbird", "test"), runEmergenceConfig.some)
+      .loadAndCombine(Repository("firstbird", "test"), runEmergenceConfig.some)
       .runA(initial)
       .unsafeRunSync()
 
@@ -51,18 +55,20 @@ class EmergenceConfigResolverAlgSpec extends BaseSpec {
       ),
       MergeConfig(
         MergeStrategy.FastForward.some,
-        true.some
+        true.some,
+        2.seconds.some
       ).some
     )
   }
 
-  test("loadAndMerge use reepo config with highest priority") {
+  test("loadAndCombine use reepo config with highest priority") {
     val repoFile = """
     |conditions:
     |  - "source-branch == update/x"
     |merge:
     |  strategy: squash
     |  close_source_branch: true
+    |  throttle: 3 seconds
     """.stripMargin
 
     val initial = TestState(
@@ -73,12 +79,13 @@ class EmergenceConfigResolverAlgSpec extends BaseSpec {
       Condition.TargetBranch(ConditionOperator.Equal, ConditionValue("master")) :: Nil,
       MergeConfig(
         MergeStrategy.FastForward.some,
-        false.some
+        false.some,
+        2.seconds.some
       ).some
     )
 
     val result = configResolver
-      .loadAndMerge(Repository("firstbird", "test"), runEmergenceConfig.some)
+      .loadAndCombine(Repository("firstbird", "test"), runEmergenceConfig.some)
       .runA(initial)
       .unsafeRunSync()
 
@@ -91,7 +98,8 @@ class EmergenceConfigResolverAlgSpec extends BaseSpec {
       ),
       MergeConfig(
         MergeStrategy.Squash.some,
-        true.some
+        true.some,
+        3.seconds.some
       ).some
     )
   }
