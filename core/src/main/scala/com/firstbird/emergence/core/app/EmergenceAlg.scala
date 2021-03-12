@@ -68,8 +68,8 @@ class EmergenceAlg[F[_]](implicit
 
     val result = F.attempt {
       for {
-        _               <- logger.info(s"Starting to merge PRs for repository: ${repo}")
-        emergenceConfig <- configResolverAlg.loadAndMerge(repo, repoConfig.emergenceConfig)
+        _               <- logger.info(s"Processing the following repository: $repo")
+        emergenceConfig <- configResolverAlg.loadAndCombine(repo, repoConfig.emergenceConfig)
         _               <- mergeAlg.mergePullRequests(repo, emergenceConfig)
         _               <- logger.info(sectionSeperator)
       } yield ()

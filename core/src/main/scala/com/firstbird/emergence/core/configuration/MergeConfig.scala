@@ -16,12 +16,16 @@
 
 package com.firstbird.emergence.core.configuration
 
+import com.firstbird.emergence.core.utils.config._
 import com.firstbird.emergence.core.vcs.model.MergeStrategy
 import io.circe.Decoder
 
+import scala.concurrent.duration._
+
 final case class MergeConfig(
     strategy: Option[MergeStrategy],
-    closeSourceBranch: Option[Boolean]
+    closeSourceBranch: Option[Boolean],
+    throttle: Option[FiniteDuration]
 )
 
 object MergeConfig {
@@ -29,13 +33,15 @@ object MergeConfig {
   object Default {
     val strategy: MergeStrategy    = MergeStrategy.Squash
     val closeSourceBranch: Boolean = true
+    val throttle: FiniteDuration   = 0.seconds
   }
 
   implicit val mergeConfigDecoder: Decoder[MergeConfig] = Decoder.instance { c =>
     for {
       strategy          <- c.downField("strategy").as[Option[MergeStrategy]]
       closeSourceBranch <- c.downField("close_source_branch").as[Option[Boolean]]
-    } yield MergeConfig(strategy, closeSourceBranch)
+      throttle          <- c.downField("throttle").as[Option[FiniteDuration]]
+    } yield MergeConfig(strategy, closeSourceBranch, throttle)
   }
 
 }

@@ -17,6 +17,7 @@
 package com.firstbird.emergence.core.merge
 
 import cats.data.Validated.{Invalid, Valid}
+import cats.effect.Timer
 import cats.syntax.all._
 import com.firstbird.emergence.core._
 import com.firstbird.emergence.core.condition.{ConditionMatcherAlg, Input}
@@ -27,7 +28,7 @@ import com.firstbird.emergence.core.vcs.model.{MergeCheck, PullRequest, Reposito
 import fs2.Stream
 import io.chrisdavenport.log4cats.Logger
 
-class MergeAlg[F[_]](implicit
+class MergeAlg[F[_]: Timer](implicit
     logger: Logger[F],
     vcsAlg: VcsAlg[F],
     conditionMatcherAlg: ConditionMatcherAlg[F],
@@ -41,6 +42,7 @@ class MergeAlg[F[_]](implicit
       .evalFilter(pr => filterByConditions(repo, emergenceConfig, pr))
       .evalFilter(pr => filterByMergeCheck(repo, pr))
       .evalMap(pr => executeMerge(repo, emergenceConfig, pr))
+      .metered(emergenceConfig.merge.flatMap(_.throttle).getOrElse(MergeConfig.Default.throttle))
       .compile
       .drain
   }
