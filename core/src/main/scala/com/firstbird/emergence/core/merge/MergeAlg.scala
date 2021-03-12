@@ -25,7 +25,7 @@ import com.firstbird.emergence.core.utils.logging._
 import com.firstbird.emergence.core.vcs.VcsAlg
 import com.firstbird.emergence.core.vcs.model.{MergeCheck, PullRequest, Repository}
 import fs2.Stream
-import io.chrisdavenport.log4cats.Logger
+import org.typelevel.log4cats.Logger
 
 class MergeAlg[F[_]](implicit
     logger: Logger[F],

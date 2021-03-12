@@ -27,7 +27,7 @@ import com.firstbird.emergence.core.merge.MergeAlg
 import com.firstbird.emergence.core.model.Settings
 import com.firstbird.emergence.core.utils.logging._
 import fs2.Stream
-import io.chrisdavenport.log4cats.Logger
+import org.typelevel.log4cats.Logger
 
 class EmergenceAlg[F[_]](implicit
     settings: Settings,
