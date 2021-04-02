@@ -3,8 +3,8 @@ import sbt._
 object Dependencies {
 
   private val circeVersion      = "0.13.0"
-  private val fs2Version        = "2.5.4"
-  private val sttpClientVersion = "3.2.0"
+  private val fs2Version        = "2.5.3"
+  private val sttpClientVersion = "3.2.3"
 
   val core: Seq[ModuleID] = Seq(
     "ch.qos.logback"                 % "logback-classic"                % "1.2.3",
@@ -19,7 +19,7 @@ object Dependencies {
     "io.circe"                      %% "circe-literal"                  % circeVersion,
     "io.circe"                      %% "circe-generic-extras"           % circeVersion,
     "org.typelevel"                 %% "log4cats-slf4j"                 % "1.2.0",
-    "org.scalatest"                 %% "scalatest"                      % "3.2.6" % Test
+    "org.scalatest"                 %% "scalatest"                      % "3.2.7" % Test
   )
 
   val betterMonadicFor: ModuleID = "com.olegpy" %% "better-monadic-for" % "0.3.1"
