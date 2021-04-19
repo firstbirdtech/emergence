@@ -14,6 +14,7 @@ import sttp.model.Uri._
 import testutil.BaseSpec
 
 import java.nio.file.Paths
+import scala.concurrent.duration._
 
 class CliOptionsSpec extends BaseSpec {
 
@@ -40,7 +41,7 @@ class CliOptionsSpec extends BaseSpec {
         ),
         EmergenceConfig(
           Condition.BuildSuccessAll :: Nil,
-          MergeConfig(MergeStrategy.Squash.some, true.some).some
+          MergeConfig(MergeStrategy.Squash.some, true.some, 1.second.some).some
         ).some
       ),
       VcsType.BitbucketCloud,

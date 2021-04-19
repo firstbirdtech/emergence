@@ -1,7 +1,7 @@
 package testutil
 
 import cats.data.NonEmptyList
-import cats.effect.{ContextShift, IO}
+import cats.effect.{ContextShift, IO, Timer}
 import cats.syntax.all._
 import com.firstbird.emergence.core.app._
 import com.firstbird.emergence.core.condition.{ConditionOperator, ConditionValue, _}
@@ -15,10 +15,12 @@ import com.firstbird.emergence.core.vcs.{VcsSettings, _}
 import sttp.model.Uri._
 
 import scala.concurrent.ExecutionContext
+import scala.concurrent.duration._
 
 private[testutil] trait Context {
 
-  implicit val ioContextShift: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
+  implicit val contextShift: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
+  implicit val timer: Timer[IO]               = IO.timer(ExecutionContext.global)
 
   implicit val settings = Settings(
     RunConfig(
@@ -32,7 +34,8 @@ private[testutil] trait Context {
         ),
         MergeConfig(
           MergeStrategy.MergeCommit.some,
-          false.some
+          false.some,
+          1.second.some
         ).some
       ).some
     ),

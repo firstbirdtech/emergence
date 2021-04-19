@@ -13,6 +13,7 @@ import sttp.model.Uri._
 import testutil.BaseSpec
 
 import java.nio.file.Paths
+import scala.concurrent.duration._
 
 class SettingsSpec extends BaseSpec {
 
@@ -29,7 +30,8 @@ class SettingsSpec extends BaseSpec {
           ),
           MergeConfig(
             MergeStrategy.MergeCommit.some,
-            false.some
+            false.some,
+            1.second.some
           ).some
         ).some
       ),

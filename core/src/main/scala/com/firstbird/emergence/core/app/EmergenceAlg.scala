@@ -27,7 +27,7 @@ import com.firstbird.emergence.core.merge.MergeAlg
 import com.firstbird.emergence.core.model.Settings
 import com.firstbird.emergence.core.utils.logging._
 import fs2.Stream
-import io.chrisdavenport.log4cats.Logger
+import org.typelevel.log4cats.Logger
 
 class EmergenceAlg[F[_]](implicit
     settings: Settings,
@@ -68,8 +68,8 @@ class EmergenceAlg[F[_]](implicit
 
     val result = F.attempt {
       for {
-        _               <- logger.info(s"Starting to merge PRs for repository: ${repo}")
-        emergenceConfig <- configResolverAlg.loadAndMerge(repo, repoConfig.emergenceConfig)
+        _               <- logger.info(s"Processing the following repository: $repo")
+        emergenceConfig <- configResolverAlg.loadAndCombine(repo, repoConfig.emergenceConfig)
         _               <- mergeAlg.mergePullRequests(repo, emergenceConfig)
         _               <- logger.info(sectionSeperator)
       } yield ()

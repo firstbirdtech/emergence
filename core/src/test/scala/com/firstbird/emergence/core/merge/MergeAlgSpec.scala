@@ -6,6 +6,8 @@ import com.firstbird.emergence.core.configuration._
 import com.firstbird.emergence.core.vcs.model._
 import testutil._
 
+import scala.concurrent.duration._
+
 class MergeAlgSpec extends BaseSpec {
 
   test("mergePullRequests") {
@@ -18,7 +20,8 @@ class MergeAlgSpec extends BaseSpec {
       ),
       MergeConfig(
         MergeStrategy.MergeCommit.some,
-        false.some
+        false.some,
+        2.seconds.some
       ).some
     )
 
