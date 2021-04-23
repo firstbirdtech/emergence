@@ -3,7 +3,7 @@ import sbt._
 object Dependencies {
 
   private val circeVersion      = "0.13.0"
-  private val fs2Version        = "2.5.3"
+  private val fs2Version        = "2.5.5"
   private val sttpClientVersion = "3.2.3"
 
   val core: Seq[ModuleID] = Seq(
