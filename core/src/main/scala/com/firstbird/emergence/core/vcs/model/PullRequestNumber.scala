@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.vcs.model
+package com.fgrutsch.emergence.core.vcs.model
 
 import io.circe.Codec
 import io.circe.generic.extras.semiauto.deriveUnwrappedCodec

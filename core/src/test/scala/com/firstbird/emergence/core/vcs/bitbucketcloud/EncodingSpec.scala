@@ -1,8 +1,8 @@
-package com.firstbird.emergence.core.vcs.bitbucketcloud
+package com.fgrutsch.emergence.core.vcs.bitbucketcloud
 
 import cats.syntax.all._
-import com.firstbird.emergence.core.vcs.bitbucketcloud.Encoding._
-import com.firstbird.emergence.core.vcs.model.{MergeStrategy, _}
+import com.fgrutsch.emergence.core.vcs.bitbucketcloud.Encoding._
+import com.fgrutsch.emergence.core.vcs.model.{MergeStrategy, _}
 import io.circe.DecodingFailure
 import io.circe.literal._
 import io.circe.syntax._
@@ -26,7 +26,7 @@ class EncodingSpec extends BaseSpec with TableDrivenPropertyChecks {
             }
         },
         "author": {
-            "nickname": "firstbird"
+            "nickname": "fgrutsch"
         }
     }"""
 
@@ -36,7 +36,7 @@ class EncodingSpec extends BaseSpec with TableDrivenPropertyChecks {
       PullRequestTitle("Test"),
       BranchName("update/abc"),
       BranchName("master"),
-      Author("firstbird")
+      Author("fgrutsch")
     )
   }
 

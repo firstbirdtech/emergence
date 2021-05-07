@@ -1,6 +1,6 @@
-package com.firstbird.emergence.core.app
+package com.fgrutsch.emergence.core.app
 
-import com.firstbird.emergence.core.vcs.model._
+import com.fgrutsch.emergence.core.vcs.model._
 import testutil._
 
 class EmergenceAlgSpec extends BaseSpec {

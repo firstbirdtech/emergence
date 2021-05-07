@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.model
+package com.fgrutsch.emergence.core.model
 
 import cats.Functor
 import cats.effect.Sync
 import cats.syntax.all._
-import com.firstbird.emergence.core.app.CliOptions
-import com.firstbird.emergence.core.configuration.RunConfig
-import com.firstbird.emergence.core.model.VcsType
-import com.firstbird.emergence.core.vcs.VcsSettings
+import com.fgrutsch.emergence.core.app.CliOptions
+import com.fgrutsch.emergence.core.configuration.RunConfig
+import com.fgrutsch.emergence.core.model.VcsType
+import com.fgrutsch.emergence.core.vcs.VcsSettings
 
 import scala.sys.process.Process
 

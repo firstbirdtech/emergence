@@ -1,4 +1,4 @@
-package com.firstbird.emergence.core.vcs.model
+package com.fgrutsch.emergence.core.vcs.model
 
 import org.scalatest.prop.TableDrivenPropertyChecks
 import testutil.BaseSpec

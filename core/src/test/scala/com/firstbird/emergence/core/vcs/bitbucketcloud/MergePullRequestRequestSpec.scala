@@ -1,7 +1,7 @@
-package com.firstbird.emergence.core.vcs.bitbucketcloud
+package com.fgrutsch.emergence.core.vcs.bitbucketcloud
 
-import com.firstbird.emergence.core.vcs.bitbucketcloud.MergePullRequestRequest._
-import com.firstbird.emergence.core.vcs.model.MergeStrategy
+import com.fgrutsch.emergence.core.vcs.bitbucketcloud.MergePullRequestRequest._
+import com.fgrutsch.emergence.core.vcs.model.MergeStrategy
 import io.circe.literal._
 import io.circe.syntax._
 import testutil.BaseSpec

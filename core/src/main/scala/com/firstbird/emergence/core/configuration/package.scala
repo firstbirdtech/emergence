@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core
+package com.fgrutsch.emergence.core
 
 import com.typesafe.config.{Config, ConfigFactory}
 import io.circe.{ParsingFailure, yaml}

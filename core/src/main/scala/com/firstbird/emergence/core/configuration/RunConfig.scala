@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.configuration
+package com.fgrutsch.emergence.core.configuration
 
 import cats.data.NonEmptyList
-import com.firstbird.emergence.core.configuration.EmergenceConfig._
-import com.firstbird.emergence.core.vcs.model.Repository
-import com.firstbird.emergence.core.vcs.model.Repository._
+import com.fgrutsch.emergence.core.configuration.EmergenceConfig._
+import com.fgrutsch.emergence.core.vcs.model.Repository
+import com.fgrutsch.emergence.core.vcs.model.Repository._
 import com.typesafe.config.Config
 import io.circe.config.syntax._
 import io.circe.generic.auto._

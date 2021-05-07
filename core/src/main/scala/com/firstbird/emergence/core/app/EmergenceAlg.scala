@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.app
+package com.fgrutsch.emergence.core.app
 
 import cats.effect.ExitCode
 import cats.instances.all._
 import cats.syntax.all._
-import com.firstbird.emergence.BuildInfo
-import com.firstbird.emergence.core._
-import com.firstbird.emergence.core.configuration.EmergenceConfigResolverAlg
-import com.firstbird.emergence.core.configuration.RunConfig.RepositoryConfig
-import com.firstbird.emergence.core.merge.MergeAlg
-import com.firstbird.emergence.core.model.Settings
-import com.firstbird.emergence.core.utils.logging._
+import com.fgrutsch.emergence.BuildInfo
+import com.fgrutsch.emergence.core._
+import com.fgrutsch.emergence.core.configuration.EmergenceConfigResolverAlg
+import com.fgrutsch.emergence.core.configuration.RunConfig.RepositoryConfig
+import com.fgrutsch.emergence.core.merge.MergeAlg
+import com.fgrutsch.emergence.core.model.Settings
+import com.fgrutsch.emergence.core.utils.logging._
 import fs2.Stream
 import org.typelevel.log4cats.Logger
 

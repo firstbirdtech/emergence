@@ -4,7 +4,7 @@ You can run eMERGEnce with [Docker](https://www.docker.com/) or with [coursier](
 
 ## Docker
 
-To get a list of available options run: `docker run firstbird/emergence:latest --help` and you should get the following output:
+To get a list of available options run: `docker run fgrutsch/emergence:latest --help` and you should get the following output:
 
 @@@vars
 
@@ -34,7 +34,7 @@ Usage: emergence [options]
 An example `docker run` command might look like this (depending on the selected VCS type):
 
 ```bash
-docker run -v $HOST_DIR:/opt/emergence -it firstbird/emergence:latest \
+docker run -v $HOST_DIR:/opt/emergence -it fgrutsch/emergence:latest \
     --config "/opt/emergence/run-config.yml" \
     --vcs-type "bitbucket-cloud" \
     --vcs-api-host "https://api.bitbucket.org/2.0" \
@@ -46,9 +46,9 @@ docker run -v $HOST_DIR:/opt/emergence -it firstbird/emergence:latest \
 
 To install eMERGEnce as an executable you can use coursier's [install](https://get-coursier.io/docs/cli-install) command. The only thing you have to do is to run:
 
-`cs install --contrib firstbird-emergence`
+`cs install --contrib fgrutsch-emergence`
 
-To get a list of available options run: `firstbird-emergence --help` and you should get the following output:
+To get a list of available options run: `fgrutsch-emergence --help` and you should get the following output:
 
 @@@vars
 
@@ -78,7 +78,7 @@ Usage: emergence [options]
 An example command might look like this (depending on the selected VCS type):
 
 ```bash
-firstbird-emergence \
+fgrutsch-emergence \
     --config "/opt/emergence/run-config.yml" \
     --vcs-type "bitbucket-cloud" \
     --vcs-api-host "https://api.bitbucket.org/2.0" \

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.model
+package com.fgrutsch.emergence.core.model
 
 sealed abstract class VcsType(val underlying: String) {
   override def toString: String = underlying

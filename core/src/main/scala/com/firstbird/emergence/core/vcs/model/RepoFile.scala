@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.vcs.model
+package com.fgrutsch.emergence.core.vcs.model
 
 final case class RepoFile(value: String) extends AnyVal {
   override def toString: String = value

@@ -1,6 +1,6 @@
 # eMERGEnce
 
-[eMERGEnce](https://github.com/firstbirdtech/emergence) is a bot that helps you to get rid of all your emerged pull requests automatically based on configurable conditions.
+[eMERGEnce](https://github.com/fgrutsch/emergence) is a bot that helps you to get rid of all your emerged pull requests automatically based on configurable conditions.
 
 @@@ index
 
@@ -22,7 +22,7 @@ We appreciate contributions for other VCS implementations as well, just show us 
 
 ## Changelog
 
-For the changelog check [this](https://github.com/firstbirdtech/emergence/releases) page.
+For the changelog check [this](https://github.com/fgrutsch/emergence/releases) page.
 
 
 ## Pages

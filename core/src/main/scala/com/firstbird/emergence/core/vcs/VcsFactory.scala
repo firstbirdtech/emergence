@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.vcs
+package com.fgrutsch.emergence.core.vcs
 
-import com.firstbird.emergence.core._
-import com.firstbird.emergence.core.model.{Settings, VcsType}
-import com.firstbird.emergence.core.vcs.bitbucketcloud._
+import com.fgrutsch.emergence.core._
+import com.fgrutsch.emergence.core.model.{Settings, VcsType}
+import com.fgrutsch.emergence.core.vcs.bitbucketcloud._
 import sttp.client3.SttpBackend
 
 final class VcsFactory[F[_]: MonadThrowable](implicit sttpBackend: SttpBackend[F, Any]) {

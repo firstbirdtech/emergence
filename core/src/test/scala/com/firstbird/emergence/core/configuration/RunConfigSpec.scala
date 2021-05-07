@@ -1,11 +1,11 @@
-package com.firstbird.emergence.core.vcs.bitbucketcloud
+package com.fgrutsch.emergence.core.vcs.bitbucketcloud
 
 import cats.data.NonEmptyList
 import cats.syntax.all._
-import com.firstbird.emergence.core.condition._
-import com.firstbird.emergence.core.configuration.RunConfig.RepositoryConfig
-import com.firstbird.emergence.core.configuration.{EmergenceConfig, MergeConfig, RunConfig}
-import com.firstbird.emergence.core.vcs.model.{MergeStrategy, Repository}
+import com.fgrutsch.emergence.core.condition._
+import com.fgrutsch.emergence.core.configuration.RunConfig.RepositoryConfig
+import com.fgrutsch.emergence.core.configuration.{EmergenceConfig, MergeConfig, RunConfig}
+import com.fgrutsch.emergence.core.vcs.model.{MergeStrategy, Repository}
 import com.typesafe.config.ConfigFactory
 import testutil.BaseSpec
 

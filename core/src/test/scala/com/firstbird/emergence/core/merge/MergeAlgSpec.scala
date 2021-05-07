@@ -1,9 +1,9 @@
-package com.firstbird.emergence.core.merge
+package com.fgrutsch.emergence.core.merge
 
 import cats.syntax.all._
-import com.firstbird.emergence.core.condition._
-import com.firstbird.emergence.core.configuration._
-import com.firstbird.emergence.core.vcs.model._
+import com.fgrutsch.emergence.core.condition._
+import com.fgrutsch.emergence.core.configuration._
+import com.fgrutsch.emergence.core.vcs.model._
 import testutil._
 
 import scala.concurrent.duration._
@@ -16,7 +16,7 @@ class MergeAlgSpec extends BaseSpec {
     val emergenceConfig = EmergenceConfig(
       List(
         Condition.BuildSuccessAll,
-        Condition.Author(ConditionOperator.Equal, ConditionValue("firstbird"))
+        Condition.Author(ConditionOperator.Equal, ConditionValue("fgrutsch"))
       ),
       MergeConfig(
         MergeStrategy.MergeCommit.some,
@@ -26,7 +26,7 @@ class MergeAlgSpec extends BaseSpec {
     )
 
     val result = mergeAlg
-      .mergePullRequests(Repository("firstbird", "test"), emergenceConfig)
+      .mergePullRequests(Repository("fgrutsch", "test"), emergenceConfig)
       .runS(initial)
       .unsafeRunSync()
 

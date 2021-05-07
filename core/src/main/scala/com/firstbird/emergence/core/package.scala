@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence
+package com.fgrutsch.emergence
 
 import cats.MonadError
 

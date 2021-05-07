@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.condition
+package com.fgrutsch.emergence.core.condition
 
-import com.firstbird.emergence.core.vcs.model.{BuildStatus, PullRequest}
+import com.fgrutsch.emergence.core.vcs.model.{BuildStatus, PullRequest}
 
 final case class Input(
     pullRequest: PullRequest,

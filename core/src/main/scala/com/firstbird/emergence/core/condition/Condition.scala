@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.condition
+package com.fgrutsch.emergence.core.condition
 
 import cats.syntax.all._
 import io.circe.Decoder

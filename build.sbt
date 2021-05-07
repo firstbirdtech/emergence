@@ -5,19 +5,19 @@ addCommandAlias("codeFmt", ";headerCreate;scalafmtAll;scalafmtSbt;scalafixAll")
 addCommandAlias("codeVerify", ";scalafmtCheckAll;scalafmtSbtCheck;scalafixAll --check;headerCheck")
 
 lazy val commonSettings = Seq(
-  organization := "com.firstbird.emergence",
-  sonatypeProfileName := "com.firstbird",
+  organization := "com.fgrutsch.emergence",
+  sonatypeProfileName := "com.fgrutsch",
   startYear := Some(2020),
-  homepage := Some(url("https://github.com/firstbirdtech/emergence")),
+  homepage := Some(url("https://github.com/fgrutsch/emergence")),
   licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
   scmInfo := Some(
-    ScmInfo(homepage.value.get, "scm:git:https://github.com/firstbirdtech/emergence.git")
+    ScmInfo(homepage.value.get, "scm:git:https://github.com/fgrutsch/emergence.git")
   ),
   developers += Developer(
     "contributors",
     "Contributors",
     "",
-    url("https://github.com/firstbirdtech/emergence/graphs/contributors")
+    url("https://github.com/fgrutsch/emergence/graphs/contributors")
   ),
   scalaVersion := "2.13.5",
   scalacOptions ++= Seq(
@@ -63,7 +63,7 @@ lazy val core = project
   )
   .settings(
     dockerBaseImage := "adoptopenjdk:11",
-    Docker / packageName := s"firstbird/emergence",
+    Docker / packageName := s"fgrutsch/emergence",
     dockerUpdateLatest := true
   )
 

@@ -1,7 +1,7 @@
-package com.firstbird.emergence.core.vcs
+package com.fgrutsch.emergence.core.vcs
 
 import cats.data.StateT
-import com.firstbird.emergence.core.vcs.model._
+import com.fgrutsch.emergence.core.vcs.model._
 import testutil._
 
 class MockVcsAlg extends VcsAlg[Eff] {
@@ -12,7 +12,7 @@ class MockVcsAlg extends VcsAlg[Eff] {
       PullRequestTitle("Test"),
       BranchName("update/a"),
       BranchName("master"),
-      Author("firstbird")
+      Author("fgrutsch")
     )
 
     val pr2 = PullRequest(
@@ -20,7 +20,7 @@ class MockVcsAlg extends VcsAlg[Eff] {
       PullRequestTitle("Test2"),
       BranchName("update/b"),
       BranchName("master"),
-      Author("firstbird")
+      Author("fgrutsch")
     )
 
     val pr3 = PullRequest(
@@ -28,7 +28,7 @@ class MockVcsAlg extends VcsAlg[Eff] {
       PullRequestTitle("Test3"),
       BranchName("update/c"),
       BranchName("master"),
-      Author("firstbird")
+      Author("fgrutsch")
     )
 
     StateT.pure(pr1 :: pr2 :: pr3 :: Nil)

@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.configuration
+package com.fgrutsch.emergence.core.configuration
 
 import cats.effect.Sync
 import cats.kernel.Semigroup
 import cats.syntax.all._
-import com.firstbird.emergence.core._
-import com.firstbird.emergence.core.configuration._
-import com.firstbird.emergence.core.vcs.VcsAlg
-import com.firstbird.emergence.core.vcs.model.{RepoFile, Repository}
+import com.fgrutsch.emergence.core._
+import com.fgrutsch.emergence.core.configuration._
+import com.fgrutsch.emergence.core.vcs.VcsAlg
+import com.fgrutsch.emergence.core.vcs.model.{RepoFile, Repository}
 
 class EmergenceConfigResolverAlg[F[_]](runConfig: RunConfig)(implicit
     vcsAlg: VcsAlg[F],

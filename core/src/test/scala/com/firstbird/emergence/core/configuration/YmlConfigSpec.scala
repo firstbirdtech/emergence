@@ -1,4 +1,4 @@
-package com.firstbird.emergence.core.configuration
+package com.fgrutsch.emergence.core.configuration
 
 import com.typesafe.config.ConfigFactory
 import testutil.BaseSpec

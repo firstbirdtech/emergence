@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core
+package com.fgrutsch.emergence.core
 
 import caseapp.cats.IOCaseApp
 import caseapp.core.RemainingArgs
 import cats.effect.{ExitCode, IO}
-import com.firstbird.emergence.core.app.CliOptions._
-import com.firstbird.emergence.core.app.{CliOptions, _}
+import com.fgrutsch.emergence.core.app.CliOptions._
+import com.fgrutsch.emergence.core.app.{CliOptions, _}
 
 object App extends IOCaseApp[CliOptions] {
 

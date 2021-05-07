@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.app
+package com.fgrutsch.emergence.core.app
 
 import caseapp.core.Error.MalformedValue
 import caseapp.core.argparser.{ArgParser, SimpleArgParser}
 import caseapp.{AppName, AppVersion, HelpMessage, ProgName, ValueDescription}
 import cats.syntax.all._
-import com.firstbird.emergence.BuildInfo
-import com.firstbird.emergence.core.configuration._
-import com.firstbird.emergence.core.model.VcsType
+import com.fgrutsch.emergence.BuildInfo
+import com.fgrutsch.emergence.core.configuration._
+import com.fgrutsch.emergence.core.model.VcsType
 import sttp.model.Uri
 
 import java.nio.file.{Files, Path, Paths}
