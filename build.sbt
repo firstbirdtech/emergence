@@ -6,6 +6,8 @@ addCommandAlias("codeVerify", ";scalafmtCheckAll;scalafmtSbtCheck;scalafixAll --
 
 lazy val commonSettings = Seq(
   organization := "com.fgrutsch.emergence",
+  sonatypeCredentialHost := "s01.oss.sonatype.org",
+  sonatypeRepository := "https://s01.oss.sonatype.org/service/local",
   sonatypeProfileName := "com.fgrutsch",
   startYear := Some(2020),
   homepage := Some(url("https://github.com/fgrutsch/emergence")),
