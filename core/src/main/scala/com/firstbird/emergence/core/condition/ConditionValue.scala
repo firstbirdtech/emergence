@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.condition
+package com.fgrutsch.emergence.core.condition
 
 final case class ConditionValue(underlying: String) extends AnyVal {
   override def toString: String = underlying

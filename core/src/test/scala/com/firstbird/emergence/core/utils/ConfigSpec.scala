@@ -1,7 +1,7 @@
-package com.firstbird.emergence.core.utils
+package com.fgrutsch.emergence.core.utils
 
 import cats.syntax.all._
-import com.firstbird.emergence.core.utils.config._
+import com.fgrutsch.emergence.core.utils.config._
 import io.circe.DecodingFailure
 import io.circe.literal._
 import org.scalatest.prop.TableDrivenPropertyChecks

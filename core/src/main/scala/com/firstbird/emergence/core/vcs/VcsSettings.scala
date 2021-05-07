@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.vcs
+package com.fgrutsch.emergence.core.vcs
 
 import sttp.model.Uri
 

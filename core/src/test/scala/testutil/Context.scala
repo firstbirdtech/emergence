@@ -3,15 +3,15 @@ package testutil
 import cats.data.NonEmptyList
 import cats.effect.{ContextShift, IO, Timer}
 import cats.syntax.all._
-import com.firstbird.emergence.core.app._
-import com.firstbird.emergence.core.condition.{ConditionOperator, ConditionValue, _}
-import com.firstbird.emergence.core.configuration.RunConfig.RepositoryConfig
-import com.firstbird.emergence.core.configuration.{EmergenceConfig, MergeConfig, _}
-import com.firstbird.emergence.core.merge.MergeAlg
-import com.firstbird.emergence.core.model.{Settings, VcsType}
-import com.firstbird.emergence.core.vcs.VcsSettings.VcsUser
-import com.firstbird.emergence.core.vcs.model.{MergeStrategy, Repository}
-import com.firstbird.emergence.core.vcs.{VcsSettings, _}
+import com.fgrutsch.emergence.core.app._
+import com.fgrutsch.emergence.core.condition.{ConditionOperator, ConditionValue, _}
+import com.fgrutsch.emergence.core.configuration.RunConfig.RepositoryConfig
+import com.fgrutsch.emergence.core.configuration.{EmergenceConfig, MergeConfig, _}
+import com.fgrutsch.emergence.core.merge.MergeAlg
+import com.fgrutsch.emergence.core.model.{Settings, VcsType}
+import com.fgrutsch.emergence.core.vcs.VcsSettings.VcsUser
+import com.fgrutsch.emergence.core.vcs.model.{MergeStrategy, Repository}
+import com.fgrutsch.emergence.core.vcs.{VcsSettings, _}
 import sttp.model.Uri._
 
 import scala.concurrent.ExecutionContext
@@ -25,12 +25,12 @@ private[testutil] trait Context {
   implicit val settings = Settings(
     RunConfig(
       NonEmptyList.one(
-        RepositoryConfig(Repository("firstbird", "test"), none)
+        RepositoryConfig(Repository("fgrutsch", "test"), none)
       ),
       EmergenceConfig(
         List(
           Condition.BuildSuccessAll,
-          Condition.Author(ConditionOperator.Equal, ConditionValue("firstbird"))
+          Condition.Author(ConditionOperator.Equal, ConditionValue("fgrutsch"))
         ),
         MergeConfig(
           MergeStrategy.MergeCommit.some,

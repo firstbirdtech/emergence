@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.merge
+package com.fgrutsch.emergence.core.merge
 
 import cats.data.Validated.{Invalid, Valid}
 import cats.effect.Timer
 import cats.syntax.all._
-import com.firstbird.emergence.core._
-import com.firstbird.emergence.core.condition.{ConditionMatcherAlg, Input}
-import com.firstbird.emergence.core.configuration.{EmergenceConfig, MergeConfig}
-import com.firstbird.emergence.core.utils.logging._
-import com.firstbird.emergence.core.vcs.VcsAlg
-import com.firstbird.emergence.core.vcs.model.{MergeCheck, PullRequest, Repository}
+import com.fgrutsch.emergence.core._
+import com.fgrutsch.emergence.core.condition.{ConditionMatcherAlg, Input}
+import com.fgrutsch.emergence.core.configuration.{EmergenceConfig, MergeConfig}
+import com.fgrutsch.emergence.core.utils.logging._
+import com.fgrutsch.emergence.core.vcs.VcsAlg
+import com.fgrutsch.emergence.core.vcs.model.{MergeCheck, PullRequest, Repository}
 import fs2.Stream
 import org.typelevel.log4cats.Logger
 

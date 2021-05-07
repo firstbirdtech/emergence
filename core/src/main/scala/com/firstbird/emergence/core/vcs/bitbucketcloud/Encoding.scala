@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.vcs.bitbucketcloud
+package com.fgrutsch.emergence.core.vcs.bitbucketcloud
 
-import com.firstbird.emergence.core.vcs.model.BranchName._
-import com.firstbird.emergence.core.vcs.model.PullRequestNumber._
-import com.firstbird.emergence.core.vcs.model.PullRequestTitle._
-import com.firstbird.emergence.core.vcs.model._
+import com.fgrutsch.emergence.core.vcs.model.BranchName._
+import com.fgrutsch.emergence.core.vcs.model.PullRequestNumber._
+import com.fgrutsch.emergence.core.vcs.model.PullRequestTitle._
+import com.fgrutsch.emergence.core.vcs.model._
 import io.circe._
 
 private[bitbucketcloud] object Encoding {

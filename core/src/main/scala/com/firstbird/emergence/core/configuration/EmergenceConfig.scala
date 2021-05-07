@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.configuration
+package com.fgrutsch.emergence.core.configuration
 
 import cats.syntax.all._
-import com.firstbird.emergence.core.condition.Condition
+import com.fgrutsch.emergence.core.condition.Condition
 import com.typesafe.config.Config
 import io.circe.config.syntax._
 import io.circe.generic.auto._

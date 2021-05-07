@@ -1,9 +1,9 @@
-package com.firstbird.emergence.core.vcs.bitbucketcloud
+package com.fgrutsch.emergence.core.vcs.bitbucketcloud
 
 import cats.syntax.all._
-import com.firstbird.emergence.core.condition._
-import com.firstbird.emergence.core.configuration.{EmergenceConfig, MergeConfig}
-import com.firstbird.emergence.core.vcs.model.MergeStrategy
+import com.fgrutsch.emergence.core.condition._
+import com.fgrutsch.emergence.core.configuration.{EmergenceConfig, MergeConfig}
+import com.fgrutsch.emergence.core.vcs.model.MergeStrategy
 import com.typesafe.config.ConfigFactory
 import testutil.BaseSpec
 

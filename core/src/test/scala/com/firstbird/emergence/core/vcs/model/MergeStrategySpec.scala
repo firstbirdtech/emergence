@@ -1,7 +1,7 @@
-package com.firstbird.emergence.core.vcs.bitbucketcloud
+package com.fgrutsch.emergence.core.vcs.bitbucketcloud
 
 import cats.syntax.all._
-import com.firstbird.emergence.core.vcs.model.MergeStrategy
+import com.fgrutsch.emergence.core.vcs.model.MergeStrategy
 import io.circe.DecodingFailure
 import io.circe.literal._
 import org.scalatest.prop.TableDrivenPropertyChecks

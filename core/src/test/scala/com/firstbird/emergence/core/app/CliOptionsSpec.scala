@@ -1,15 +1,15 @@
-package com.firstbird.emergence.core.app
+package com.fgrutsch.emergence.core.app
 
 import caseapp.core.Error._
 import caseapp.core.app.CaseApp
 import cats.data.NonEmptyList
 import cats.syntax.all._
-import com.firstbird.emergence.core.app.CliOptions._
-import com.firstbird.emergence.core.condition._
-import com.firstbird.emergence.core.configuration.RunConfig.RepositoryConfig
-import com.firstbird.emergence.core.configuration.{EmergenceConfig, MergeConfig, RunConfig}
-import com.firstbird.emergence.core.model.VcsType
-import com.firstbird.emergence.core.vcs.model.{MergeStrategy, Repository}
+import com.fgrutsch.emergence.core.app.CliOptions._
+import com.fgrutsch.emergence.core.condition._
+import com.fgrutsch.emergence.core.configuration.RunConfig.RepositoryConfig
+import com.fgrutsch.emergence.core.configuration.{EmergenceConfig, MergeConfig, RunConfig}
+import com.fgrutsch.emergence.core.model.VcsType
+import com.fgrutsch.emergence.core.vcs.model.{MergeStrategy, Repository}
 import sttp.model.Uri._
 import testutil.BaseSpec
 
@@ -35,7 +35,7 @@ class CliOptionsSpec extends BaseSpec {
       RunConfig(
         NonEmptyList.one(
           RepositoryConfig(
-            Repository("firstbird", "test"),
+            Repository("fgrutsch", "test"),
             EmergenceConfig.default.some
           )
         ),

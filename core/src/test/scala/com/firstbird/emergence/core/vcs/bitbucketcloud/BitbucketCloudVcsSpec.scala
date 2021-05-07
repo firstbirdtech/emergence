@@ -1,8 +1,8 @@
-package com.firstbird.emergence.core.vcs.bitbucketcloud
+package com.fgrutsch.emergence.core.vcs.bitbucketcloud
 
 import cats.effect.IO
 import cats.syntax.all._
-import com.firstbird.emergence.core.vcs.model._
+import com.fgrutsch.emergence.core.vcs.model._
 import io.circe.literal._
 import sttp.client3.Response
 import sttp.client3.asynchttpclient.cats.AsyncHttpClientCatsBackend
@@ -37,7 +37,7 @@ class BitbucketCloudVcsSpec extends BaseSpec {
                         }
                     },
                     "author": {
-                        "nickname": "firstbird"
+                        "nickname": "fgrutsch"
                     }
                 }
             ]
@@ -80,7 +80,7 @@ class BitbucketCloudVcsSpec extends BaseSpec {
               }
           },
           "author": {
-              "nickname": "firstbird"
+              "nickname": "fgrutsch"
           }
         }
         """.toString
@@ -128,7 +128,7 @@ class BitbucketCloudVcsSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       )
     )
   }

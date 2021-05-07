@@ -1,9 +1,9 @@
-package com.firstbird.emergence.core.condition
+package com.fgrutsch.emergence.core.condition
 
 import cats.Id
 import cats.syntax.all._
-import com.firstbird.emergence.core.condition.Condition.BuildSuccessAll
-import com.firstbird.emergence.core.vcs.model._
+import com.fgrutsch.emergence.core.condition.Condition.BuildSuccessAll
+import com.fgrutsch.emergence.core.vcs.model._
 import testutil.BaseSpec
 
 class ConditionMatcherAlgSpec extends BaseSpec {
@@ -18,7 +18,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       BuildStatus(BuildStatusName("Testing"), BuildStatusState.Success) :: Nil
     )
@@ -35,7 +35,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       Nil
     )
@@ -52,7 +52,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       List(
         BuildStatus(BuildStatusName("Building"), BuildStatusState.Success),
@@ -72,7 +72,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       List(
         BuildStatus(BuildStatusName("Building"), BuildStatusState.Success),
@@ -92,24 +92,24 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       Nil
     )
 
     val result = matcherAlg.checkConditions(conditions, input)
-    result mustBe "Input 'firstbird' doesn't match condition 'abc' with operator '=='".invalidNel
+    result mustBe "Input 'fgrutsch' doesn't match condition 'abc' with operator '=='".invalidNel
   }
 
   test("checkConditions succeeds Author condition") {
-    val conditions = Condition.Author(ConditionOperator.Equal, ConditionValue("firstbird")) :: Nil
+    val conditions = Condition.Author(ConditionOperator.Equal, ConditionValue("fgrutsch")) :: Nil
     val input = Input(
       PullRequest(
         PullRequestNumber(1),
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       Nil
     )
@@ -126,7 +126,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       Nil
     )
@@ -143,7 +143,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       Nil
     )
@@ -160,7 +160,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       Nil
     )
@@ -177,7 +177,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       Nil
     )

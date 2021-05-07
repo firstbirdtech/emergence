@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.configuration
+package com.fgrutsch.emergence.core.configuration
 
-import com.firstbird.emergence.core.utils.config._
-import com.firstbird.emergence.core.vcs.model.MergeStrategy
+import com.fgrutsch.emergence.core.utils.config._
+import com.fgrutsch.emergence.core.vcs.model.MergeStrategy
 import io.circe.Decoder
 
 import scala.concurrent.duration._

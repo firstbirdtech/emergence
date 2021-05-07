@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.utils
+package com.fgrutsch.emergence.core.utils
 
 object logging {
 

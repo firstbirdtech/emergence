@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.condition
+package com.fgrutsch.emergence.core.condition
 
 private[condition] trait ConditionMatcher[A <: Condition, B] {
   def matches(condition: A, input: B): MatchResult

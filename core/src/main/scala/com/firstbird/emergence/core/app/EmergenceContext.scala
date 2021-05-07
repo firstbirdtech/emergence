@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.app
+package com.fgrutsch.emergence.core.app
 
 import cats.effect.{Resource, _}
-import com.firstbird.emergence.core.condition.ConditionMatcherAlg
-import com.firstbird.emergence.core.configuration.EmergenceConfigResolverAlg
-import com.firstbird.emergence.core.merge.MergeAlg
-import com.firstbird.emergence.core.model.Settings
-import com.firstbird.emergence.core.vcs._
+import com.fgrutsch.emergence.core.condition.ConditionMatcherAlg
+import com.fgrutsch.emergence.core.configuration.EmergenceConfigResolverAlg
+import com.fgrutsch.emergence.core.merge.MergeAlg
+import com.fgrutsch.emergence.core.model.Settings
+import com.fgrutsch.emergence.core.vcs._
 import org.typelevel.log4cats.Logger
 import org.typelevel.log4cats.slf4j.Slf4jLogger
 import sttp.client3._

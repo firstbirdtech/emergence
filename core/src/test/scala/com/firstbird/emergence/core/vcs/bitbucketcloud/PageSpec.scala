@@ -1,4 +1,4 @@
-package com.firstbird.emergence.core.vcs.bitbucketcloud
+package com.fgrutsch.emergence.core.vcs.bitbucketcloud
 
 import io.circe.literal._
 import testutil.BaseSpec

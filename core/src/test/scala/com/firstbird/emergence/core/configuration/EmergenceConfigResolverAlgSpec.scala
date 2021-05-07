@@ -1,8 +1,8 @@
-package com.firstbird.emergence.core.configuration
+package com.fgrutsch.emergence.core.configuration
 
 import cats.syntax.all._
-import com.firstbird.emergence.core.condition._
-import com.firstbird.emergence.core.vcs.model._
+import com.fgrutsch.emergence.core.condition._
+import com.fgrutsch.emergence.core.vcs.model._
 import testutil._
 
 import scala.concurrent.duration._
@@ -13,14 +13,14 @@ class EmergenceConfigResolverAlgSpec extends BaseSpec {
     val initial = TestState()
 
     val result = configResolver
-      .loadAndCombine(Repository("firstbird", "test"), None)
+      .loadAndCombine(Repository("fgrutsch", "test"), None)
       .runA(initial)
       .unsafeRunSync()
 
     result mustBe EmergenceConfig(
       List(
         Condition.BuildSuccessAll,
-        Condition.Author(ConditionOperator.Equal, ConditionValue("firstbird"))
+        Condition.Author(ConditionOperator.Equal, ConditionValue("fgrutsch"))
       ),
       MergeConfig(
         MergeStrategy.MergeCommit.some,
@@ -43,7 +43,7 @@ class EmergenceConfigResolverAlgSpec extends BaseSpec {
     )
 
     val result = configResolver
-      .loadAndCombine(Repository("firstbird", "test"), runEmergenceConfig.some)
+      .loadAndCombine(Repository("fgrutsch", "test"), runEmergenceConfig.some)
       .runA(initial)
       .unsafeRunSync()
 
@@ -51,7 +51,7 @@ class EmergenceConfigResolverAlgSpec extends BaseSpec {
       List(
         Condition.TargetBranch(ConditionOperator.Equal, ConditionValue("master")),
         Condition.BuildSuccessAll,
-        Condition.Author(ConditionOperator.Equal, ConditionValue("firstbird"))
+        Condition.Author(ConditionOperator.Equal, ConditionValue("fgrutsch"))
       ),
       MergeConfig(
         MergeStrategy.FastForward.some,
@@ -85,7 +85,7 @@ class EmergenceConfigResolverAlgSpec extends BaseSpec {
     )
 
     val result = configResolver
-      .loadAndCombine(Repository("firstbird", "test"), runEmergenceConfig.some)
+      .loadAndCombine(Repository("fgrutsch", "test"), runEmergenceConfig.some)
       .runA(initial)
       .unsafeRunSync()
 
@@ -94,7 +94,7 @@ class EmergenceConfigResolverAlgSpec extends BaseSpec {
         Condition.SourceBranch(ConditionOperator.Equal, ConditionValue("update/x")),
         Condition.TargetBranch(ConditionOperator.Equal, ConditionValue("master")),
         Condition.BuildSuccessAll,
-        Condition.Author(ConditionOperator.Equal, ConditionValue("firstbird"))
+        Condition.Author(ConditionOperator.Equal, ConditionValue("fgrutsch"))
       ),
       MergeConfig(
         MergeStrategy.Squash.some,

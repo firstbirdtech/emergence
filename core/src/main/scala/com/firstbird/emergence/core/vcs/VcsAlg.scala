@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.vcs
+package com.fgrutsch.emergence.core.vcs
 
-import com.firstbird.emergence.core.vcs.model._
+import com.fgrutsch.emergence.core.vcs.model._
 
 trait VcsAlg[F[_]] {
 

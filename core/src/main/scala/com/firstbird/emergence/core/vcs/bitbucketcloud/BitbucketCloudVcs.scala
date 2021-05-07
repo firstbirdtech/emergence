@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.vcs.bitbucketcloud
+package com.fgrutsch.emergence.core.vcs.bitbucketcloud
 
 import cats.syntax.all._
-import com.firstbird.emergence.core._
-import com.firstbird.emergence.core.vcs._
-import com.firstbird.emergence.core.vcs.bitbucketcloud.DiffStatResponse._
-import com.firstbird.emergence.core.vcs.bitbucketcloud.Encoding._
-import com.firstbird.emergence.core.vcs.model._
+import com.fgrutsch.emergence.core._
+import com.fgrutsch.emergence.core.vcs._
+import com.fgrutsch.emergence.core.vcs.bitbucketcloud.DiffStatResponse._
+import com.fgrutsch.emergence.core.vcs.bitbucketcloud.Encoding._
+import com.fgrutsch.emergence.core.vcs.model._
 import sttp.client3._
 import sttp.client3.circe._
 import sttp.model.HeaderNames.Location

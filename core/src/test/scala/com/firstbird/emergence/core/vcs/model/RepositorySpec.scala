@@ -1,7 +1,7 @@
-package com.firstbird.emergence.core.vcs.model
+package com.fgrutsch.emergence.core.vcs.model
 
 import cats.syntax.all._
-import com.firstbird.emergence.core.vcs.model.Repository
+import com.fgrutsch.emergence.core.vcs.model.Repository
 import io.circe.DecodingFailure
 import io.circe.literal._
 import org.scalatest.prop.TableDrivenPropertyChecks

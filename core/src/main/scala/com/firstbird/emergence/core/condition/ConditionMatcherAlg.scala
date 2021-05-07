@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.firstbird.emergence.core.condition
+package com.fgrutsch.emergence.core.condition
 
 import cats.data.NonEmptyList
 import cats.syntax.all._
-import com.firstbird.emergence.core.condition.Condition
-import com.firstbird.emergence.core.condition.ConditionMatcher.syntax._
-import com.firstbird.emergence.core.vcs.model._
+import com.fgrutsch.emergence.core.condition.Condition
+import com.fgrutsch.emergence.core.condition.ConditionMatcher.syntax._
+import com.fgrutsch.emergence.core.vcs.model._
 
 class ConditionMatcherAlg[F[_]] {
 
