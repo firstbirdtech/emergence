@@ -15,7 +15,7 @@ object Dependencies {
     "co.fs2"                        %% "fs2-core"                       % fs2Version,
     "co.fs2"                        %% "fs2-io"                         % fs2Version,
     "io.circe"                      %% "circe-config"                   % "0.8.0",
-    "io.circe"                      %% "circe-yaml"                     % "0.13.1",
+    "io.circe"                      %% "circe-yaml"                     % "0.14.1",
     "io.circe"                      %% "circe-literal"                  % circeVersion,
     "io.circe"                      %% "circe-generic-extras"           % circeVersion,
     "org.typelevel"                 %% "log4cats-slf4j"                 % "1.2.0",
