@@ -42,7 +42,7 @@ object ConditionOperator {
     operator match {
       case Equal if input == value.underlying         => ().validNel
       case RegEx if value.underlying.r.matches(input) => ().validNel
-      case _                                          => s"Input '${input}' doesn't match condition '$value' with operator '$operator'".invalidNel
+      case _ => s"Input '${input}' doesn't match condition '$value' with operator '$operator'".invalidNel
     }
   }
 
