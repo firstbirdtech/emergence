@@ -64,7 +64,7 @@ class MockVcsAlg extends VcsAlg[Eff] {
     number match {
       case PullRequestNumber(1) | PullRequestNumber(2) => Kleisli.pure(MergeCheck.Accept)
       case PullRequestNumber(3)                        => Kleisli.pure(MergeCheck.Decline("failed"))
-      case _                                           => throw new IllegalArgumentException(s"mergeCheck for PR #${number} not mocked!!!")
+      case _ => throw new IllegalArgumentException(s"mergeCheck for PR #${number} not mocked!!!")
     }
   }
 

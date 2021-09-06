@@ -3,8 +3,8 @@ import sbt._
 object Dependencies {
 
   private val circeVersion      = "0.14.1"
-  private val fs2Version        = "3.1.0"
-  private val sttpClientVersion = "3.3.13"
+  private val fs2Version        = "3.1.1"
+  private val sttpClientVersion = "3.3.14"
 
   val core: Seq[ModuleID] = Seq(
     "ch.qos.logback"                 % "logback-classic"                % "1.2.5",
@@ -12,7 +12,7 @@ object Dependencies {
     "com.softwaremill.sttp.client3" %% "core"                           % sttpClientVersion,
     "com.softwaremill.sttp.client3" %% "circe"                          % sttpClientVersion,
     "com.softwaremill.sttp.client3" %% "async-http-client-backend-cats" % sttpClientVersion,
-    "org.typelevel"                 %% "cats-effect"                    % "3.2.3",
+    "org.typelevel"                 %% "cats-effect"                    % "3.2.7",
     "co.fs2"                        %% "fs2-core"                       % fs2Version,
     "co.fs2"                        %% "fs2-io"                         % fs2Version,
     "io.circe"                      %% "circe-config"                   % "0.8.0",

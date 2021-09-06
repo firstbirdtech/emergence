@@ -1,17 +1,17 @@
 ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.5.0"
-ThisBuild / dynverSeparator := "-" // Default uses '+' which is not valid for docker tags
+ThisBuild / dynverSeparator                                := "-" // Default uses '+' which is not valid for docker tags
 
 addCommandAlias("codeFmt", ";headerCreate;scalafmtAll;scalafmtSbt;scalafixAll")
 addCommandAlias("codeVerify", ";scalafmtCheckAll;scalafmtSbtCheck;scalafixAll --check;headerCheck")
 
 lazy val commonSettings = Seq(
-  organization := "com.fgrutsch.emergence",
+  organization           := "com.fgrutsch.emergence",
   sonatypeCredentialHost := "s01.oss.sonatype.org",
-  sonatypeRepository := "https://s01.oss.sonatype.org/service/local",
-  sonatypeProfileName := "com.fgrutsch",
-  startYear := Some(2020),
-  homepage := Some(url("https://github.com/fgrutsch/emergence")),
-  licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+  sonatypeRepository     := "https://s01.oss.sonatype.org/service/local",
+  sonatypeProfileName    := "com.fgrutsch",
+  startYear              := Some(2020),
+  homepage               := Some(url("https://github.com/fgrutsch/emergence")),
+  licenses               := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
   scmInfo := Some(
     ScmInfo(homepage.value.get, "scm:git:https://github.com/fgrutsch/emergence.git")
   ),
@@ -35,7 +35,7 @@ lazy val commonSettings = Seq(
     "-Wdead-code",
     "-Wunused:imports"
   ),
-  headerLicense := Some(HeaderLicense.ALv2("2021", "Emergence contributors")),
+  headerLicense     := Some(HeaderLicense.ALv2("2021", "Emergence contributors")),
   semanticdbEnabled := true,
   semanticdbVersion := scalafixSemanticdb.revision
 )
@@ -64,9 +64,9 @@ lazy val core = project
     )
   )
   .settings(
-    dockerBaseImage := "adoptopenjdk:11",
+    dockerBaseImage      := "adoptopenjdk:11",
     Docker / packageName := "fgrutsch/emergence",
-    dockerUpdateLatest := true
+    dockerUpdateLatest   := true
   )
 
 lazy val docs = project
