@@ -11,7 +11,7 @@ eMERGEnce is a bot that helps you to get rid of all your emerged pull requests a
 
 ## Documentation
 
-The documentation can be found [here](https://fgrutsch.github.io/emergence/).
+The documentation can be found [here](https://emergence.fgrutsch.com).
 
 ## Credits
 
