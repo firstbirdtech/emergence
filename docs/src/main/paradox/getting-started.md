@@ -46,9 +46,9 @@ docker run -v $HOST_DIR:/opt/emergence -it fgrutsch/emergence:latest \
 
 To install eMERGEnce as an executable you can use coursier's [install](https://get-coursier.io/docs/cli-install) command. The only thing you have to do is to run:
 
-`cs install --contrib fgrutsch-emergence`
+`cs install --channel http://coursier.fgrutsch.com emergence`
 
-To get a list of available options run: `fgrutsch-emergence --help` and you should get the following output:
+To get a list of available options run: `emergence --help` and you should get the following output:
 
 @@@vars
 
@@ -78,7 +78,7 @@ Usage: emergence [options]
 An example command might look like this (depending on the selected VCS type):
 
 ```bash
-fgrutsch-emergence \
+emergence \
     --config "/opt/emergence/run-config.yml" \
     --vcs-type "bitbucket-cloud" \
     --vcs-api-host "https://api.bitbucket.org/2.0" \
