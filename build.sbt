@@ -1,3 +1,5 @@
+import java.time.LocalDate
+
 ThisBuild / scalafixDependencies += Dependencies.organizeimports
 ThisBuild / dynverSeparator := "-" // Default uses '+' which is not valid for docker tags
 ThisBuild / scalaVersion    := "3.1.0"
@@ -33,7 +35,7 @@ lazy val commonSettings = Seq(
     "-Ysafe-init",
     "-Xfatal-warnings"
   ),
-  headerLicense     := Some(HeaderLicense.ALv2("2021", "Emergence contributors")),
+  headerLicense     := Some(HeaderLicense.ALv2(LocalDate.now.getYear.toString, "Emergence contributors")),
   semanticdbEnabled := true,
   semanticdbVersion := scalafixSemanticdb.revision
 )

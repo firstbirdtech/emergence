@@ -1,11 +1,11 @@
 # eMERGEnce
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.fgrutsch.emergence/core_2.13.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.fgrutsch.emergence%22%20AND%20a:%22core_2.13%22)
-[![Github Actions CI Workflow](https://github.com/fgrutsch/emergence/workflows/CI/badge.svg)](https://github.com/fgrutsch/emergence/workflows/CI/badge.svg)
-[![codecov](https://codecov.io/gh/fgrutsch/emergence/branch/main/graph/badge.svg?token=mTUZsPVuXK)](https://codecov.io/gh/fgrutsch/emergence)
-[![Docker Pulls](https://img.shields.io/docker/pulls/fgrutsch/emergence.svg)](https://img.shields.io/docker/pulls/fgrutsch/emergence.svg)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Scala Steward badge](https://img.shields.io/badge/Scala_Steward-helping-blue.svg?style=flat&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAMAAAARSr4IAAAAVFBMVEUAAACHjojlOy5NWlrKzcYRKjGFjIbp293YycuLa3pYY2LSqql4f3pCUFTgSjNodYRmcXUsPD/NTTbjRS+2jomhgnzNc223cGvZS0HaSD0XLjbaSjElhIr+AAAAAXRSTlMAQObYZgAAAHlJREFUCNdNyosOwyAIhWHAQS1Vt7a77/3fcxxdmv0xwmckutAR1nkm4ggbyEcg/wWmlGLDAA3oL50xi6fk5ffZ3E2E3QfZDCcCN2YtbEWZt+Drc6u6rlqv7Uk0LdKqqr5rk2UCRXOk0vmQKGfc94nOJyQjouF9H/wCc9gECEYfONoAAAAASUVORK5CYII=)](https://scala-steward.org)
+[![Maven](https://img.shields.io/maven-central/v/com.fgrutsch.emergence/core_3.svg?logo=Apache%20Maven&style=for-the-badge)](https://search.maven.org/search?q=g:%22com.fgrutsch.emergence%22%20AND%20a:%22core_3%22)
+[![Github Actions CI Workflow](https://img.shields.io/github/workflow/status/fgrutsch/emergence/CI/main?logo=Github&style=for-the-badge)](https://github.com/fgrutsch/emergence/actions/workflows/ci.yml?query=branch%3Amain)
+[![Codecov](https://img.shields.io/codecov/c/github/fgrutsch/emergence/main?logo=Codecov&style=for-the-badge)](https://codecov.io/gh/fgrutsch/emergence)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=for-the-badge)](https://opensource.org/licenses/Apache-2.0)
+[![Docker Pulls](https://img.shields.io/docker/pulls/fgrutsch/emergence.svg?logo=Docker&style=for-the-badge)](https://hub.docker.com/r/fgrutsch/emergence)
+[![Scala Steward badge](https://img.shields.io/badge/Scala_Steward-helping-blue.svg?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAMAAAARSr4IAAAAVFBMVEUAAACHjojlOy5NWlrKzcYRKjGFjIbp293YycuLa3pYY2LSqql4f3pCUFTgSjNodYRmcXUsPD/NTTbjRS+2jomhgnzNc223cGvZS0HaSD0XLjbaSjElhIr+AAAAAXRSTlMAQObYZgAAAHlJREFUCNdNyosOwyAIhWHAQS1Vt7a77/3fcxxdmv0xwmckutAR1nkm4ggbyEcg/wWmlGLDAA3oL50xi6fk5ffZ3E2E3QfZDCcCN2YtbEWZt+Drc6u6rlqv7Uk0LdKqqr5rk2UCRXOk0vmQKGfc94nOJyQjouF9H/wCc9gECEYfONoAAAAASUVORK5CYII=)](https://scala-steward.org)
 
 eMERGEnce is a bot that helps you to get rid of all your emerged pull requests automatically based on configurable conditions.
 
