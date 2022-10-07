@@ -37,7 +37,7 @@ object SetupGithubActionsPlugin extends AutoPlugin {
         cond = Some("startsWith(github.ref, 'refs/tags/v')")
       ),
       WorkflowStep.Use(
-        UseRef.Public("JamesIves", "github-pages-deploy-action", "4.4.0"),
+        UseRef.Public("JamesIves", "github-pages-deploy-action", "v4"),
         name = Some("Publish gh-pages"),
         cond = Some("startsWith(github.ref, 'refs/tags/v')"),
         params = Map("folder" -> "docs/target/paradox/site/main")
