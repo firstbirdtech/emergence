@@ -1,7 +1,7 @@
 # eMERGEnce
 
 [![Maven](https://img.shields.io/maven-central/v/com.fgrutsch.emergence/core_3.svg?logo=Apache%20Maven&style=for-the-badge)](https://search.maven.org/search?q=g:%22com.fgrutsch.emergence%22%20AND%20a:%22core_3%22)
-[![Github Actions CI Workflow](https://img.shields.io/github/workflow/status/fgrutsch/emergence/CI/main?logo=Github&style=for-the-badge)](https://github.com/fgrutsch/emergence/actions/workflows/ci.yml?query=branch%3Amain)
+[![Github Actions CI Workflow](https://img.shields.io/github/actions/workflow/status/fgrutsch/emergence/ci.yml?logo=Github&style=for-the-badge)](https://github.com/fgrutsch/emergence/actions/workflows/ci.yml?query=branch%3Amain)
 [![Codecov](https://img.shields.io/codecov/c/github/fgrutsch/emergence/main?logo=Codecov&style=for-the-badge)](https://codecov.io/gh/fgrutsch/emergence)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=for-the-badge)](https://opensource.org/licenses/Apache-2.0)
 [![Docker Pulls](https://img.shields.io/docker/pulls/fgrutsch/emergence.svg?logo=Docker&style=for-the-badge)](https://hub.docker.com/r/fgrutsch/emergence)
