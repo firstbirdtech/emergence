@@ -48,7 +48,7 @@ class MergeAlg[F[_]: Temporal: Concurrent](using
 
   private def filterByConditions(repo: Repository, emergenceConfig: EmergenceConfig, pr: PullRequest) = {
     for {
-      buildStatuses <- vcsAlg.listBuildStatuses(repo, pr.number)
+      buildStatuses <- vcsAlg.listBuildStatuses(repo, pr)
       _             <- logger.info(s"Pull request has build statuses: ${bulletPointed(buildStatuses)}")
       input         <- Input(pr, buildStatuses).pure[F]
       matchResult   <- conditionMatcherAlg.checkConditions(emergenceConfig.conditions, input).pure[F]
@@ -61,7 +61,7 @@ class MergeAlg[F[_]: Temporal: Concurrent](using
 
   private def filterByMergeCheck(repo: Repository, pr: PullRequest) = {
     vcsAlg
-      .mergeCheck(repo, pr.number)
+      .mergeCheck(repo, pr)
       .flatMap {
         case MergeCheck.Accept =>
           F.pure(true)
@@ -80,7 +80,7 @@ class MergeAlg[F[_]: Temporal: Concurrent](using
       .getOrElse(MergeConfig.Default.closeSourceBranch)
 
     for {
-      _ <- vcsAlg.mergePullRequest(repo, pr.number, strategy, closeSourceBranch)
+      _ <- vcsAlg.mergePullRequest(repo, pr, strategy, closeSourceBranch)
       _ <- logger.info(s"Merged pull request #${pr.number}")
     } yield ()
   }

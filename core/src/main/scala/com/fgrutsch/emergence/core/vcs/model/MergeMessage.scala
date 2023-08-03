@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
-package com.fgrutsch.emergence.core.model
+package com.fgrutsch.emergence.core.vcs.model
 
-enum VcsType(val underlying: String) {
-  case BitbucketCloud extends VcsType("bitbucket-cloud")
-  case Github         extends VcsType("github")
+import io.circe.Decoder
 
+final case class MergeMessage(underlying: String) extends AnyVal {
   override def toString: String = underlying
 }
+
+object MergeMessage {
+
+  given Decoder[MergeMessage] = Decoder.decodeString.map(MergeMessage(_))
+
+}
+

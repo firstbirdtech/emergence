@@ -14,11 +14,27 @@
  * limitations under the License.
  */
 
-package com.fgrutsch.emergence.core.model
+package com.fgrutsch.emergence.core.vcs.github
 
-enum VcsType(val underlying: String) {
-  case BitbucketCloud extends VcsType("bitbucket-cloud")
-  case Github         extends VcsType("github")
+import com.fgrutsch.emergence.core.vcs.github.Encoding.{mergeStrategyEncoder, *}
+import com.fgrutsch.emergence.core.vcs.model.*
+import io.circe.{Encoder, Json}
 
-  override def toString: String = underlying
+final private[github] case class MergePullRequestRequest(
+    mergeStrategy: MergeStrategy,
+    sha: Ref
+)
+
+private[github] object MergePullRequestRequest {
+
+  given Encoder[MergePullRequestRequest] = {
+    Encoder.instance { m =>
+
+      Json.obj(
+        "merge_method"      -> mergeStrategyEncoder(m.mergeStrategy),
+        "sha"                 -> Json.fromString(m.sha.toString)
+      )
+    }
+  }
+
 }

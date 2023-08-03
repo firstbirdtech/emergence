@@ -28,12 +28,18 @@ class BitbucketCloudVcsSpec extends BaseSpec {
                     "title": "Test",
                     "source": {
                         "branch": {
-                            "name": "update/abc"
+                            "name": "update/abc",
+                            "target": {
+                              "hash": "1234"
+                            }
                         }
                     },
                     "destination": {
                         "branch": {
-                            "name": "master"
+                            "name": "master",
+                            "target": {
+                              "hash": "1234"
+                            }
                         }
                     },
                     "author": {
@@ -120,35 +126,37 @@ class BitbucketCloudVcsSpec extends BaseSpec {
 
   private val bitbucketCloudVcs = new BitbucketCloudVcs[IO]
 
+  private val dummyPR = PullRequest(
+          PullRequestNumber(1),
+          PullRequestTitle("Test"),
+          BranchName("update/abc"),
+          Ref("1234"),
+          BranchName("master"),
+          Author("fgrutsch")
+        )
   test("listPullRequests") {
     val result = bitbucketCloudVcs.listPullRequests(Repository("owner", "name")).unsafeRunSync()
     result mustBe {
       List(
-        PullRequest(
-          PullRequestNumber(1),
-          PullRequestTitle("Test"),
-          BranchName("update/abc"),
-          BranchName("master"),
-          Author("fgrutsch")
-        )
+        dummyPR
       )
     }
   }
 
   test("listBuildStatuses") {
-    val result = bitbucketCloudVcs.listBuildStatuses(Repository("owner", "name"), PullRequestNumber(1)).unsafeRunSync()
+    val result = bitbucketCloudVcs.listBuildStatuses(Repository("owner", "name"), dummyPR).unsafeRunSync()
     result mustBe { List(BuildStatus(BuildStatusName("Build and Test"), BuildStatusState.Success)) }
   }
 
   test("mergePullRequest") {
     val result = bitbucketCloudVcs
-      .mergePullRequest(Repository("owner", "name"), PullRequestNumber(1), MergeStrategy.Squash, true)
+      .mergePullRequest(Repository("owner", "name"), dummyPR, MergeStrategy.Squash, true)
       .unsafeRunSync()
     result mustBe { () }
   }
 
   test("mergeCheck") {
-    val result = bitbucketCloudVcs.mergeCheck(Repository("owner", "name"), PullRequestNumber(1)).unsafeRunSync()
+    val result = bitbucketCloudVcs.mergeCheck(Repository("owner", "name"), dummyPR).unsafeRunSync()
     result mustBe { MergeCheck.Accept }
   }
 

@@ -1,7 +1,7 @@
-package com.fgrutsch.emergence.core.vcs.bitbucketcloud
+package com.fgrutsch.emergence.core.vcs.github
 
 import cats.syntax.all.*
-import com.fgrutsch.emergence.core.vcs.bitbucketcloud.Encoding.given
+import com.fgrutsch.emergence.core.vcs.github.Encoding.given
 import com.fgrutsch.emergence.core.vcs.model.{MergeStrategy, *}
 import io.circe.parser.*
 import io.circe.syntax.*
@@ -13,34 +13,36 @@ class EncodingSpec extends BaseSpec with TableDrivenPropertyChecks {
 
   test("decode PullRequest successfully") {
     val input = """{
-        "id": 1,
-        "title": "Test",
-        "source": {
-            "branch": {
-                "name": "update/abc",
-                "target": {
-                  "hash": "1234"
-                }
-            }
+        "id": 1461185956,
+        "number": 1,
+        "state": "open",
+        "title": "Removed not working trigger and debug logging.",
+        "user": {
+            "login": "fgrutsch"
         },
-        "destination": {
-            "branch": {
-                "name": "master"
-            }
+        "head": {
+            "label": "radancy-referrals:update-automerge-workflow",
+            "ref": "update-automerge-workflow",
+            "sha": "1234"
         },
-        "author": {
-            "nickname": "fgrutsch"
-        }
+        "base": {
+            "label": "radancy-referrals:main",
+            "ref": "main",
+            "sha": "f26170f221907b98b1dffff40da416e5e84f3962"
+        },
+        "author_association": "CONTRIBUTOR",
+        "auto_merge": null,
+        "active_lock_reason": null
     }"""
 
     val result = parse(input).value.as[PullRequest]
     result.value mustBe {
       PullRequest(
         PullRequestNumber(1),
-        PullRequestTitle("Test"),
-        BranchName("update/abc"),
+        PullRequestTitle("Removed not working trigger and debug logging."),
+        BranchName("update-automerge-workflow"),
         Ref("1234"),
-        BranchName("master"),
+        BranchName("main"),
         Author("fgrutsch")
       )
     }
@@ -48,21 +50,19 @@ class EncodingSpec extends BaseSpec with TableDrivenPropertyChecks {
 
   test("decode BuildStatus successfully") {
     val input = """{
-        "name": "Build and Test",
-        "state": "SUCCESSFUL"
+        "state": "success"
     }"""
 
     val result = parse(input).value.as[BuildStatus]
-    result.value mustBe { BuildStatus(BuildStatusName("Build and Test"), BuildStatusState.Success) }
+    result.value mustBe { BuildStatus(BuildStatusName("success"), BuildStatusState.Success) }
   }
 
   test("decode BuildStatusState successfully") {
     val table = Table(
       "input"      -> "expected",
-      "SUCCESSFUL" -> BuildStatusState.Success.asRight,
-      "INPROGRESS" -> BuildStatusState.InProgress.asRight,
-      "FAILED"     -> BuildStatusState.Failed.asRight,
-      "STOPPED"    -> BuildStatusState.Stopped.asRight,
+      "success" -> BuildStatusState.Success.asRight,
+      "pending" -> BuildStatusState.InProgress.asRight,
+      "failure"     -> BuildStatusState.Failed.asRight,
       "invalid"    -> DecodingFailure("Unknown build status state: 'invalid'", Nil).asLeft
     )
 
@@ -76,9 +76,9 @@ class EncodingSpec extends BaseSpec with TableDrivenPropertyChecks {
   test("encode MergeStrategy successfully") {
     val table = Table[MergeStrategy, String](
       "input"                   -> "expepcted",
-      MergeStrategy.MergeCommit -> "merge_commit",
+      MergeStrategy.MergeCommit -> "merge",
       MergeStrategy.Squash      -> "squash",
-      MergeStrategy.FastForward -> "fast_forward"
+      MergeStrategy.FastForward -> "rebase"
     )
 
     forAll(table) { case (input, expected) =>

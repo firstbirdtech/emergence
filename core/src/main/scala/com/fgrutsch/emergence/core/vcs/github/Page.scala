@@ -14,11 +14,18 @@
  * limitations under the License.
  */
 
-package com.fgrutsch.emergence.core.model
+package com.fgrutsch.emergence.core.vcs.github
 
-enum VcsType(val underlying: String) {
-  case BitbucketCloud extends VcsType("bitbucket-cloud")
-  case Github         extends VcsType("github")
+import io.circe.Decoder
 
-  override def toString: String = underlying
+final private[github] case class Page[A](items: List[A])
+
+private[github] object Page {
+
+  given [A](using Decoder[A]): Decoder[Page[A]] = {
+    Decoder.instance { c =>
+      c.as[List[A]].map(Page(_))
+    }
+  }
+
 }
