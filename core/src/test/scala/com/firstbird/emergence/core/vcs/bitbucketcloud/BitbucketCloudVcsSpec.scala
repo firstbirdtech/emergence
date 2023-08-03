@@ -127,13 +127,13 @@ class BitbucketCloudVcsSpec extends BaseSpec {
   private val bitbucketCloudVcs = new BitbucketCloudVcs[IO]
 
   private val dummyPR = PullRequest(
-          PullRequestNumber(1),
-          PullRequestTitle("Test"),
-          BranchName("update/abc"),
-          Ref("1234"),
-          BranchName("master"),
-          Author("fgrutsch")
-        )
+    PullRequestNumber(1),
+    PullRequestTitle("Test"),
+    BranchName("update/abc"),
+    Ref("1234"),
+    BranchName("master"),
+    Author("fgrutsch")
+  )
   test("listPullRequests") {
     val result = bitbucketCloudVcs.listPullRequests(Repository("owner", "name")).unsafeRunSync()
     result mustBe {

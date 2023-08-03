@@ -90,7 +90,7 @@ final class GithubVcs[F[_]](using backend: SttpBackend[F, Any], settings: VcsSet
   }
 
   override def mergeCheck(repo: Repository, pr: PullRequest): F[MergeCheck] = {
-    // Github does not have the concept of a merge check. 
+    // Github does not have the concept of a merge check.
     // Instead, if there is a merge conflict, github will not produce a "success" status check
     MergeCheck.Accept.pure[F]
   }

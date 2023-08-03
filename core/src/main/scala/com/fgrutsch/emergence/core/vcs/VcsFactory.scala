@@ -26,7 +26,7 @@ final class VcsFactory[F[_]: MonadThrow](using SttpBackend[F, Any]) {
 
   def getVcs(settings: Settings): VcsAlg[F] = settings.vcsType match {
     case VcsType.BitbucketCloud => bitbucketCloud(settings.vcs)
-    case VcsType.Github =>         github(settings.vcs)
+    case VcsType.Github         => github(settings.vcs)
   }
 
   private def bitbucketCloud(vcsSettings: VcsSettings): VcsAlg[F] = {

@@ -73,7 +73,7 @@ class GithubVcsSpec extends BaseSpec {
     )
     .whenRequestMatches { r =>
       r.uri.path.startsWith("repos" :: "owner" :: "name" :: "contents" :: ".emergence.yml" :: Nil) &&
-      r.method == Method.GET && 
+      r.method == Method.GET &&
       r.headers.contains(Header("Accept", "application/vnd.github.raw"))
     }
     .thenRespond(".emergence.yml-file-content")
@@ -81,13 +81,13 @@ class GithubVcsSpec extends BaseSpec {
   private val githubVcs = new GithubVcs[IO]
 
   private val dummyPR = PullRequest(
-          PullRequestNumber(1),
-          PullRequestTitle("Test"),
-          BranchName("update/abc"),
-          Ref("1234"),
-          BranchName("master"),
-          Author("fgrutsch")
-        )
+    PullRequestNumber(1),
+    PullRequestTitle("Test"),
+    BranchName("update/abc"),
+    Ref("1234"),
+    BranchName("master"),
+    Author("fgrutsch")
+  )
   test("listPullRequests") {
     val result = githubVcs.listPullRequests(Repository("owner", "name")).unsafeRunSync()
     result mustBe {

@@ -29,10 +29,9 @@ private[github] object MergePullRequestRequest {
 
   given Encoder[MergePullRequestRequest] = {
     Encoder.instance { m =>
-
       Json.obj(
-        "merge_method"      -> mergeStrategyEncoder(m.mergeStrategy),
-        "sha"                 -> Json.fromString(m.sha.toString)
+        "merge_method" -> mergeStrategyEncoder(m.mergeStrategy),
+        "sha"          -> Json.fromString(m.sha.toString)
       )
     }
   }

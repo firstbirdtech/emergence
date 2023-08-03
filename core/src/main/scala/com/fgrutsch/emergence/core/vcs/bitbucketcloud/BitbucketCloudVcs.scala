@@ -71,7 +71,8 @@ final class BitbucketCloudVcs[F[_]](using backend: SttpBackend[F, Any], settings
       pr: PullRequest,
       mergeStrategy: MergeStrategy,
       closeSourceBranch: Boolean): F[Unit] = {
-    val uri  = settings.apiHost.addPath("repositories", repo.owner, repo.name, "pullrequests", pr.number.toString, "merge")
+    val uri =
+      settings.apiHost.addPath("repositories", repo.owner, repo.name, "pullrequests", pr.number.toString, "merge")
     val body = MergePullRequestRequest(closeSourceBranch, mergeStrategy)
 
     basicRequest

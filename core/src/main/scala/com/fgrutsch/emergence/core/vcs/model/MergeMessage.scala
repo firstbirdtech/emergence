@@ -27,4 +27,3 @@ object MergeMessage {
   given Decoder[MergeMessage] = Decoder.decodeString.map(MergeMessage(_))
 
 }
-

@@ -59,11 +59,11 @@ class EncodingSpec extends BaseSpec with TableDrivenPropertyChecks {
 
   test("decode BuildStatusState successfully") {
     val table = Table(
-      "input"      -> "expected",
+      "input"   -> "expected",
       "success" -> BuildStatusState.Success.asRight,
       "pending" -> BuildStatusState.InProgress.asRight,
-      "failure"     -> BuildStatusState.Failed.asRight,
-      "invalid"    -> DecodingFailure("Unknown build status state: 'invalid'", Nil).asLeft
+      "failure" -> BuildStatusState.Failed.asRight,
+      "invalid" -> DecodingFailure("Unknown build status state: 'invalid'", Nil).asLeft
     )
 
     forAll(table) { case (input, expected) =>
