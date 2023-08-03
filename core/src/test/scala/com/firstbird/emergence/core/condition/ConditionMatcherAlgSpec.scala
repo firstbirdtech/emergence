@@ -1,9 +1,9 @@
-package com.firstbird.emergence.core.condition
+package com.fgrutsch.emergence.core.condition
 
 import cats.Id
-import cats.syntax.all._
-import com.firstbird.emergence.core.condition.Condition.BuildSuccessAll
-import com.firstbird.emergence.core.vcs.model._
+import cats.syntax.all.*
+import com.fgrutsch.emergence.core.condition.Condition.BuildSuccessAll
+import com.fgrutsch.emergence.core.vcs.model.*
 import testutil.BaseSpec
 
 class ConditionMatcherAlgSpec extends BaseSpec {
@@ -18,13 +18,13 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       BuildStatus(BuildStatusName("Testing"), BuildStatusState.Success) :: Nil
     )
 
     val result = matcherAlg.checkConditions(conditions, input)
-    result mustBe "No conditions provided. At least one condition required in order to execute a merge.".invalidNel
+    result mustBe { "No conditions provided. At least one condition required in order to execute a merge.".invalidNel }
   }
 
   test("checkConditions fails BuildSuccessAll condition with empty build statuses") {
@@ -35,13 +35,13 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       Nil
     )
 
     val result = matcherAlg.checkConditions(conditions, input)
-    result mustBe "No build statuses. At least one required for this condition.".invalidNel
+    result mustBe { "No build statuses. At least one required for this condition.".invalidNel }
   }
 
   test("checkConditions fails BuildSuccessAll condition with at least one failing build") {
@@ -52,7 +52,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       List(
         BuildStatus(BuildStatusName("Building"), BuildStatusState.Success),
@@ -61,7 +61,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
     )
 
     val result = matcherAlg.checkConditions(conditions, input)
-    result mustBe "Build is not succesful: 'Testing'".invalidNel
+    result mustBe { "Build is not succesful: 'Testing'".invalidNel }
   }
 
   test("checkConditions succeeds BuildSuccessAll condition") {
@@ -72,7 +72,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       List(
         BuildStatus(BuildStatusName("Building"), BuildStatusState.Success),
@@ -81,7 +81,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
     )
 
     val result = matcherAlg.checkConditions(conditions, input)
-    result mustBe ().validNel
+    result mustBe { ().validNel }
   }
 
   test("checkConditions fails Author condition if there is no match") {
@@ -92,30 +92,30 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       Nil
     )
 
     val result = matcherAlg.checkConditions(conditions, input)
-    result mustBe "Input 'firstbird' doesn't match condition 'abc' with operator '=='".invalidNel
+    result mustBe { "Input 'fgrutsch' doesn't match condition 'abc' with operator '=='".invalidNel }
   }
 
   test("checkConditions succeeds Author condition") {
-    val conditions = Condition.Author(ConditionOperator.Equal, ConditionValue("firstbird")) :: Nil
+    val conditions = Condition.Author(ConditionOperator.Equal, ConditionValue("fgrutsch")) :: Nil
     val input = Input(
       PullRequest(
         PullRequestNumber(1),
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       Nil
     )
 
     val result = matcherAlg.checkConditions(conditions, input)
-    result mustBe ().validNel
+    result mustBe { ().validNel }
   }
 
   test("checkConditions fails SourceBranch condition if there is no match") {
@@ -126,13 +126,13 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       Nil
     )
 
     val result = matcherAlg.checkConditions(conditions, input)
-    result mustBe "Input 'update/abc' doesn't match condition 'abc' with operator '=='".invalidNel
+    result mustBe { "Input 'update/abc' doesn't match condition 'abc' with operator '=='".invalidNel }
   }
 
   test("checkConditions succeeds SourceBranch condition") {
@@ -143,13 +143,13 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       Nil
     )
 
     val result = matcherAlg.checkConditions(conditions, input)
-    result mustBe ().validNel
+    result mustBe { ().validNel }
   }
 
   test("checkConditions fails TargetBranch§ condition if there is no match") {
@@ -160,13 +160,13 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       Nil
     )
 
     val result = matcherAlg.checkConditions(conditions, input)
-    result mustBe "Input 'master' doesn't match condition 'abc' with operator '=='".invalidNel
+    result mustBe { "Input 'master' doesn't match condition 'abc' with operator '=='".invalidNel }
   }
 
   test("checkConditions succeeds TargetBranch condition") {
@@ -177,13 +177,13 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestTitle("Test"),
         BranchName("update/abc"),
         BranchName("master"),
-        Author("firstbird")
+        Author("fgrutsch")
       ),
       Nil
     )
 
     val result = matcherAlg.checkConditions(conditions, input)
-    result mustBe ().validNel
+    result mustBe { ().validNel }
   }
 
 }

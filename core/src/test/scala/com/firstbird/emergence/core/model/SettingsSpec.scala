@@ -1,19 +1,19 @@
-package com.firstbird.emergence.core.model
+package com.fgrutsch.emergence.core.model
 
 import cats.data.NonEmptyList
 import cats.effect.IO
-import cats.syntax.all._
-import com.firstbird.emergence.core.app.CliOptions
-import com.firstbird.emergence.core.condition._
-import com.firstbird.emergence.core.configuration.RunConfig.RepositoryConfig
-import com.firstbird.emergence.core.configuration.{RunConfig, _}
-import com.firstbird.emergence.core.model.{Settings, VcsType}
-import com.firstbird.emergence.core.vcs.model._
-import sttp.model.Uri._
+import cats.syntax.all.*
+import com.fgrutsch.emergence.core.app.CliOptions
+import com.fgrutsch.emergence.core.condition.*
+import com.fgrutsch.emergence.core.configuration.RunConfig.RepositoryConfig
+import com.fgrutsch.emergence.core.configuration.{RunConfig, *}
+import com.fgrutsch.emergence.core.model.{Settings, VcsType}
+import com.fgrutsch.emergence.core.vcs.model.*
+import sttp.model.Uri.*
 import testutil.BaseSpec
 
 import java.nio.file.Paths
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 
 class SettingsSpec extends BaseSpec {
 
@@ -21,12 +21,12 @@ class SettingsSpec extends BaseSpec {
     val cliOptions = CliOptions(
       RunConfig(
         NonEmptyList.one(
-          RepositoryConfig(Repository("firstbird", "test"), none)
+          RepositoryConfig(Repository("fgrutsch", "test"), none)
         ),
         EmergenceConfig(
           List(
             Condition.BuildSuccessAll,
-            Condition.Author(ConditionOperator.Equal, ConditionValue("firstbird"))
+            Condition.Author(ConditionOperator.Equal, ConditionValue("fgrutsch"))
           ),
           MergeConfig(
             MergeStrategy.MergeCommit.some,
@@ -42,7 +42,7 @@ class SettingsSpec extends BaseSpec {
       ".emergence.yml"
     )
 
-    Settings.from[IO](cliOptions).unsafeRunSync() mustBe settings
+    Settings.from[IO](cliOptions).unsafeRunSync() mustBe { settings }
   }
 
 }

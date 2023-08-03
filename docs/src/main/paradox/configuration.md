@@ -11,17 +11,17 @@ The format of the file looks like this:
 
 ```yml
 repositories:
-  - name: firstbirdtech/test-repo
+  - name: fgrutsch/test-repo
     conditions:
       - "build-success-all"
     merge:
       strategy: fast-forward
       close_source_branch: false
-  - name: firstbirdtech/test-repo-2
+  - name: fgrutsch/test-repo-2
 
 defaults:
   conditions:
-    - "author == firstbird-ci"
+    - "author == ci-user"
   merge:
     strategy: squash
     close_source_branch: true
@@ -67,7 +67,7 @@ For example if your [Run Config](#run-config) looks like this:
 
 ```
 repositories:
-  - name: firstbirdtech/my-repo
+  - name: fgrutsch/my-repo
     conditions:
       - "build-success-all"
     merge:

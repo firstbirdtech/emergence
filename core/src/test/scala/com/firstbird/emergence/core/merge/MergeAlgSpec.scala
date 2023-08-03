@@ -1,12 +1,12 @@
-package com.firstbird.emergence.core.merge
+package com.fgrutsch.emergence.core.merge
 
-import cats.syntax.all._
-import com.firstbird.emergence.core.condition._
-import com.firstbird.emergence.core.configuration._
-import com.firstbird.emergence.core.vcs.model._
-import testutil._
+import cats.syntax.all.*
+import com.fgrutsch.emergence.core.condition.*
+import com.fgrutsch.emergence.core.configuration.*
+import com.fgrutsch.emergence.core.vcs.model.*
+import testutil.*
 
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 
 class MergeAlgSpec extends BaseSpec {
 
@@ -16,7 +16,7 @@ class MergeAlgSpec extends BaseSpec {
     val emergenceConfig = EmergenceConfig(
       List(
         Condition.BuildSuccessAll,
-        Condition.Author(ConditionOperator.Equal, ConditionValue("firstbird"))
+        Condition.Author(ConditionOperator.Equal, ConditionValue("fgrutsch"))
       ),
       MergeConfig(
         MergeStrategy.MergeCommit.some,
@@ -26,23 +26,27 @@ class MergeAlgSpec extends BaseSpec {
     )
 
     val result = mergeAlg
-      .mergePullRequests(Repository("firstbird", "test"), emergenceConfig)
+      .mergePullRequests(Repository("fgrutsch", "test"), emergenceConfig)
       .runS(initial)
       .unsafeRunSync()
 
     // PR #1 matches conditions and mergeChecks, #2 and #3 not
-    result.mergedPrs mustBe List(
-      TestState.MergedPr(PullRequestNumber(1), MergeStrategy.MergeCommit, false)
-    )
+    result.mergedPrs mustBe {
+      List(
+        TestState.MergedPr(PullRequestNumber(1), MergeStrategy.MergeCommit, false)
+      )
+    }
 
-    result.logs must contain allOf (
-      none -> "******************** Processing pull request #1 ********************",
-      none -> "Pull request matches all configured conditions.",
-      none -> "******************** Processing pull request #2 ********************",
-      none -> "Ignoring pull request as not all conditions match: \n                 - Build is not succesful: 'Build and Test'",
-      none -> "******************** Processing pull request #3 ********************",
-      none -> "Ignoring as merge check for PR failed. Reason: failed",
-    )
+    result.logs must {
+      contain.allOf(
+        none -> "******************** Processing pull request #1 ********************",
+        none -> "Pull request matches all configured conditions.",
+        none -> "******************** Processing pull request #2 ********************",
+        none -> "Ignoring pull request as not all conditions match: \n                 - Build is not succesful: 'Build and Test'",
+        none -> "******************** Processing pull request #3 ********************",
+        none -> "Ignoring as merge check for PR failed. Reason: failed"
+      )
+    }
   }
 
 }

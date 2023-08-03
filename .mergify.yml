@@ -1,9 +1,10 @@
 pull_request_rules:
   - name: merge scala-steward PRs
     conditions:
-      - "author=scala-steward"
-      - "status-success=jdk-8 Build and Tests"
-      - "status-success=jdk-11 Build and Tests"
+      - 'author=fgrutsch'
+      - 'head~=update\/.+'
+      - 'status-success~=Build and Test \(ubuntu-latest, 3\.\d\.\d, temurin@11\)'
+      - 'status-success~=Build and Test \(ubuntu-latest, 3\.\d\.\d, temurin@17\)'
     actions:
       merge:
         method: squash
