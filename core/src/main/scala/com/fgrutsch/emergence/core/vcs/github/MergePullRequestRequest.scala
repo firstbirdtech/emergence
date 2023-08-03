@@ -22,7 +22,7 @@ import io.circe.{Encoder, Json}
 
 final private[github] case class MergePullRequestRequest(
     mergeStrategy: MergeStrategy,
-    sha: Ref
+    sha: Commit
 )
 
 private[github] object MergePullRequestRequest {

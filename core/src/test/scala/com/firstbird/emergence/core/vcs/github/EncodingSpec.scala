@@ -41,7 +41,7 @@ class EncodingSpec extends BaseSpec with TableDrivenPropertyChecks {
         PullRequestNumber(1),
         PullRequestTitle("Removed not working trigger and debug logging."),
         BranchName("update-automerge-workflow"),
-        Ref("1234"),
+        Commit("1234"),
         BranchName("main"),
         Author("fgrutsch")
       )

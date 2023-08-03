@@ -30,7 +30,7 @@ private[bitbucketcloud] object Encoding {
       id               <- c.downField("id").as[PullRequestNumber]
       title            <- c.downField("title").as[PullRequestTitle]
       sourceBranchName <- c.downField("source").downField("branch").downField("name").as[BranchName]
-      sourceBranchHead <- c.downField("source").downField("branch").downField("target").downField("hash").as[Ref]
+      sourceBranchHead <- c.downField("source").downField("branch").downField("target").downField("hash").as[Commit]
       targetBranchName <- c.downField("destination").downField("branch").downField("name").as[BranchName]
       author           <- c.downField("author").downField("nickname").as[Author]
     } yield PullRequest(id, title, sourceBranchName, sourceBranchHead, targetBranchName, author)

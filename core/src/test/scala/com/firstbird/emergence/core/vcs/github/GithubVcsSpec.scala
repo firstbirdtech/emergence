@@ -84,7 +84,7 @@ class GithubVcsSpec extends BaseSpec {
     PullRequestNumber(1),
     PullRequestTitle("Test"),
     BranchName("update/abc"),
-    Ref("1234"),
+    Commit("1234"),
     BranchName("master"),
     Author("fgrutsch")
   )

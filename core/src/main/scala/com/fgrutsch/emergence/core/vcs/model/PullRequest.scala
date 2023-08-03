@@ -20,7 +20,7 @@ final case class PullRequest(
     number: PullRequestNumber,
     title: PullRequestTitle,
     sourceBranchName: BranchName,
-    sourceBranchHead: Ref,
+    sourceBranchHead: Commit,
     targetBranchName: BranchName,
     author: Author
 )

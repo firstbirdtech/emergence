@@ -30,7 +30,7 @@ private[github] object Encoding {
       id               <- c.downField("number").as[PullRequestNumber]
       title            <- c.downField("title").as[PullRequestTitle]
       sourceBranchName <- c.downField("head").downField("ref").as[BranchName]
-      sourceBranchHead <- c.downField("head").downField("sha").as[Ref]
+      sourceBranchHead <- c.downField("head").downField("sha").as[Commit]
       targetBranchName <- c.downField("base").downField("ref").as[BranchName]
       author           <- c.downField("user").downField("login").as[Author]
     } yield PullRequest(id, title, sourceBranchName, sourceBranchHead, targetBranchName, author)

@@ -18,12 +18,12 @@ package com.fgrutsch.emergence.core.vcs.model
 
 import io.circe.Decoder
 
-final case class Ref(underlying: String) extends AnyVal {
+final case class Commit(underlying: String) extends AnyVal {
   override def toString: String = underlying
 }
 
-object Ref {
+object Commit {
 
-  given Decoder[Ref] = Decoder.decodeString.map(Ref(_))
+  given Decoder[Commit] = Decoder.decodeString.map(Commit(_))
 
 }
