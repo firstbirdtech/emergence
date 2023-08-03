@@ -1,8 +1,7 @@
 package com.fgrutsch.emergence.core.vcs.github
 
 import com.fgrutsch.emergence.core.vcs.github.MergePullRequestRequest.*
-import com.fgrutsch.emergence.core.vcs.model.{MergeStrategy}
-import com.fgrutsch.emergence.core.vcs.model.{Commit => Commit}
+import com.fgrutsch.emergence.core.vcs.model.*
 import io.circe.parser.*
 import io.circe.syntax.*
 import testutil.BaseSpec
