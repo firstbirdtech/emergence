@@ -54,8 +54,8 @@ lazy val core = project
   )
   .settings(
     Compile / sourceGenerators += Def.task {
-      val directory = organization.value.split('.').mkString("/")
-      val pkg       = organization.value
+      val directory = "com/fgrutsch/emergence"
+      val pkg       = "com.fgrutsch.emergence"
       val file      = (Compile / sourceManaged).value / directory / "BuildInfo.scala"
 
       IO.write(
