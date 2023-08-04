@@ -17,7 +17,10 @@ class EncodingSpec extends BaseSpec with TableDrivenPropertyChecks {
         "title": "Test",
         "source": {
             "branch": {
-                "name": "update/abc"
+                "name": "update/abc",
+                "target": {
+                  "hash": "1234"
+                }
             }
         },
         "destination": {
@@ -36,6 +39,7 @@ class EncodingSpec extends BaseSpec with TableDrivenPropertyChecks {
         PullRequestNumber(1),
         PullRequestTitle("Test"),
         BranchName("update/abc"),
+        Commit("1234"),
         BranchName("master"),
         Author("fgrutsch")
       )

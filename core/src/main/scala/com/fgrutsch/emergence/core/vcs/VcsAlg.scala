@@ -22,15 +22,15 @@ trait VcsAlg[F[_]] {
 
   def listPullRequests(repo: Repository): F[List[PullRequest]]
 
-  def listBuildStatuses(repo: Repository, number: PullRequestNumber): F[List[BuildStatus]]
+  def listBuildStatuses(repo: Repository, pr: PullRequest): F[List[BuildStatus]]
 
   def mergePullRequest(
       repo: Repository,
-      number: PullRequestNumber,
+      pr: PullRequest,
       mergeStrategy: MergeStrategy,
       closeSourceBranch: Boolean): F[Unit]
 
-  def mergeCheck(repo: Repository, number: PullRequestNumber): F[MergeCheck]
+  def mergeCheck(repo: Repository, pr: PullRequest): F[MergeCheck]
 
   def findEmergenceConfigFile(repo: Repository): F[Option[RepoFile]]
 

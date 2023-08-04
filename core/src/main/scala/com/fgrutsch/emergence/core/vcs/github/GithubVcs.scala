@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package com.fgrutsch.emergence.core.vcs.bitbucketcloud
+package com.fgrutsch.emergence.core.vcs.github
 
 import cats.MonadThrow
 import cats.syntax.all.*
 import com.fgrutsch.emergence.core.vcs.*
-import com.fgrutsch.emergence.core.vcs.bitbucketcloud.DiffStatResponse.*
-import com.fgrutsch.emergence.core.vcs.bitbucketcloud.Encoding.given
+import com.fgrutsch.emergence.core.vcs.github.Encoding.given
 import com.fgrutsch.emergence.core.vcs.model.*
 import io.circe.JsonObject
 import sttp.client3.*
@@ -28,7 +27,7 @@ import sttp.client3.circe.*
 import sttp.model.HeaderNames.Location
 import sttp.model.Uri
 
-object BitbucketCloudVcs {
+object GithubVcs {
 
   private val asRedirect = {
     ignore
@@ -37,17 +36,19 @@ object BitbucketCloudVcs {
 
 }
 
-final class BitbucketCloudVcs[F[_]](using backend: SttpBackend[F, Any], settings: VcsSettings, F: MonadThrow[F])
+final class GithubVcs[F[_]](using backend: SttpBackend[F, Any], settings: VcsSettings, F: MonadThrow[F])
     extends VcsAlg[F] {
 
   override def listPullRequests(repo: Repository): F[List[PullRequest]] = {
     val uri = settings.apiHost
-      .addPath("repositories", repo.owner, repo.name, "pullrequests")
-      .addParam("state", "OPEN")
-      .addParam("pagelen", "50")
+      .addPath("repos", repo.owner, repo.name, "pulls")
+      .addParam("state", "open")
+      .addParam("per_page", "50")
 
     basicRequest
       .get(uri)
+      .header("X-GitHub-Api-Version", "2022-11-28")
+      .header("Accept", "application/vnd.github+json")
       .withAuthentication()
       .response(asJson[Page[PullRequest]])
       .send(backend)
@@ -55,15 +56,18 @@ final class BitbucketCloudVcs[F[_]](using backend: SttpBackend[F, Any], settings
   }
 
   override def listBuildStatuses(repo: Repository, pr: PullRequest): F[List[BuildStatus]] = {
+
     val uri =
-      settings.apiHost.addPath("repositories", repo.owner, repo.name, "pullrequests", pr.number.toString, "statuses")
+      settings.apiHost.addPath("repos", repo.owner, repo.name, "commits", pr.sourceBranchHead.toString, "status")
 
     basicRequest
       .get(uri)
+      .header("X-GitHub-Api-Version", "2022-11-28")
+      .header("Accept", "application/vnd.github+json")
       .withAuthentication()
-      .response(asJson[Page[BuildStatus]])
+      .response(asJson[BuildStatus])
       .send(backend)
-      .flatMap(r => F.fromEither(r.body.map(_.items)))
+      .flatMap(r => F.fromEither(r.body.map(List(_))))
   }
 
   override def mergePullRequest(
@@ -71,12 +75,13 @@ final class BitbucketCloudVcs[F[_]](using backend: SttpBackend[F, Any], settings
       pr: PullRequest,
       mergeStrategy: MergeStrategy,
       closeSourceBranch: Boolean): F[Unit] = {
-    val uri =
-      settings.apiHost.addPath("repositories", repo.owner, repo.name, "pullrequests", pr.number.toString, "merge")
-    val body = MergePullRequestRequest(closeSourceBranch, mergeStrategy)
+    val uri  = settings.apiHost.addPath("repos", repo.owner, repo.name, "pulls", pr.number.toString, "merge")
+    val body = MergePullRequestRequest(mergeStrategy, pr.sourceBranchHead)
 
     basicRequest
-      .post(uri)
+      .put(uri)
+      .header("X-GitHub-Api-Version", "2022-11-28")
+      .header("Accept", "application/vnd.github+json")
       .withAuthentication()
       .body(body)
       .response(asJson[JsonObject]) // Verifies 2xx response
@@ -85,36 +90,19 @@ final class BitbucketCloudVcs[F[_]](using backend: SttpBackend[F, Any], settings
   }
 
   override def mergeCheck(repo: Repository, pr: PullRequest): F[MergeCheck] = {
-    val uri =
-      settings.apiHost.addPath("repositories", repo.owner, repo.name, "pullrequests", pr.number.toString, "diffstat")
-
-    val diffStatRequest = basicRequest
-      .get(uri)
-      .followRedirects(false)
-      .withAuthentication()
-      .response(BitbucketCloudVcs.asRedirect)
-
-    val parseRedirectUri = (response: Response[Either[Unit, Unit]]) => {
-      response
-        .header(Location)
-        .toRight(s"Header expected: '$Location'")
-        .flatMap(uri => Uri.parse(uri).leftMap(_ => s"Not a valid URI: '$uri'"))
-    }
-
-    for {
-      resp1  <- diffStatRequest.send(backend)
-      newUrl <- F.fromEither(parseRedirectUri(resp1).leftMap(new IllegalArgumentException(_)))
-      resp2  <- basicRequest.get(newUrl).withAuthentication().response(asJson[Page[DiffStatResponse]]).send(backend)
-      result <- F.fromEither(resp2.body)
-    } yield MergeCheck.cond(result.items.forall(_.isMergeable()), "PR has merge conflicts.")
+    // Github does not have the concept of a merge check.
+    // Instead, if there is a merge conflict, github will not produce a "success" status check
+    MergeCheck.Accept.pure[F]
   }
 
   override def findEmergenceConfigFile(repo: Repository): F[Option[RepoFile]] = {
     val uri =
-      settings.apiHost.addPath("repositories", repo.owner, repo.name, "src", "master", settings.repositoryConfigName)
+      settings.apiHost.addPath("repos", repo.owner, repo.name, "contents", settings.repositoryConfigName)
 
     basicRequest
       .get(uri)
+      .header("X-GitHub-Api-Version", "2022-11-28")
+      .header("Accept", "application/vnd.github.raw")
       .withAuthentication()
       .response(asEither(ignore, asStringAlways).map(_.toOption))
       .send(backend)

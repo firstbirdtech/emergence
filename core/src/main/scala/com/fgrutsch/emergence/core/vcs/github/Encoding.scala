@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.fgrutsch.emergence.core.vcs.bitbucketcloud
+package com.fgrutsch.emergence.core.vcs.github
 
 import cats.syntax.all.*
 import com.fgrutsch.emergence.core.vcs.model.BranchName.*
@@ -23,40 +23,39 @@ import com.fgrutsch.emergence.core.vcs.model.PullRequestTitle.*
 import com.fgrutsch.emergence.core.vcs.model.*
 import io.circe.*
 
-private[bitbucketcloud] object Encoding {
+private[github] object Encoding {
 
   given Decoder[PullRequest] = Decoder.instance { c =>
     for {
-      id               <- c.downField("id").as[PullRequestNumber]
+      id               <- c.downField("number").as[PullRequestNumber]
       title            <- c.downField("title").as[PullRequestTitle]
-      sourceBranchName <- c.downField("source").downField("branch").downField("name").as[BranchName]
-      sourceBranchHead <- c.downField("source").downField("branch").downField("target").downField("hash").as[Commit]
-      targetBranchName <- c.downField("destination").downField("branch").downField("name").as[BranchName]
-      author           <- c.downField("author").downField("nickname").as[Author]
+      sourceBranchName <- c.downField("head").downField("ref").as[BranchName]
+      sourceBranchHead <- c.downField("head").downField("sha").as[Commit]
+      targetBranchName <- c.downField("base").downField("ref").as[BranchName]
+      author           <- c.downField("user").downField("login").as[Author]
     } yield PullRequest(id, title, sourceBranchName, sourceBranchHead, targetBranchName, author)
   }
 
   given Decoder[BuildStatusState] = {
     Decoder[String].emap {
-      case "SUCCESSFUL" => BuildStatusState.Success.asRight
-      case "INPROGRESS" => BuildStatusState.InProgress.asRight
-      case "FAILED"     => BuildStatusState.Failed.asRight
-      case "STOPPED"    => BuildStatusState.Stopped.asRight
-      case s            => s"Unknown build status state: '$s'".asLeft
+      case "success" => BuildStatusState.Success.asRight
+      case "pending" => BuildStatusState.InProgress.asRight
+      case "failure" => BuildStatusState.Failed.asRight
+      case s         => s"Unknown build status state: '$s'".asLeft
     }
   }
 
   given Decoder[BuildStatus] = Decoder.instance { c =>
     for {
-      name  <- c.downField("name").as[BuildStatusName]
+      name  <- c.downField("state").as[BuildStatusName]
       state <- c.downField("state").as[BuildStatusState]
     } yield BuildStatus(name, state)
   }
 
   given mergeStrategyEncoder: Encoder[MergeStrategy] = Encoder.encodeString.contramap[MergeStrategy] {
-    case MergeStrategy.MergeCommit => "merge_commit"
+    case MergeStrategy.MergeCommit => "merge"
     case MergeStrategy.Squash      => "squash"
-    case MergeStrategy.FastForward => "fast_forward"
+    case MergeStrategy.FastForward => "rebase"
   }
 
 }

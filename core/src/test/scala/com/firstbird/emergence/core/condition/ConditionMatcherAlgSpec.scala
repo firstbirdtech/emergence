@@ -17,6 +17,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestNumber(1),
         PullRequestTitle("Test"),
         BranchName("update/abc"),
+        Commit("1234"),
         BranchName("master"),
         Author("fgrutsch")
       ),
@@ -34,6 +35,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestNumber(1),
         PullRequestTitle("Test"),
         BranchName("update/abc"),
+        Commit("1234"),
         BranchName("master"),
         Author("fgrutsch")
       ),
@@ -51,6 +53,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestNumber(1),
         PullRequestTitle("Test"),
         BranchName("update/abc"),
+        Commit("1234"),
         BranchName("master"),
         Author("fgrutsch")
       ),
@@ -71,6 +74,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestNumber(1),
         PullRequestTitle("Test"),
         BranchName("update/abc"),
+        Commit("1234"),
         BranchName("master"),
         Author("fgrutsch")
       ),
@@ -91,6 +95,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestNumber(1),
         PullRequestTitle("Test"),
         BranchName("update/abc"),
+        Commit("1234"),
         BranchName("master"),
         Author("fgrutsch")
       ),
@@ -108,6 +113,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestNumber(1),
         PullRequestTitle("Test"),
         BranchName("update/abc"),
+        Commit("1234"),
         BranchName("master"),
         Author("fgrutsch")
       ),
@@ -125,6 +131,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestNumber(1),
         PullRequestTitle("Test"),
         BranchName("update/abc"),
+        Commit("1234"),
         BranchName("master"),
         Author("fgrutsch")
       ),
@@ -142,6 +149,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestNumber(1),
         PullRequestTitle("Test"),
         BranchName("update/abc"),
+        Commit("1234"),
         BranchName("master"),
         Author("fgrutsch")
       ),
@@ -159,6 +167,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestNumber(1),
         PullRequestTitle("Test"),
         BranchName("update/abc"),
+        Commit("1234"),
         BranchName("master"),
         Author("fgrutsch")
       ),
@@ -176,6 +185,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
         PullRequestNumber(1),
         PullRequestTitle("Test"),
         BranchName("update/abc"),
+        Commit("1234"),
         BranchName("master"),
         Author("fgrutsch")
       ),

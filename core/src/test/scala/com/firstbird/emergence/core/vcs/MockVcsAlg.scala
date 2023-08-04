@@ -2,7 +2,8 @@ package com.fgrutsch.emergence.core.vcs
 
 import cats.data.Kleisli
 import cats.effect.{IO, Ref}
-import com.fgrutsch.emergence.core.vcs.model.*
+import com.fgrutsch.emergence.core.vcs.model.{*}
+import com.fgrutsch.emergence.core.vcs.model.{Commit => Commit}
 import testutil.*
 
 class MockVcsAlg extends VcsAlg[Eff] {
@@ -12,6 +13,7 @@ class MockVcsAlg extends VcsAlg[Eff] {
       PullRequestNumber(1),
       PullRequestTitle("Test"),
       BranchName("update/a"),
+      Commit("1234"),
       BranchName("master"),
       Author("fgrutsch")
     )
@@ -20,6 +22,7 @@ class MockVcsAlg extends VcsAlg[Eff] {
       PullRequestNumber(2),
       PullRequestTitle("Test2"),
       BranchName("update/b"),
+      Commit("1234"),
       BranchName("master"),
       Author("fgrutsch")
     )
@@ -28,6 +31,7 @@ class MockVcsAlg extends VcsAlg[Eff] {
       PullRequestNumber(3),
       PullRequestTitle("Test3"),
       BranchName("update/c"),
+      Commit("1234"),
       BranchName("master"),
       Author("fgrutsch")
     )
@@ -35,8 +39,8 @@ class MockVcsAlg extends VcsAlg[Eff] {
     Kleisli.pure(pr1 :: pr2 :: pr3 :: Nil)
   }
 
-  override def listBuildStatuses(repo: Repository, number: PullRequestNumber): Eff[List[BuildStatus]] = {
-    number match {
+  override def listBuildStatuses(repo: Repository, pr: PullRequest): Eff[List[BuildStatus]] = {
+    pr.number match {
       case PullRequestNumber(1) =>
         val bs = BuildStatus(BuildStatusName("Build and Test"), BuildStatusState.Success)
         Kleisli.pure(bs :: Nil)
@@ -47,24 +51,24 @@ class MockVcsAlg extends VcsAlg[Eff] {
         val bs = BuildStatus(BuildStatusName("Build and Test"), BuildStatusState.Success)
         Kleisli.pure(bs :: Nil)
       case _ =>
-        throw new IllegalArgumentException(s"listBuildStatuses for PR #${number} not mocked!!!")
+        throw new IllegalArgumentException(s"listBuildStatuses for PR #${pr.number} not mocked!!!")
     }
   }
 
   override def mergePullRequest(
       repo: Repository,
-      number: PullRequestNumber,
+      pr: PullRequest,
       mergeStrategy: MergeStrategy,
       closeSourceBranch: Boolean): Eff[Unit] = {
-    val pr = TestState.MergedPr(number, mergeStrategy, closeSourceBranch)
-    Kleisli[IO, Ref[IO, TestState], Unit](_.update(_.addMergedPr(pr)))
+    val mergedPr = TestState.MergedPr(pr.number, mergeStrategy, closeSourceBranch)
+    Kleisli[IO, Ref[IO, TestState], Unit](_.update(_.addMergedPr(mergedPr)))
   }
 
-  override def mergeCheck(repo: Repository, number: PullRequestNumber): Eff[MergeCheck] = {
-    number match {
+  override def mergeCheck(repo: Repository, pr: PullRequest): Eff[MergeCheck] = {
+    pr.number match {
       case PullRequestNumber(1) | PullRequestNumber(2) => Kleisli.pure(MergeCheck.Accept)
       case PullRequestNumber(3)                        => Kleisli.pure(MergeCheck.Decline("failed"))
-      case _ => throw new IllegalArgumentException(s"mergeCheck for PR #${number} not mocked!!!")
+      case _ => throw new IllegalArgumentException(s"mergeCheck for PR #${pr.number} not mocked!!!")
     }
   }
 

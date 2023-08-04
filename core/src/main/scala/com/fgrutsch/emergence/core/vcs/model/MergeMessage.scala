@@ -16,11 +16,14 @@
 
 package com.fgrutsch.emergence.core.vcs.model
 
-final case class PullRequest(
-    number: PullRequestNumber,
-    title: PullRequestTitle,
-    sourceBranchName: BranchName,
-    sourceBranchHead: Commit,
-    targetBranchName: BranchName,
-    author: Author
-)
+import io.circe.Decoder
+
+final case class MergeMessage(underlying: String) extends AnyVal {
+  override def toString: String = underlying
+}
+
+object MergeMessage {
+
+  given Decoder[MergeMessage] = Decoder.decodeString.map(MergeMessage(_))
+
+}

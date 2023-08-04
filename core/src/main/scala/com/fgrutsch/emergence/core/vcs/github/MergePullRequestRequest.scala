@@ -14,13 +14,26 @@
  * limitations under the License.
  */
 
-package com.fgrutsch.emergence.core.vcs.model
+package com.fgrutsch.emergence.core.vcs.github
 
-final case class PullRequest(
-    number: PullRequestNumber,
-    title: PullRequestTitle,
-    sourceBranchName: BranchName,
-    sourceBranchHead: Commit,
-    targetBranchName: BranchName,
-    author: Author
+import com.fgrutsch.emergence.core.vcs.github.Encoding.{mergeStrategyEncoder, *}
+import com.fgrutsch.emergence.core.vcs.model.*
+import io.circe.{Encoder, Json}
+
+final private[github] case class MergePullRequestRequest(
+    mergeStrategy: MergeStrategy,
+    sha: Commit
 )
+
+private[github] object MergePullRequestRequest {
+
+  given Encoder[MergePullRequestRequest] = {
+    Encoder.instance { m =>
+      Json.obj(
+        "merge_method" -> mergeStrategyEncoder(m.mergeStrategy),
+        "sha"          -> Json.fromString(m.sha.toString)
+      )
+    }
+  }
+
+}

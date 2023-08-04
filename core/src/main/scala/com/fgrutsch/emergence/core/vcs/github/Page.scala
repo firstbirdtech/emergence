@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 
-package com.fgrutsch.emergence.core.vcs.model
+package com.fgrutsch.emergence.core.vcs.github
 
-final case class PullRequest(
-    number: PullRequestNumber,
-    title: PullRequestTitle,
-    sourceBranchName: BranchName,
-    sourceBranchHead: Commit,
-    targetBranchName: BranchName,
-    author: Author
-)
+import io.circe.Decoder
+
+final private[github] case class Page[A](items: List[A])
+
+private[github] object Page {
+
+  given [A](using Decoder[A]): Decoder[Page[A]] = {
+    Decoder.instance { c =>
+      c.as[List[A]].map(Page(_))
+    }
+  }
+
+}
