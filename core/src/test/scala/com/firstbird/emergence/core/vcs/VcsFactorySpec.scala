@@ -1,7 +1,9 @@
 package com.fgrutsch.emergence.core.vcs
 
 import cats.effect.*
+import com.fgrutsch.emergence.core.model.VcsType
 import com.fgrutsch.emergence.core.vcs.bitbucketcloud.BitbucketCloudVcs
+import com.fgrutsch.emergence.core.vcs.github.GithubVcs
 import sttp.client3.SttpBackend
 import sttp.client3.asynchttpclient.cats.AsyncHttpClientCatsBackend
 import testutil.*
@@ -12,10 +14,20 @@ class VcsFactorySpec extends BaseSpec {
   private val vcsFactory             = new VcsFactory[IO]
 
   test("getVcs returns a BitbucketCloudVcs instance") {
-    val result = vcsFactory.getVcs(settings)
+
+    val result = vcsFactory.getVcs(settings.copy(vcsType = VcsType.BitbucketCloud))
     result match {
       case _: BitbucketCloudVcs[IO] => succeed
       case _                        => fail("wrong VcsAlg")
+    }
+
+  }
+  test("getVcs returns a GithubVcs instance") {
+
+    val result = vcsFactory.getVcs(settings.copy(vcsType = VcsType.Github))
+    result match {
+      case _: GithubVcs[IO] => succeed
+      case _                => fail("wrong VcsAlg")
     }
 
   }
