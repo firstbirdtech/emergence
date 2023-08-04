@@ -17,8 +17,8 @@ object SetupGithubActionsPlugin extends AutoPlugin {
       WorkflowStep.Sbt(
         List("ci-release"),
         env = Map(
-          "PGP_PASSPHRASE"    -> "${{ secrets.PGP_PASSPHRASE }}",
-          "PGP_SECRET"        -> "${{ secrets.PGP_SECRET }}",
+          "PGP_PASSPHRASE"    -> "${{ secrets.PGP_PASSPHRASE_NEW }}",
+          "PGP_SECRET"        -> "${{ secrets.PGP_SECRET_NEW }}",
           "SONATYPE_PASSWORD" -> "${{ secrets.SONATYPE_PASSWORD }}",
           "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}"
         )
