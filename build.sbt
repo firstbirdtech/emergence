@@ -14,13 +14,13 @@ lazy val commonSettings = Seq(
   homepage            := Some(url("https://github.com/firstbirdtech/emergence")),
   licenses            := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
   scmInfo := Some(
-    ScmInfo(homepage.value.get, "scm:git:https://github.com/fgrutsch/emergence.git")
+    ScmInfo(homepage.value.get, "scm:git:https://github.com/firstbirdtech/emergence.git")
   ),
   developers += Developer(
     "contributors",
     "Contributors",
     "",
-    url("https://github.com/fgrutsch/emergence/graphs/contributors")
+    url("https://github.com/firstbirdtech/emergence/graphs/contributors")
   ),
   scalacOptions ++= Seq(
     "-deprecation",
@@ -72,7 +72,7 @@ lazy val core = project
   )
   .settings(
     dockerBaseImage      := "eclipse-temurin:11",
-    Docker / packageName := "fgrutsch/emergence",
+    Docker / packageName := "firstbird/emergence",
     dockerUpdateLatest   := true
   )
 
