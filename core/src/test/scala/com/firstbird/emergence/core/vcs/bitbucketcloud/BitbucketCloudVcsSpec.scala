@@ -28,18 +28,18 @@ class BitbucketCloudVcsSpec extends BaseSpec {
                     "title": "Test",
                     "source": {
                         "branch": {
-                            "name": "update/abc",
-                            "target": {
+                            "name": "update/abc"
+                        },
+                        "commit": {
                               "hash": "1234"
-                            }
                         }
                     },
                     "destination": {
                         "branch": {
-                            "name": "master",
-                            "target": {
+                            "name": "master"
+                        },
+                        "commit": {
                               "hash": "1234"
-                            }
                         }
                     },
                     "author": {

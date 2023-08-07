@@ -17,10 +17,10 @@ class EncodingSpec extends BaseSpec with TableDrivenPropertyChecks {
         "title": "Test",
         "source": {
             "branch": {
-                "name": "update/abc",
-                "target": {
-                  "hash": "1234"
-                }
+                "name": "update/abc"
+            },
+            "commit": {
+              "hash": "1234"
             }
         },
         "destination": {
