@@ -25,7 +25,7 @@ import io.circe.*
 
 private[github] object Encoding {
 
-  given Decoder[PullRequest] = Decoder.instance { c =>
+  given Decoder[GithubPullRequest] = Decoder.instance { c =>
     for {
       id               <- c.downField("number").as[PullRequestNumber]
       title            <- c.downField("title").as[PullRequestTitle]
@@ -33,7 +33,9 @@ private[github] object Encoding {
       sourceBranchHead <- c.downField("head").downField("sha").as[Commit]
       targetBranchName <- c.downField("base").downField("ref").as[BranchName]
       author           <- c.downField("user").downField("login").as[Author]
-    } yield PullRequest(id, title, sourceBranchName, sourceBranchHead, targetBranchName, author)
+      draft            <- c.downField("draft").as[Boolean]
+      mergeable        <- c.downField("mergeable").as[Option[Boolean]]
+    } yield GithubPullRequest(id, title, sourceBranchName, sourceBranchHead, targetBranchName, author, draft, mergeable)
   }
 
   given Decoder[BuildStatusState] = {

@@ -16,6 +16,7 @@ class EncodingSpec extends BaseSpec with TableDrivenPropertyChecks {
         "id": 1461185956,
         "number": 1,
         "state": "open",
+        "draft": false,
         "title": "Removed not working trigger and debug logging.",
         "user": {
             "login": "fgrutsch"
@@ -35,15 +36,17 @@ class EncodingSpec extends BaseSpec with TableDrivenPropertyChecks {
         "active_lock_reason": null
     }"""
 
-    val result = parse(input).value.as[PullRequest]
+    val result = parse(input).value.as[GithubPullRequest]
     result.value mustBe {
-      PullRequest(
+      GithubPullRequest(
         PullRequestNumber(1),
         PullRequestTitle("Removed not working trigger and debug logging."),
         BranchName("update-automerge-workflow"),
         Commit("1234"),
         BranchName("main"),
-        Author("fgrutsch")
+        Author("fgrutsch"),
+        false,
+        None
       )
     }
   }

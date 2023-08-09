@@ -50,9 +50,9 @@ final class GithubVcs[F[_]](using backend: SttpBackend[F, Any], settings: VcsSet
       .header("X-GitHub-Api-Version", "2022-11-28")
       .header("Accept", "application/vnd.github+json")
       .withAuthentication()
-      .response(asJson[Page[PullRequest]])
+      .response(asJson[Page[GithubPullRequest]])
       .send(backend)
-      .flatMap(r => F.fromEither(r.body.map(_.items)))
+      .flatMap(r => F.fromEither(r.body.map(_.items.filterNot(_.draft).map(_.toPullRequest()))))
   }
 
   override def listBuildStatuses(repo: Repository, pr: PullRequest): F[List[BuildStatus]] = {
@@ -90,9 +90,29 @@ final class GithubVcs[F[_]](using backend: SttpBackend[F, Any], settings: VcsSet
   }
 
   override def mergeCheck(repo: Repository, pr: PullRequest): F[MergeCheck] = {
-    // Github does not have the concept of a merge check.
-    // Instead, if there is a merge conflict, github will not produce a "success" status check
-    MergeCheck.Accept.pure[F]
+
+    val uri =
+      settings.apiHost.addPath("repos", repo.owner, repo.name, "pulls", pr.number.toString)
+
+    val getPR = () =>
+      basicRequest
+        .get(uri)
+        .header("X-GitHub-Api-Version", "2022-11-28")
+        .header("Accept", "application/vnd.github+json")
+        .withAuthentication()
+        .response(asJson[GithubPullRequest])
+        .send(backend)
+
+    // Querying this resource may trigger a merge-check, that won't complete in time.
+    // So we retry if 'mergeable' is NULL.
+    getPR().flatMap(r => F.fromEither(r.body.map(_.mergeable))).flatMap { mOpt =>
+      mOpt match {
+        case Some(mergeable) => F.pure(MergeCheck.cond(mergeable, "Unknown"))
+        case None =>
+          getPR().flatMap(r =>
+            F.fromEither(r.body.map(pr => MergeCheck.cond(pr.mergeable.getOrElse(false), "Unknown"))))
+      }
+    }
   }
 
   override def findEmergenceConfigFile(repo: Repository): F[Option[RepoFile]] = {

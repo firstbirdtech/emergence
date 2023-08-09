@@ -27,6 +27,30 @@ class GithubVcsSpec extends BaseSpec {
         "number": 1,
         "state": "open",
         "title": "Test",
+        "draft": false,
+        "user": {
+            "login": "fgrutsch"
+        },
+        "head": {
+            "label": "radancy-referrals:update-automerge-workflow",
+            "ref": "update/abc",
+            "sha": "1234"
+        },
+        "base": {
+            "label": "radancy-referrals:main",
+            "ref": "master",
+            "sha": "f26170f221907b98b1dffff40da416e5e84f3962"
+        },
+        "author_association": "CONTRIBUTOR",
+        "auto_merge": null,
+        "active_lock_reason": null
+    },
+    {
+        "id": 1461185977,
+        "number": 2,
+        "state": "open",
+        "title": "Test2",
+        "draft": true,
         "user": {
             "login": "fgrutsch"
         },
@@ -46,6 +70,37 @@ class GithubVcsSpec extends BaseSpec {
     }
     ]
         """).value.toString
+    )
+    .whenRequestMatches { r =>
+      r.uri.path.startsWith("repos" :: "owner" :: "name" :: "pulls" :: "1" :: Nil) &&
+      r.method == Method.GET
+    }
+    .thenRespond(
+      parse("""
+    {
+        "id": 1461185956,
+        "number": 1,
+        "state": "open",
+        "title": "Test",
+        "draft": false,
+        "mergeable": true,
+        "user": {
+            "login": "fgrutsch"
+        },
+        "head": {
+            "label": "radancy-referrals:update-automerge-workflow",
+            "ref": "update/abc",
+            "sha": "1234"
+        },
+        "base": {
+            "label": "radancy-referrals:main",
+            "ref": "master",
+            "sha": "f26170f221907b98b1dffff40da416e5e84f3962"
+        },
+        "author_association": "CONTRIBUTOR",
+        "auto_merge": null,
+        "active_lock_reason": null
+    }""").value.toString
     )
     .whenRequestMatches { r =>
       r.uri.path.startsWith("repos" :: "owner" :: "name" :: "commits" :: "1234" :: "status" :: Nil) &&
