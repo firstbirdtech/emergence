@@ -17,8 +17,7 @@
 package com.fgrutsch.emergence.core.app
 
 import cats.MonadThrow
-import cats.effect.ExitCode
-import cats.effect.kernel.Concurrent
+import cats.effect.{Concurrent, ExitCode}
 import cats.instances.all.*
 import cats.syntax.all.*
 import com.fgrutsch.emergence.BuildInfo
@@ -39,9 +38,9 @@ class EmergenceAlg[F[_]: Concurrent](using
 
   private val banner = {
     """
-      |     ___  ___ ___________ _____  _____               
-      |     |  \/  ||  ___| ___ \  __ \|  ___|              
-      |  ___| .  . || |__ | |_/ / |  \/| |__ _ __   ___ ___ 
+      |     ___  ___ ___________ _____  _____
+      |     |  \/  ||  ___| ___ \  __ \|  ___|
+      |  ___| .  . || |__ | |_/ / |  \/| |__ _ __   ___ ___
       | / _ \ |\/| ||  __||    /| | __ |  __| '_ \ / __/ _ \
       ||  __/ |  | || |___| |\ \| |_\ \| |__| | | | (_|  __/
       | \___\_|  |_/\____/\_| \_|\____/\____/_| |_|\___\___|

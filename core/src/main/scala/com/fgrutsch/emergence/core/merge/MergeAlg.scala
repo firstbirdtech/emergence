@@ -18,7 +18,7 @@ package com.fgrutsch.emergence.core.merge
 
 import cats.MonadThrow
 import cats.data.Validated.{Invalid, Valid}
-import cats.effect.kernel.{Concurrent, Temporal}
+import cats.effect.{Concurrent, Temporal}
 import cats.syntax.all.*
 import com.fgrutsch.emergence.core.condition.{ConditionMatcherAlg, Input}
 import com.fgrutsch.emergence.core.configuration.{EmergenceConfig, MergeConfig}
