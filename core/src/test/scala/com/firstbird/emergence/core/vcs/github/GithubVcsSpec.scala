@@ -132,6 +132,24 @@ class GithubVcsSpec extends BaseSpec {
     }
     .thenRespondWithCode(StatusCode.NoContent)
     .whenRequestMatches { r =>
+      r.uri.path.startsWith("repos" :: "owner" :: "name" :: "pulls" :: "2" :: "merge" :: Nil) &&
+      r.method == Method.PUT
+    }
+    .thenRespond(
+      parse("""
+        {
+          "sha": "5678",
+          "merged": true,
+          "message": "Pull Request successfully merged"
+        }
+        """).value.toString
+    )
+    .whenRequestMatches { r =>
+      r.uri.path.startsWith("repos" :: "owner" :: "name" :: "git" :: "refs" :: "heads" :: "update/def" :: Nil) &&
+      r.method == Method.DELETE
+    }
+    .thenRespondWithCode(StatusCode.UnprocessableEntity)
+    .whenRequestMatches { r =>
       r.uri.path.startsWith("repos" :: "owner" :: "name" :: "contents" :: ".emergence.yml" :: Nil) &&
       r.method == Method.GET &&
       r.headers.contains(Header("Accept", "application/vnd.github.raw"))
@@ -166,6 +184,22 @@ class GithubVcsSpec extends BaseSpec {
   test("mergePullRequest") {
     val result = githubVcs
       .mergePullRequest(Repository("owner", "name"), dummyPR, MergeStrategy.Squash, true)
+      .unsafeRunSync()
+    result mustBe { () }
+  }
+
+  test("mergePullRequest with failing delete branch") {
+    val failPR = PullRequest(
+      PullRequestNumber(2),
+      PullRequestTitle("Test 2"),
+      BranchName("update/def"),
+      Commit("5678"),
+      BranchName("master"),
+      Author("jdoe")
+    )
+
+    val result = githubVcs
+      .mergePullRequest(Repository("owner", "name"), failPR, MergeStrategy.Squash, true)
       .unsafeRunSync()
     result mustBe { () }
   }
