@@ -17,8 +17,7 @@
 package com.fgrutsch.emergence.core.app
 
 import cats.MonadThrow
-import cats.effect.ExitCode
-import cats.effect.kernel.Concurrent
+import cats.effect.{Concurrent, ExitCode}
 import cats.instances.all.*
 import cats.syntax.all.*
 import com.fgrutsch.emergence.BuildInfo

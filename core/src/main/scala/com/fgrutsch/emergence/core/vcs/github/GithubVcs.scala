@@ -17,6 +17,7 @@
 package com.fgrutsch.emergence.core.vcs.github
 
 import cats.MonadThrow
+import cats.effect.Temporal
 import cats.syntax.all.*
 import com.fgrutsch.emergence.core.vcs.*
 import com.fgrutsch.emergence.core.vcs.github.Encoding.given
@@ -27,6 +28,8 @@ import sttp.client3.circe.*
 import sttp.model.HeaderNames.Location
 import sttp.model.Uri
 
+import scala.concurrent.duration.{Duration, _}
+
 object GithubVcs {
 
   private val asRedirect = {
@@ -36,8 +39,9 @@ object GithubVcs {
 
 }
 
-final class GithubVcs[F[_]](using backend: SttpBackend[F, Any], settings: VcsSettings, F: MonadThrow[F])
-    extends VcsAlg[F] {
+final class GithubVcs[F[_]: Temporal](using backend: SttpBackend[F, Any], settings: VcsSettings) extends VcsAlg[F] {
+
+  private val TMP = Temporal[F]
 
   override def listPullRequests(repo: Repository): F[List[PullRequest]] = {
     val uri = settings.apiHost
@@ -50,9 +54,9 @@ final class GithubVcs[F[_]](using backend: SttpBackend[F, Any], settings: VcsSet
       .header("X-GitHub-Api-Version", "2022-11-28")
       .header("Accept", "application/vnd.github+json")
       .withAuthentication()
-      .response(asJson[Page[PullRequest]])
+      .response(asJson[Page[GithubPullRequest]])
       .send(backend)
-      .flatMap(r => F.fromEither(r.body.map(_.items)))
+      .flatMap(r => TMP.fromEither(r.body.map(_.items.filterNot(_.draft).map(_.toPullRequest()))))
   }
 
   override def listBuildStatuses(repo: Repository, pr: PullRequest): F[List[BuildStatus]] = {
@@ -67,7 +71,7 @@ final class GithubVcs[F[_]](using backend: SttpBackend[F, Any], settings: VcsSet
       .withAuthentication()
       .response(asJson[BuildStatus])
       .send(backend)
-      .flatMap(r => F.fromEither(r.body.map(List(_))))
+      .flatMap(r => TMP.fromEither(r.body.map(List(_))))
   }
 
   override def mergePullRequest(
@@ -86,13 +90,36 @@ final class GithubVcs[F[_]](using backend: SttpBackend[F, Any], settings: VcsSet
       .body(body)
       .response(asJson[JsonObject]) // Verifies 2xx response
       .send(backend)
-      .flatMap(r => F.fromEither(r.body.map(_ => ())))
+      .flatMap(r => TMP.fromEither(r.body.map(_ => ())))
   }
 
   override def mergeCheck(repo: Repository, pr: PullRequest): F[MergeCheck] = {
-    // Github does not have the concept of a merge check.
-    // Instead, if there is a merge conflict, github will not produce a "success" status check
-    MergeCheck.Accept.pure[F]
+
+    val uri =
+      settings.apiHost.addPath("repos", repo.owner, repo.name, "pulls", pr.number.toString)
+
+    val getPR = () =>
+      basicRequest
+        .get(uri)
+        .header("X-GitHub-Api-Version", "2022-11-28")
+        .header("Accept", "application/vnd.github+json")
+        .withAuthentication()
+        .response(asJson[GithubPullRequest])
+        .send(backend)
+
+    // Requesting a PR will trigger a merge-check, if there is no current one.
+    // While this check is running, 'mergeable' is NULL. So we retry with a delay until we get a result.
+
+    val isMergeable = (tries: Int) => getPR().flatMap(r => TMP.fromEither(r.body.map(pr => (pr.mergeable, tries - 1))))
+
+    val res =
+      isMergeable(5) >>= (TMP.iterateUntilM(_) { case (_, tries) =>
+        TMP.delayBy(isMergeable(tries), 200.milliseconds)
+      } { case (m, tries) =>
+        m.isDefined || tries <= 0
+      })
+
+    res.map { case (mergeable, _) => MergeCheck.cond(mergeable.getOrElse(false), "Unknown") }
   }
 
   override def findEmergenceConfigFile(repo: Repository): F[Option[RepoFile]] = {
