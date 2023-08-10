@@ -17,6 +17,7 @@
 package com.fgrutsch.emergence.core.vcs.github
 
 import cats.MonadThrow
+import cats.effect.Temporal
 import cats.syntax.all.*
 import com.fgrutsch.emergence.core.vcs.*
 import com.fgrutsch.emergence.core.vcs.github.Encoding.given
@@ -26,9 +27,8 @@ import sttp.client3.*
 import sttp.client3.circe.*
 import sttp.model.HeaderNames.Location
 import sttp.model.Uri
-import scala.concurrent.duration.Duration
-import scala.concurrent.duration.*
-import cats.effect.Temporal
+
+import scala.concurrent.duration.{Duration, _}
 
 object GithubVcs {
 
