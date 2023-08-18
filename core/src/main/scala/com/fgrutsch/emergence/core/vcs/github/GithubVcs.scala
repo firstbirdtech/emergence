@@ -82,7 +82,7 @@ final class GithubVcs[F[_]: Temporal](using backend: SttpBackend[F, Any], settin
     val uri  = settings.apiHost.addPath("repos", repo.owner, repo.name, "pulls", pr.number.toString, "merge")
     val body = MergePullRequestRequest(mergeStrategy, pr.sourceBranchHead)
 
-    basicRequest
+    val mergePR = basicRequest
       .put(uri)
       .header("X-GitHub-Api-Version", "2022-11-28")
       .header("Accept", "application/vnd.github+json")
@@ -90,7 +90,23 @@ final class GithubVcs[F[_]: Temporal](using backend: SttpBackend[F, Any], settin
       .body(body)
       .response(asJson[JsonObject]) // Verifies 2xx response
       .send(backend)
-      .flatMap(r => TMP.fromEither(r.body.map(_ => ())))
+
+    if (closeSourceBranch) {
+      val delUri =
+        settings.apiHost.addPath("repos", repo.owner, repo.name, "git", "refs", "heads", pr.sourceBranchName.toString)
+
+      mergePR.flatMap { _ =>
+        basicRequest
+          .delete(delUri)
+          .header("X-GitHub-Api-Version", "2022-11-28")
+          .header("Accept", "application/vnd.github+json")
+          .withAuthentication()
+          .send(backend)
+          .flatMap(_ => TMP.pure(()))
+      }
+    } else {
+      mergePR.flatMap(r => TMP.fromEither(r.body.map(_ => ())))
+    }
   }
 
   override def mergeCheck(repo: Repository, pr: PullRequest): F[MergeCheck] = {
