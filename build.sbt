@@ -1,8 +1,7 @@
 import java.time.LocalDate
 
-ThisBuild / scalafixDependencies += Dependencies.organizeimports
 ThisBuild / dynverSeparator := "-" // Default uses '+' which is not valid for docker tags
-ThisBuild / scalaVersion    := "3.3.0"
+ThisBuild / scalaVersion    := "3.3.1"
 
 addCommandAlias("codeFmt", ";headerCreate;scalafmtAll;scalafmtSbt;scalafixAll")
 addCommandAlias("codeVerify", ";scalafmtCheckAll;scalafmtSbtCheck;scalafixAll --check;headerCheck")
@@ -71,7 +70,7 @@ lazy val core = project
     }.taskValue
   )
   .settings(
-    dockerBaseImage      := "eclipse-temurin:11",
+    dockerBaseImage      := "eclipse-temurin:17",
     Docker / packageName := "firstbird/emergence",
     dockerUpdateLatest   := true
   )
