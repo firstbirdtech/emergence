@@ -70,7 +70,7 @@ lazy val core = project
     }.taskValue
   )
   .settings(
-    dockerBaseImage      := "eclipse-temurin:11",
+    dockerBaseImage      := "eclipse-temurin:17",
     Docker / packageName := "firstbird/emergence",
     dockerUpdateLatest   := true
   )
