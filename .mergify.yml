@@ -1,7 +1,7 @@
 pull_request_rules:
   - name: merge scala-steward PRs
     conditions:
-      - 'author=fgrutsch'
+      - 'author~=scala-steward-firstbirdtech'
       - 'head~=update\/.+'
       - 'status-success~=Build and Test \(ubuntu-latest, 3\.\d\.\d, temurin@11\)'
       - 'status-success~=Build and Test \(ubuntu-latest, 3\.\d\.\d, temurin@17\)'
