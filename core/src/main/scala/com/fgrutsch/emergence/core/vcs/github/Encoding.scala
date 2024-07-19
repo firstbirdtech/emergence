@@ -17,10 +17,10 @@
 package com.fgrutsch.emergence.core.vcs.github
 
 import cats.syntax.all.*
+import com.fgrutsch.emergence.core.vcs.model.*
 import com.fgrutsch.emergence.core.vcs.model.BranchName.*
 import com.fgrutsch.emergence.core.vcs.model.PullRequestNumber.*
 import com.fgrutsch.emergence.core.vcs.model.PullRequestTitle.*
-import com.fgrutsch.emergence.core.vcs.model.*
 import io.circe.*
 
 private[github] object Encoding {

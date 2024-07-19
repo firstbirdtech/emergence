@@ -28,7 +28,7 @@ import sttp.client3.circe.*
 import sttp.model.HeaderNames.Location
 import sttp.model.Uri
 
-import scala.concurrent.duration.{Duration, _}
+import scala.concurrent.duration.{Duration, *}
 
 object GithubVcs {
 
