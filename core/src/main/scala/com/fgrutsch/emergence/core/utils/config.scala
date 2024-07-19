@@ -18,9 +18,9 @@ package com.fgrutsch.emergence.core.utils
 
 import cats.syntax.all.*
 import com.typesafe.config.*
-import io.circe.{Decoder, ParsingFailure, parser, yaml, _}
+import io.circe.{Decoder, ParsingFailure, parser, yaml, *}
 
-import java.lang.{Boolean => JBoolean, Double => JDouble, Integer => JInteger, Long => JLong}
+import java.lang.{Boolean as JBoolean, Double as JDouble, Integer as JInteger, Long as JLong}
 import scala.concurrent.duration.*
 import scala.jdk.CollectionConverters.*
 import scala.util.{Failure, Success, Try}

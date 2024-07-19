@@ -2,8 +2,8 @@ package com.fgrutsch.emergence.core.vcs
 
 import cats.data.Kleisli
 import cats.effect.{IO, Ref}
-import com.fgrutsch.emergence.core.vcs.model.{*}
-import com.fgrutsch.emergence.core.vcs.model.{Commit => Commit}
+import com.fgrutsch.emergence.core.vcs.model.*
+import com.fgrutsch.emergence.core.vcs.model.Commit as Commit
 import testutil.*
 
 class MockVcsAlg extends VcsAlg[Eff] {
