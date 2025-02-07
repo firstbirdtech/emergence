@@ -4,14 +4,14 @@ object Dependencies {
 
   private val circeVersion      = "0.14.10"
   private val fs2Version        = "3.11.0"
-  private val sttpClientVersion = "3.10.1"
+  private val sttpClientVersion = "3.10.3"
 
   val core: Seq[ModuleID] = Seq(
-    "ch.qos.logback"                   % "logback-classic"                % "1.5.15",
+    "ch.qos.logback"                   % "logback-classic"                % "1.5.16",
     "co.fs2"                          %% "fs2-io"                         % fs2Version,
     "co.fs2"                          %% "fs2-core"                       % fs2Version,
     "com.fasterxml.jackson.dataformat" % "jackson-dataformat-yaml"        % "2.18.2",
-    "com.monovore"                    %% "decline-effect"                 % "2.4.1",
+    "com.monovore"                    %% "decline-effect"                 % "2.5.0",
     "com.softwaremill.sttp.client3"   %% "core"                           % sttpClientVersion,
     "com.softwaremill.sttp.client3"   %% "circe"                          % sttpClientVersion,
     "com.softwaremill.sttp.client3"   %% "async-http-client-backend-cats" % sttpClientVersion,
