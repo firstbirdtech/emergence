@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Emergence contributors
+ * Copyright 2025 Emergence contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,9 +38,9 @@ class EmergenceAlg[F[_]: Concurrent](using
 
   private val banner = {
     """
-      |     ___  ___ ___________ _____  _____               
-      |     |  \/  ||  ___| ___ \  __ \|  ___|              
-      |  ___| .  . || |__ | |_/ / |  \/| |__ _ __   ___ ___ 
+      |     ___  ___ ___________ _____  _____
+      |     |  \/  ||  ___| ___ \  __ \|  ___|
+      |  ___| .  . || |__ | |_/ / |  \/| |__ _ __   ___ ___
       | / _ \ |\/| ||  __||    /| | __ |  __| '_ \ / __/ _ \
       ||  __/ |  | || |___| |\ \| |_\ \| |__| | | | (_|  __/
       | \___\_|  |_/\____/\_| \_|\____/\____/_| |_|\___\___|
