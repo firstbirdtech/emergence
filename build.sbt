@@ -1,7 +1,7 @@
 import java.time.LocalDate
 
 ThisBuild / dynverSeparator            := "-" // Default uses '+' which is not valid for docker tags
-ThisBuild / scalaVersion               := "3.3.6"
+ThisBuild / scalaVersion               := "3.3.7"
 ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec.temurin("11"), JavaSpec.temurin("17"))
 
 addCommandAlias("codeFmt", ";headerCreate;scalafmtAll;scalafmtSbt;scalafixAll")
