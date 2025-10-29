@@ -12,7 +12,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
 
   test("checkConditions fails if empty list provided") {
     val conditions = Nil
-    val input = Input(
+    val input      = Input(
       PullRequest(
         PullRequestNumber(1),
         PullRequestTitle("Test"),
@@ -30,7 +30,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
 
   test("checkConditions fails BuildSuccessAll condition with empty build statuses") {
     val conditions = BuildSuccessAll :: Nil
-    val input = Input(
+    val input      = Input(
       PullRequest(
         PullRequestNumber(1),
         PullRequestTitle("Test"),
@@ -48,7 +48,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
 
   test("checkConditions fails BuildSuccessAll condition with at least one failing build") {
     val conditions = BuildSuccessAll :: Nil
-    val input = Input(
+    val input      = Input(
       PullRequest(
         PullRequestNumber(1),
         PullRequestTitle("Test"),
@@ -69,7 +69,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
 
   test("checkConditions succeeds BuildSuccessAll condition") {
     val conditions = BuildSuccessAll :: Nil
-    val input = Input(
+    val input      = Input(
       PullRequest(
         PullRequestNumber(1),
         PullRequestTitle("Test"),
@@ -90,7 +90,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
 
   test("checkConditions fails Author condition if there is no match") {
     val conditions = Condition.Author(ConditionOperator.Equal, ConditionValue("abc")) :: Nil
-    val input = Input(
+    val input      = Input(
       PullRequest(
         PullRequestNumber(1),
         PullRequestTitle("Test"),
@@ -108,7 +108,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
 
   test("checkConditions succeeds Author condition") {
     val conditions = Condition.Author(ConditionOperator.Equal, ConditionValue("fgrutsch")) :: Nil
-    val input = Input(
+    val input      = Input(
       PullRequest(
         PullRequestNumber(1),
         PullRequestTitle("Test"),
@@ -126,7 +126,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
 
   test("checkConditions fails SourceBranch condition if there is no match") {
     val conditions = Condition.SourceBranch(ConditionOperator.Equal, ConditionValue("abc")) :: Nil
-    val input = Input(
+    val input      = Input(
       PullRequest(
         PullRequestNumber(1),
         PullRequestTitle("Test"),
@@ -144,7 +144,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
 
   test("checkConditions succeeds SourceBranch condition") {
     val conditions = Condition.SourceBranch(ConditionOperator.Equal, ConditionValue("update/abc")) :: Nil
-    val input = Input(
+    val input      = Input(
       PullRequest(
         PullRequestNumber(1),
         PullRequestTitle("Test"),
@@ -162,7 +162,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
 
   test("checkConditions fails TargetBranch§ condition if there is no match") {
     val conditions = Condition.TargetBranch(ConditionOperator.Equal, ConditionValue("abc")) :: Nil
-    val input = Input(
+    val input      = Input(
       PullRequest(
         PullRequestNumber(1),
         PullRequestTitle("Test"),
@@ -180,7 +180,7 @@ class ConditionMatcherAlgSpec extends BaseSpec {
 
   test("checkConditions succeeds TargetBranch condition") {
     val conditions = Condition.TargetBranch(ConditionOperator.Equal, ConditionValue("master")) :: Nil
-    val input = Input(
+    val input      = Input(
       PullRequest(
         PullRequestNumber(1),
         PullRequestTitle("Test"),

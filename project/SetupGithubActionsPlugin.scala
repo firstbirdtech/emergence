@@ -5,8 +5,8 @@ import sbtghactions.WorkflowStep._
 
 object SetupGithubActionsPlugin extends AutoPlugin {
 
-  override def requires: Plugins = GenerativePlugin
-  override def trigger           = allRequirements
+  override def requires: Plugins              = GenerativePlugin
+  override def trigger                        = allRequirements
   override def buildSettings: Seq[Setting[_]] = Seq(
     githubWorkflowTargetTags ++= Seq("v*"),
     githubWorkflowJavaVersions += JavaSpec.temurin("17"),

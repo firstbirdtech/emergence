@@ -13,7 +13,7 @@ lazy val commonSettings = Seq(
   startYear           := Some(2020),
   homepage            := Some(url("https://github.com/firstbirdtech/emergence")),
   licenses            := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
-  scmInfo := Some(
+  scmInfo             := Some(
     ScmInfo(homepage.value.get, "scm:git:https://github.com/firstbirdtech/emergence.git")
   ),
   developers += Developer(

@@ -52,7 +52,7 @@ class MergeAlg[F[_]: Temporal: Concurrent](using
       _             <- logger.info(s"Pull request has build statuses: ${bulletPointed(buildStatuses)}")
       input         <- Input(pr, buildStatuses).pure[F]
       matchResult   <- conditionMatcherAlg.checkConditions(emergenceConfig.conditions, input).pure[F]
-      _ <- matchResult match {
+      _             <- matchResult match {
         case Invalid(e) => logger.info(s"Ignoring pull request as not all conditions match: ${bulletPointed(e.toList)}")
         case Valid(_)   => logger.info("Pull request matches all configured conditions.")
       }

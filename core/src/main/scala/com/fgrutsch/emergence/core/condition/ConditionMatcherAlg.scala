@@ -46,7 +46,7 @@ class ConditionMatcherAlg[F[_]] {
   }
 
   private given bsaMatcher: ConditionMatcher[Condition.BuildSuccessAll.type, List[BuildStatus]] = {
-    case (condition, Nil) => "No build statuses. At least one required for this condition.".invalidNel
+    case (condition, Nil)    => "No build statuses. At least one required for this condition.".invalidNel
     case (condiition, input) =>
       input
         .map { bs =>
