@@ -30,7 +30,7 @@ class EmergenceConfigResolverAlg[F[_]](runConfig: RunConfig)(using vcsAlg: VcsAl
   def loadAndCombine(repo: Repository, runEmergenceConfig: Option[EmergenceConfig]): F[EmergenceConfig] = {
     for {
       maybeLocalRepoConfig <- vcsAlg.findEmergenceConfigFile(repo)
-      localRepoConfig <- maybeLocalRepoConfig match {
+      localRepoConfig      <- maybeLocalRepoConfig match {
         case Some(config) => parseEmergenceConfig(config).map(_.some)
         case None         => F.pure(none[EmergenceConfig])
       }
