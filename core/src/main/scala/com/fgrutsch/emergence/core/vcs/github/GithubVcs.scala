@@ -61,17 +61,12 @@ final class GithubVcs[F[_]: Temporal](using backend: SttpBackend[F, Any], settin
 
   override def listBuildStatuses(repo: Repository, pr: PullRequest): F[List[BuildStatus]] = {
 
-    val uri =
-      settings.apiHost.addPath("repos", repo.owner, repo.name, "commits", pr.sourceBranchHead.toString, "status")
-
-    basicRequest
-      .get(uri)
-      .header("X-GitHub-Api-Version", "2022-11-28")
-      .header("Accept", "application/vnd.github+json")
-      .withAuthentication()
-      .response(asJson[BuildStatus])
-      .send(backend)
-      .flatMap(r => TMP.fromEither(r.body.map(List(_))))
+    // This used to check the build status of the PR's head commit.
+    // However, this is not a reliable way to get the build status of a PR.
+    // Often, we'd only get a `PENDING` back, which also indicates no build status is available.
+    // We have to only rely on the merge check.
+    // See: https://docs.github.com/en/rest/guides/using-the-rest-api-to-interact-with-your-git-database?apiVersion=2022-11-28#checking-mergeability-of-pull-requests
+    TMP.pure(List(BuildStatus(BuildStatusName("success"), BuildStatusState.Success)))
   }
 
   override def mergePullRequest(
